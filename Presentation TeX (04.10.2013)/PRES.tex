@@ -52,7 +52,7 @@
 
 \begin{document}
 %\part{ABS}
-\title{The Ising Model}
+\title{Sampling the Ising Model}
 \author{Abraham Hinteregger}
 \institute{University of Vienna}
 \date{04.10.2013}
@@ -202,19 +202,21 @@ P = \operatorname{min}\left(1,e^{-\beta\cdot \Delta E}\right),\qquad \beta = 1/k
 \end{itemize}
 \end{frame}
 
-\subsection{Magnetization}% 75x75 Swendsen Wang
+\subsection{Results}% 75x75 Swendsen Wang
 \begin{frame}
 \frametitle{Absolute magnetization per spin}
-\begin{minipage}{0.73\textwidth}
-\begin{tikzpicture}
+\begin{minipage}{0.70\textwidth}
+\begin{tikzpicture}[scale=0.85]
 \begin{axis}[xmax=3,ymax=1,ymin=0,grid=major,
-extra x ticks={2.269},
+xlabel={T},
+ylabel={|M|},
+extra x ticks={2.267},
 extra x tick labels={$T_c$}]
 \begin{scope}
 \addplot[mark=+,mark options={black}, white]coordinates{(1.75,1)};\label{plot:mcB}
 \addplot[mark=+,mark options={white}, white]coordinates{(1.75,1)};
 \end{scope}
-\addplot[mark=o,mark options=blue,white] coordinates {
+\only<1-2>{\addplot[mark=o,mark options=blue,white] coordinates {
 (1.00,1)
 (1.20,1)
 (1.40,0.99)
@@ -240,8 +242,8 @@ extra x tick labels={$T_c$}]
 (2.70,0.03)
 (2.80,0.027)
 (2.90,0.026)
-(3.00,0.025)};\label{plot:mc}
-\only<2->{\addplot[mark=+,mark options={black}, white] coordinates {
+(3.00,0.025)};\label{plot:mc}}
+\only<2>{\addplot[mark=+,mark options={black}, white] coordinates {
 (1.00,1)
 (1.20,1)
 (1.40,0.99)
@@ -268,26 +270,40 @@ extra x tick labels={$T_c$}]
 (2.80,0.068)
 (2.90,0.06)
 (3.00,0.05)};}
+\only<2-1>{\addplot[mark=triangle,mark options={black}, white] coordinates {
+(2.3,0.730)
+(2.3,0.638)
+(2.3,0.589)
+(2.3,0.537)
+(2.3,0.483)
+(2.3,0.449)
+(2.3,0.413)
+(2.3,0.390)
+(2.3,0.357)
+(2.3,0.318)
+(2.3,0.362)
+(2.3,0.242)
+};}
 \addplot[line width=1pt,red,samples = 500,domain=1.001:5]
 	{(1-sinh(2/(x))^(-4))^(0.125)};\label{plot:analytical}
-\addplot[red,line width= 1pt] coordinates {(2.267,0.55)(2.2693,0)(3,0)};
+\addplot[red,line width= 1pt] coordinates {(2.267,0.55)(2.267,0)(3,0)};
 
 
 \end{axis}
 \end{tikzpicture}
-\end{minipage}\begin{minipage}{0.4\textwidth}
+\end{minipage}\begin{minipage}{0.25\textwidth}
 \visible<2->{\ref{plot:mcB} MC $50\times 50$}
 
 \ref{plot:mc} MC $75\times 75$
 
-\ref{plot:analytical} analytical solution
+\ref{plot:analytical} analytical
 \end{minipage}
-
-
 \end{frame}
 
-
-\subsection{TODO MORE STUFF FOR MH}
+\begin{frame}
+\frametitle{Magnetization over time}
+\begin{figure}[h]\begin{center}\includegraphics[width = \textwidth]{./img/MPlot.png}\end{center}\caption{M per spin plotted over time (Monte Carlo steps)}\end{figure}
+\end{frame}
 
 %: TODO Autocorrelation transition folie
 

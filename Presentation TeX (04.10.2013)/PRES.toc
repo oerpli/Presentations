@@ -10,13 +10,12 @@
 \beamer@subsectionintoc {3}{1}{Markov Chain}{24}{0}{2}
 \beamer@subsectionintoc {3}{2}{Transition probability}{25}{0}{2}
 \beamer@subsectionintoc {3}{3}{Metropolis Hastings Algorithm}{26}{0}{2}
-\beamer@subsectionintoc {3}{4}{Magnetization}{27}{0}{2}
-\beamer@subsectionintoc {3}{5}{TODO MORE STUFF FOR MH}{29}{0}{2}
-\beamer@sectionintoc {4}{Autocorrelation}{29}{0}{3}
-\beamer@sectionintoc {5}{Dynamics}{30}{0}{4}
-\beamer@subsectionintoc {5}{1}{Temperature}{30}{0}{4}
-\beamer@subsectionintoc {5}{2}{Cluster Flip Algorithms}{33}{0}{4}
-\beamer@subsectionintoc {5}{3}{Time}{34}{0}{4}
-\beamer@sectionintoc {6}{Stuff}{34}{0}{5}
-\beamer@subsectionintoc {6}{1}{Summary}{34}{0}{5}
-\beamer@subsectionintoc {6}{2}{Different Models}{35}{0}{5}
+\beamer@subsectionintoc {3}{4}{Results}{27}{0}{2}
+\beamer@sectionintoc {4}{Autocorrelation}{30}{0}{3}
+\beamer@sectionintoc {5}{Dynamics}{31}{0}{4}
+\beamer@subsectionintoc {5}{1}{Temperature}{31}{0}{4}
+\beamer@subsectionintoc {5}{2}{Cluster Flip Algorithms}{34}{0}{4}
+\beamer@subsectionintoc {5}{3}{Time}{35}{0}{4}
+\beamer@sectionintoc {6}{Stuff}{35}{0}{5}
+\beamer@subsectionintoc {6}{1}{Summary}{35}{0}{5}
+\beamer@subsectionintoc {6}{2}{Different Models}{36}{0}{5}

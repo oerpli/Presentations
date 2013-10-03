@@ -35,41 +35,42 @@
 \headcommand {\beamer@subsectionentry {0}{3}{3}{26}{Metropolis Hastings Algorithm}}\headcommand {\beamer@subsectionpages {25}{25}}
 \headcommand {\slideentry {3}{3}{1}{26/26}{Metropolis Hastings Algorithm}{0}}
 \headcommand {\beamer@framepages {26}{26}}
-\headcommand {\beamer@subsectionentry {0}{3}{4}{27}{Magnetization}}\headcommand {\beamer@subsectionpages {26}{26}}
-\headcommand {\slideentry {3}{4}{1}{27/28}{Magnetization}{0}}
+\headcommand {\beamer@subsectionentry {0}{3}{4}{27}{Results}}\headcommand {\beamer@subsectionpages {26}{26}}
+\headcommand {\slideentry {3}{4}{1}{27/28}{Results}{0}}
 \headcommand {\beamer@framepages {27}{28}}
-\headcommand {\beamer@subsectionentry {0}{3}{5}{29}{TODO MORE STUFF FOR MH}}\headcommand {\beamer@subsectionpages {27}{28}}
-\headcommand {\sectionentry {4}{Autocorrelation}{29}{Autocorrelation}{0}}
-\headcommand {\beamer@sectionpages {24}{28}}
-\headcommand {\beamer@subsectionpages {29}{28}}
-\headcommand {\beamer@subsectionentry {0}{4}{1}{29}{}}\headcommand {\beamer@subsectionpages {29}{28}}
-\headcommand {\slideentry {4}{1}{1}{29/29}{}{0}}
+\headcommand {\slideentry {3}{4}{2}{29/29}{Results}{0}}
 \headcommand {\beamer@framepages {29}{29}}
-\headcommand {\sectionentry {5}{Dynamics}{30}{Dynamics}{0}}
-\headcommand {\beamer@sectionpages {29}{29}}
-\headcommand {\beamer@subsectionpages {29}{29}}
-\headcommand {\beamer@subsectionentry {0}{5}{1}{30}{Temperature}}\headcommand {\beamer@subsectionpages {30}{29}}
-\headcommand {\slideentry {5}{1}{1}{30/30}{Temperature}{0}}
+\headcommand {\sectionentry {4}{Autocorrelation}{30}{Autocorrelation}{0}}
+\headcommand {\beamer@sectionpages {24}{29}}
+\headcommand {\beamer@subsectionpages {27}{29}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{30}{}}\headcommand {\beamer@subsectionpages {30}{29}}
+\headcommand {\slideentry {4}{1}{1}{30/30}{}{0}}
 \headcommand {\beamer@framepages {30}{30}}
-\headcommand {\slideentry {5}{1}{2}{31/32}{Temperature}{0}}
-\headcommand {\beamer@framepages {31}{32}}
-\headcommand {\beamer@subsectionentry {0}{5}{2}{33}{Cluster Flip Algorithms}}\headcommand {\beamer@subsectionpages {30}{32}}
-\headcommand {\slideentry {5}{2}{1}{33/33}{Cluster Flip Algorithms}{0}}
-\headcommand {\beamer@framepages {33}{33}}
-\headcommand {\beamer@subsectionentry {0}{5}{3}{34}{Time}}\headcommand {\beamer@subsectionpages {33}{33}}
-\headcommand {\sectionentry {6}{Stuff}{34}{Stuff}{0}}
-\headcommand {\beamer@sectionpages {30}{33}}
-\headcommand {\beamer@subsectionpages {34}{33}}
-\headcommand {\beamer@subsectionentry {0}{6}{1}{34}{Summary}}\headcommand {\beamer@subsectionpages {34}{33}}
-\headcommand {\slideentry {6}{1}{1}{34/34}{Summary}{0}}
+\headcommand {\sectionentry {5}{Dynamics}{31}{Dynamics}{0}}
+\headcommand {\beamer@sectionpages {30}{30}}
+\headcommand {\beamer@subsectionpages {30}{30}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{31}{Temperature}}\headcommand {\beamer@subsectionpages {31}{30}}
+\headcommand {\slideentry {5}{1}{1}{31/31}{Temperature}{0}}
+\headcommand {\beamer@framepages {31}{31}}
+\headcommand {\slideentry {5}{1}{2}{32/33}{Temperature}{0}}
+\headcommand {\beamer@framepages {32}{33}}
+\headcommand {\beamer@subsectionentry {0}{5}{2}{34}{Cluster Flip Algorithms}}\headcommand {\beamer@subsectionpages {31}{33}}
+\headcommand {\slideentry {5}{2}{1}{34/34}{Cluster Flip Algorithms}{0}}
 \headcommand {\beamer@framepages {34}{34}}
-\headcommand {\beamer@subsectionentry {0}{6}{2}{35}{Different Models}}\headcommand {\beamer@subsectionpages {34}{34}}
-\headcommand {\slideentry {6}{2}{1}{35/35}{Different Models}{0}}
+\headcommand {\beamer@subsectionentry {0}{5}{3}{35}{Time}}\headcommand {\beamer@subsectionpages {34}{34}}
+\headcommand {\sectionentry {6}{Stuff}{35}{Stuff}{0}}
+\headcommand {\beamer@sectionpages {31}{34}}
+\headcommand {\beamer@subsectionpages {35}{34}}
+\headcommand {\beamer@subsectionentry {0}{6}{1}{35}{Summary}}\headcommand {\beamer@subsectionpages {35}{34}}
+\headcommand {\slideentry {6}{1}{1}{35/35}{Summary}{0}}
 \headcommand {\beamer@framepages {35}{35}}
-\headcommand {\slideentry {6}{2}{2}{36/37}{Different Models}{0}}
-\headcommand {\beamer@framepages {36}{37}}
-\headcommand {\beamer@partpages {1}{37}}
-\headcommand {\beamer@subsectionpages {35}{37}}
-\headcommand {\beamer@sectionpages {34}{37}}
-\headcommand {\beamer@documentpages {37}}
-\headcommand {\def \inserttotalframenumber {19}}
+\headcommand {\beamer@subsectionentry {0}{6}{2}{36}{Different Models}}\headcommand {\beamer@subsectionpages {35}{35}}
+\headcommand {\slideentry {6}{2}{1}{36/36}{Different Models}{0}}
+\headcommand {\beamer@framepages {36}{36}}
+\headcommand {\slideentry {6}{2}{2}{37/38}{Different Models}{0}}
+\headcommand {\beamer@framepages {37}{38}}
+\headcommand {\beamer@partpages {1}{38}}
+\headcommand {\beamer@subsectionpages {36}{38}}
+\headcommand {\beamer@sectionpages {35}{38}}
+\headcommand {\beamer@documentpages {38}}
+\headcommand {\def \inserttotalframenumber {20}}
