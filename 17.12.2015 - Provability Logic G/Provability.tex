@@ -1,0 +1,296 @@
+\documentclass{beamer}
+\setbeamertemplate{navigation symbols}{}
+\usetheme{Malmoe}
+\usecolortheme{beaver}
+
+%\beamertemplatenavigationsymbolsempty
+\beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}}
+\setbeamercovered{invisible}
+%\usepackage{float}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{amsmath}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{graphicx}
+%\usepackage{wrapfig}
+\usepackage{textcomp}
+\usepackage{braket}
+\usepackage{bbm}
+\usepackage{framed}
+\usepackage{bbold}
+\usepackage{colortbl}
+\usepackage{color}
+\usepackage{ifthen}
+%\usepackage{setspace}
+\newcommand{\tikzfig}[2]{\begin{figure}[h]\begin{center}\input{./img/TikZ/#1.tex}\end{center}\end{figure}}
+\newcommand{\tikzfigC}[2]{\begin{figure}[h]\begin{center}\input{./img/TikZ/#1.tex}\end{center}\caption{{#2}}\end{figure}}
+\newcommand{\fig}[2]{\begin{figure}[h]\begin{center}\includegraphics[width = 0.5\textwidth]{./img/#1}\end{center}\caption{{#2}}\end{figure}}
+\usepackage[T1]{fontenc}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{amsbsy}
+\usepackage{tikz}
+\usepackage{xcolor}
+	\usetikzlibrary{calc}
+	\usetikzlibrary{arrows}
+\usepackage{scalefnt}
+\usetikzlibrary{shapes,shapes.multipart}
+\usepackage{caption}
+\addto\captionsngerman{
+\renewcommand{\figurename}{Figure}%
+\renewcommand{\tablename}{Tab.}%
+}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+\setlength{\parindent}{0em} 
+
+\sloppy \frenchspacing \raggedbottom 
+
+
+
+
+
+% gödel number macro
+\newbox\gnBoxA
+\newdimen\gnCornerHgt
+\setbox\gnBoxA=\hbox{$\ulcorner$}
+\global\gnCornerHgt=\ht\gnBoxA
+\newdimen\gnArgHgt
+\def\Godelnum #1{%
+\setbox\gnBoxA=\hbox{$#1$}%
+\gnArgHgt=\ht\gnBoxA%
+\ifnum     \gnArgHgt<\gnCornerHgt \gnArgHgt=0pt%
+\else \advance \gnArgHgt by -\gnCornerHgt%
+\fi \raise\gnArgHgt\hbox{$\ulcorner$} \box\gnBoxA %
+\raise\gnArgHgt\hbox{$\urcorner$}}
+%%
+
+% Prov makro
+\DeclareMathOperator*{\Prov}{Prov}
+\DeclareMathOperator*{\Var}{Var}
+
+\DeclareMathOperator*{\Proov}{Proof}
+
+
+
+\begin{document}
+\part{ABS}
+\title{The Logic G}
+\author{Abraham Hinteregger}
+\institute{Vienna University of Technology}
+\date{17.12.2015}
+\titlepage
+\setcounter{tocdepth}{4}
+\AtBeginSection[]{
+\begin{frame}
+\frametitle{Chapter} 
+\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+
+\section{Incompleteness} 
+\begin{frame}\frametitle{Incompleteness} 
+
+\begin{block}{}
+\begin{itemize}%[<+->]
+\item 1931: Paper by Gödel ``Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme''\cite{goedel31}
+\begin{itemize}
+\item Incompleteness of Peano Arithmetic was shown by enumerating formulas of PA which enabled arguing about them in PA itself
+\item Predicate $\Prov(x)$ -- formula $A$ s.t. $\Godelnum{A} = x$ is provable in PA. More formally $P(x)  \equiv \exists p \Proov(p,x)$  where $\Proov(p,x)$ formalizes the notion that p is the GN of the formula that is a proof of the formula with GN x.
+\item Constructed formula that asserts it's own unprovability. 
+\end{itemize}
+%\item 1955: Löb's Theorem
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\subsection{Theorems}
+\begin{frame}\frametitle{Incompleteness Theorems}
+\begin{theorem}[First Incompleteness Theorem]
+Every consistent and reasonably expressive arithmetic system contains sentences that are neither provable nor refutable.
+\end{theorem}
+\begin{theorem}[Second Incompleteness Theorem]
+No consistent and moderately expressive arithmetic system can prove its own consistency.
+\end{theorem}
+
+\end{frame}
+\subsection{Löb's Theorem}
+\begin{frame}\frametitle{Löb's Theorem}
+\begin{itemize}
+\item<1-> Gödel proved his theorem by constructing a (true) formula that is asserts its own unprovability.
+\item<2-> What about formula that asserts its own provability? \uncover<3->{Löb 1955
+\begin{equation*}
+\Box(\Box A \supset A) \supset \Box A
+\end{equation*}}
+\item<4-> Gödel's second incompleteness theorem is instance of/implies\cite{boolos} Löb's theorem:
+\begin{quote}
+No \alert<5>{consistent system }can \alert<6>{prove it's own consistency}
+\end{quote}
+\begin{align*}\alt<3-6>{
+\uncover<5>{\lnot \Box \bot}
+\uncover<9>{ \supset\lnot}
+\uncover<6>{\alert<7>{\Box\lnot \Box \bot}}}
+{\lnot \Box \bot\supset\lnot\Box\lnot \Box \bot}
+\end{align*}
+\begin{align*}
+\uncover<9->{A \supset B \equiv \lnot B \supset \lnot A:&&\Box(\ \ \lnot \Box \bot\ \ )\supset\Box \bot}\\
+\uncover<10->{\lnot A \equiv A \supset \bot:&&
+\Box(\Box\bot \supset \bot)\supset\Box \bot}
+\end{align*}
+
+\end{itemize}
+
+\end{frame}
+
+\subsection{Fixed point theorem}
+
+\begin{frame}
+\frametitle{Fixed point theorem\cite{sep-prove}}
+\begin{itemize}
+\item<+->Variable $p$ only occurs in the scope of $\Box$ in a formula $A(p)$, e.g.:
+\begin{equation*}
+A(p) := \lnot \Box p
+\end{equation*}
+\item<+->Formula $B$ where the set of variables $\Var(B) = \Var(A)\smallsetminus\{p\}$ and 
+\begin{equation*}
+G \vdash B \equiv A(B)
+\end{equation*}
+is a fixed point of $A(p)$ and (almost) uniquely defined.
+\item<+-> For $A(p)$ as defined above the fixed point $B$ is $\lnot \Box \bot$ and:
+\begin{equation*}
+G\vdash \lnot \Box\bot \equiv  \lnot\Box ( \lnot \Box\bot)
+\end{equation*}
+\item<+-> Does someone recognize this formula?
+\end{itemize}
+
+\end{frame}
+
+
+\section{The Logic G}
+\subsection{Axioms}
+\begin{frame}\frametitle{The Logic G -- Axioms}
+\begin{itemize}
+\item Distribution axiom
+\begin{equation*}
+\Box(A\supset B) \supset (\Box A \supset \Box B)
+\end{equation*}
+\item Necessitation
+\begin{equation*}
+A\supset\Box A
+\end{equation*}
+\item Löb's theorem
+\begin{equation*}
+\Box(\Box A \supset A) \supset \Box A 
+\end{equation*}
+\item Transitivity (consequence of Löb's theorem $\left[(B\land \Box B) / A \right]$)
+\begin{equation*}
+\Box B \supset \Box \Box B
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+\subsection{Tableau for G}
+\begin{frame}
+\frametitle{Tableau rules}
+\begin{itemize}
+\item Start with \alt<0>{modal logic}{\alert<1>{K4} (transitive)} tableau \uncover<2->{and modify to \alert<2>{account for Löb's theorem}}
+\begin{itemize}
+\item If $\alpha$ is true in $\Gamma$ then $\alpha_1$ and $\alpha_2$ are true in $\Gamma$.
+\item If $\beta$ is true in $\Gamma$ then $\beta_1$ or $\beta_2$ are true in $\Gamma$.
+\item If $\pi$ is true in $\Gamma$ then $\pi_0$ is true in some $\Gamma^*$.
+\item If $\nu$ is true in $\Gamma$ then $\nu_0$ is true in all $\Gamma^*$.
+\item<1->\alert<1>{ If $\nu$ is true in $\Gamma$ then $\nu$ is true in all $\Gamma^*$.}
+\item<2->\alert<2>{If $\pi$ is true in $\Gamma$ then $\bar \pi$ is true in some $\Gamma^*$}
+\end{itemize}
+\end{itemize}
+\begin{tabular}{>{$}c<{$}|>{$}c<{$}||>{$}c<{$}|>{$}c<{$}|>{$}c<{$}}
+\alpha&&\beta  \\\hline
+ T A\land B & TA,TB&F A\land B & FA &FB\\\hline
+ FA\lor B & FA ,FB &T A\lor B & FA & FB \\\hline
+ FA \supset B &TA,FB&T A\supset B &FA &TB\\\hline
+\end{tabular}
+\begin{tabular}{>{$}c<{$}|>{$}c<{$}|>{$}c<{$}}
+\hline
+\nu&\!\!	F\Diamond A & FA,\alert<1>{\!  F\Diamond A}\\\hline
+\nu&\!\!	T\Box A & TA,\alert<1>{\!\!T\Box A}\\\hline\hline
+\pi&\!\!	T\Diamond A& FA\uncover<2>{,\alert<2>{\!F\Diamond A}}\\\hline
+\pi&\!\!	F\Box A & TA\uncover<2>{,\alert<2>{\!\!T\Box A}}\\\hline
+\end{tabular}\\
+\end{frame}
+
+\begin{frame}\frametitle{Examples}
+On the blackboard:
+\uncover<1->{
+\begin{equation*}
+\Box A
+\end{equation*}
+}
+\uncover<1->{
+\begin{equation*}
+\Box(\Box A \supset A)\supset \Box A
+\end{equation*}
+}
+
+\begin{tabular}{>{$}c<{$}|>{$}c<{$}||>{$}c<{$}|>{$}c<{$}|>{$}c<{$}}
+\alpha&&\beta  \\\hline
+ T A\land B & TA,TB&F A\land B & FA &FB\\\hline
+ FA\lor B & FA ,FB &T A\lor B & FA & FB \\\hline
+ FA \supset B &TA,FB&T A\supset B &FA &TB\\\hline
+\end{tabular}
+\begin{tabular}{>{$}c<{$}|>{$}c<{$}|>{$}c<{$}}
+\hline
+\nu&\!\!	F\Diamond A & FA,\!  F\Diamond A\\\hline
+\nu&\!\!	T\Box A & TA,\!\!T\Box \\\hline\hline
+\pi&\!\!	T\Diamond A& FA,\!F\Diamond A\\\hline
+\pi&\!\!	F\Box A & TA,\!\!T\Box A \\\hline
+\end{tabular}
+\end{frame}
+
+\subsection{Properties}
+\begin{frame}
+\frametitle{Properties\cite{fitting}}
+\begin{itemize}
+\item<+-> Model existence theorem: only holds for finite sets of signed formulas (finite set model existence theorem)
+\item<+-> Tableau completeness for finite sets follows (strong tableau completeness theorem only for finite sets)
+\item<+-> Local compactness does not hold for G
+\begin{align*}
+&\Diamond P_1\\
+ \forall i:\qquad& \Box(P_i\supset \Diamond P_{i+1})
+\end{align*}
+\item<+-> Global compactness not known (at least neither Fittings nor Google knew)
+\end{itemize}
+
+\end{frame}
+
+
+
+\section*{Stuff}
+\subsection{References}
+
+\bibliographystyle{IEEEtran} % kürzt automatisch vornamen ab und so zeug 
+\begin{frame}\frametitle{References}
+\bibliography{biblio}
+\end{frame}
+
+\subsection{Gödels incompleteness theorem II $\implies$ Löb's theorem}
+
+\begin{frame}
+\frametitle{Derivation of Löb's theorem}
+Assume $T\nvDash A$ \\
+$T\nvDash \Prov(\Godelnum{A})\supset A$\\
+$T\cup \{\lnot A\} \nvDash\bot$\\
+$T\cup \{\lnot A\} \nvDash \lnot \Prov_{T\cup \lnot A}(\Godelnum{\bot})$\\
+$T\cup \{\lnot A\} \nvDash \lnot \Prov_{T}(\Godelnum{\lnot A \supset \bot})$\\
+$T\cup \{\lnot A\} \nvDash \lnot \Prov_{T}(\Godelnum{A})$\\
+$T \nvDash \lnot A \supset \lnot \Prov_{T}(\Godelnum{A})$\\
+$T \nvDash \Prov_{T}(\Godelnum{A}) \supset A$\\
+
+
+
+
+
+
+\end{frame}
+\end{document}
