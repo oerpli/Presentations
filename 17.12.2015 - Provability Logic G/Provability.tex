@@ -76,7 +76,7 @@
 
 \begin{document}
 \part{ABS}
-\title{The Logic G}
+\title{The Provability Logic G}
 \author{Abraham Hinteregger}
 \institute{Vienna University of Technology}
 \date{17.12.2015}
@@ -97,7 +97,7 @@
 \item 1931: Paper by Gödel ``Über formal unentscheidbare Sätze der Principia Mathematica und verwandter Systeme''\cite{goedel31}
 \begin{itemize}
 \item Incompleteness of Peano Arithmetic was shown by enumerating formulas of PA which enabled arguing about them in PA itself
-\item Predicate $\Prov(x)$ -- formula $A$ s.t. $\Godelnum{A} = x$ is provable in PA. More formally $P(x)  \equiv \exists p \Proov(p,x)$  where $\Proov(p,x)$ formalizes the notion that p is the GN of the formula that is a proof of the formula with GN x.
+\item Predicate $\Prov(x)$ -- formula $A$ s.t. $\Godelnum{A} = x$ is provable in PA. More formally $\Prov(x)  \equiv \exists p \Proov(p,x)$  where $\Proov(p,x)$ formalizes the notion that p is the GN of the formula that is a proof of the formula with GN x.
 \item Constructed formula that asserts its own unprovability. 
 \end{itemize}
 %\item 1955: Löb's Theorem
@@ -162,7 +162,7 @@ is a fixed point of $A(p)$ and (almost) uniquely defined.
 \begin{equation*}
 G\vdash \lnot \Box\bot \equiv  \lnot\Box ( \lnot \Box\bot)
 \end{equation*}
-\item<+-> Does someone recognize this formula?
+%\item<+-> Does someone recognize this formula?
 \end{itemize}
 
 \end{frame}
@@ -172,19 +172,19 @@ G\vdash \lnot \Box\bot \equiv  \lnot\Box ( \lnot \Box\bot)
 \subsection{Axioms}
 \begin{frame}\frametitle{The Logic G -- Axioms}
 \begin{itemize}
-\item Distribution axiom
+\item<1-> Distribution axiom
 \begin{equation*}
 \Box(A\supset B) \supset (\Box A \supset \Box B)
 \end{equation*}
-\item Necessitation
+\item<1-> Necessitation
 \begin{equation*}
-A\supset\Box A
+\frac{A}{\Box A}
 \end{equation*}
-\item Löb's theorem
+\item<2-> Löb's theorem
 \begin{equation*}
 \Box(\Box A \supset A) \supset \Box A 
 \end{equation*}
-\item Transitivity (consequence of Löb's theorem $\left[(B\land \Box B) / A \right]$)
+\item<3-> Transitivity (consequence of Löb's theorem $\left[(B\land \Box B) / A \right]$)
 \begin{equation*}
 \Box B \supset \Box \Box B
 \end{equation*}
@@ -215,8 +215,8 @@ A\supset\Box A
 \hline
 \nu&\!\!	F\Diamond A & FA,\alert<1>{\!  F\Diamond A}\\\hline
 \nu&\!\!	T\Box A & TA,\alert<1>{\!\!T\Box A}\\\hline\hline
-\pi&\!\!	T\Diamond A& FA\uncover<2>{,\alert<2>{\!F\Diamond A}}\\\hline
-\pi&\!\!	F\Box A & TA\uncover<2>{,\alert<2>{\!\!T\Box A}}\\\hline
+\pi&\!\!	T\Diamond A& TA\uncover<2>{,\alert<2>{\!F\Diamond A}}\\\hline
+\pi&\!\!	F\Box A & FA\uncover<2>{,\alert<2>{\!\!T\Box A}}\\\hline
 \end{tabular}\\
 \end{frame}
 
@@ -224,12 +224,12 @@ A\supset\Box A
 On the blackboard:
 \uncover<1->{
 \begin{equation*}
-\Box A
+\text{With K4 Tableau:  }\Box A
 \end{equation*}
 }
-\uncover<1->{
+\uncover<3->{
 \begin{equation*}
-\Box(\Box A \supset A)\supset \Box A
+\text{With G Tableau: }\Box(\Box A \supset A)\supset \Box A
 \end{equation*}
 }
 
@@ -241,10 +241,10 @@ On the blackboard:
 \end{tabular}
 \begin{tabular}{>{$}c<{$}|>{$}c<{$}|>{$}c<{$}}
 \hline
-\nu&\!\!	F\Diamond A & FA,\!  F\Diamond A\\\hline
-\nu&\!\!	T\Box A & TA,\!\!T\Box \\\hline\hline
-\pi&\!\!	T\Diamond A& FA,\!F\Diamond A\\\hline
-\pi&\!\!	F\Box A & TA,\!\!T\Box A \\\hline
+\nu&\!\!	F\Diamond A & FA,{\!  F\Diamond A}\\\hline
+\nu&\!\!	T\Box A & TA,{\!\!T\Box A}\\\hline\hline
+\pi&\!\!	T\Diamond A& TA\uncover<2>{,{\!F\Diamond A}}\\\hline
+\pi&\!\!	F\Box A & FA\uncover<2>{,{\!\!T\Box A}}\\\hline
 \end{tabular}
 \end{frame}
 
