@@ -1,0 +1,581 @@
+\documentclass{beamer}
+\setbeamertemplate{navigation symbols}{}
+\usetheme{Malmoe}
+\usecolortheme{beaver}
+%\usepackage{natbib}   
+%\bibliographystyle{plainnat}
+\bibliographystyle{apalike}   % Or any other style you like
+%\bibliographystyle{natbib} % kürzt automatisch vornamen ab und so zeug 
+
+%\beamertemplatenavigationsymbolsempty
+\beamersetuncovermixins{}{}
+%\setbeamercovered{invisible}
+%\usepackage{float}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{amsmath}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{graphicx}
+%\usepackage{wrapfig}
+\usepackage{textcomp}
+\usepackage{braket}
+\usepackage{bbm}
+\usepackage{framed}
+\usepackage{ifthen}
+\usepackage{bbold}
+\usepackage{colortbl}
+\usepackage{xifthen}
+\usepackage{color}
+\usepackage{ifthen}
+%\usepackage{setspace}
+\newcommand{\tikzfig}[2]{\begin{figure}[h]\begin{center}\input{./img/TikZ/#1.tex}\end{center}\end{figure}}
+\newcommand{\tikzfigC}[2]{\begin{figure}[h]\begin{center}\input{./img/TikZ/#1.tex}\end{center}\caption{{#2}}\end{figure}}
+\newcommand{\fig}[2]{\begin{figure}[h]\begin{center}\includegraphics[width = 0.5\textwidth]{./img/#1}\end{center}\caption{{#2}}\end{figure}}
+\usepackage[T1]{fontenc}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{amsbsy}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{scalefnt}
+\usetikzlibrary{shapes,shapes.multipart}
+\usepackage{caption}
+\addto\captionsngerman{
+\renewcommand{\figurename}{Figure}%
+\renewcommand{\tablename}{Tab.}%
+}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+\setlength{\parindent}{0em} 
+
+\sloppy \frenchspacing \raggedbottom 
+
+
+\usetikzlibrary{shapes,snakes,calc,arrows}
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=external]
+\usepackage{verbatim}
+
+
+% gödel number macro
+\newbox\gnBoxA
+\newdimen\gnCornerHgt
+\setbox\gnBoxA=\hbox{$\ulcorner$}
+\global\gnCornerHgt=\ht\gnBoxA
+\newdimen\gnArgHgt
+\def\Godelnum #1{%
+\setbox\gnBoxA=\hbox{$#1$}%
+\gnArgHgt=\ht\gnBoxA%
+\ifnum     \gnArgHgt<\gnCornerHgt \gnArgHgt=0pt%
+\else \advance \gnArgHgt by -\gnCornerHgt%
+\fi \raise\gnArgHgt\hbox{$\ulcorner$} \box\gnBoxA %
+\raise\gnArgHgt\hbox{$\urcorner$}}
+%%
+
+% Prov makro
+\DeclareMathOperator*{\Prov}{Prov}
+\DeclareMathOperator*{\Var}{Var}
+
+\DeclareMathOperator*{\Proov}{Proof}
+
+\newcommand{\NP}{\ensuremath{\mathcal{NP}}}
+\begin{document}
+\part{ABS}
+\title{Geometric Independet Set Problem}
+\author{Abraham Hinteregger}
+\institute{Vienna University of Technology}
+\date{13.4.2016}
+\titlepage
+\setcounter{tocdepth}{3}
+\AtBeginSection[]{
+\begin{frame}
+\frametitle{Chapter} 
+\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+
+
+\section{Intersection graph}
+
+\subsection{Introduction} 
+\begin{frame}\frametitle{Intersection graph} 
+
+ \begin{columns}[T]
+    \begin{column}{.5\textwidth}
+  %  \begin{block}
+  {
+     \begin{itemize}[<+->]
+\item Given an arrangement $A$ of geometric objects
+\item The intersection graph $G$ has a vertice $v_i$ for every object $O_i \in A$
+\item If two objects intersect there is an edge between them in $G$
+\end{itemize}
+}
+    %\end{block}
+    \end{column}
+    \begin{column}{.5\textwidth}
+%    \begin{block}
+    {
+    \begin{tikzpicture}[scale=0.5]
+    \newcommand{\centers}{(0,1.3),(0,0),(0.7,1.5),(2,1),(5,3),(4,3),(0,5),(1.6,3.5),(6,0.5)}%
+
+    \uncover<1-3>{ \foreach [count=\i] \coord in \centers{\draw \coord circle(1) node{};}}    
+    \uncover<4-4>{ \foreach [count=\i] \coord in \centers{\draw[opacity=0.25] \coord circle(1) node{};}}    
+    \uncover<2-4>{ \foreach \coord in \centers{\fill \coord circle(0.15);}}        
+    
+\uncover<3-4>{
+%     \foreach [count=\i]\a in \centers{
+%      	\foreach [count=\j]\b in \centers{
+%      	\ifthenelse{\i < \j}{      	}{};
+%      }}
+         \draw[thick] (0,1.3) -- (0,0) --(0.7,1.5) --(2,1) -- cycle;
+    \draw[thick] (0,1.3) -- (0.7,1.5);
+    \draw[thick] (5,3) --(4,3);
+}
+
+
+    \end{tikzpicture}
+    }
+ %   \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Intersection graph}
+\begin{itemize}
+\item Can be defined for arbitrary geometric objects (example on last slide was a unit disk graph - UDG)
+\item Given the arrangement of objects can be calculated in polynomial time $O(n^2)$ if complexity of objects is bounded
+\item<2-> Some subsets of IG and possible applications
+\begin{itemize}
+\item<2-> Clique ($K_n$ subgraphs of G) of interval graph (IG for intervals $ i \in \mathbb R^2$) can be used for scheduling (similar to doodle)
+\item<3-> Path between two vertices on IG of geometric shapes corresponds to a path between two points without leaving perimeter of shapes (e.g. cheapest way from A to B with fee on borders)
+\item<4-> Independent set (non-adjacent vertices) of IG of geometric shapes corresponds to non-intersecting subset of the shapes in the arrangement
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+
+\subsection{Independent set of IG}
+
+\begin{frame}
+\frametitle{Map labelling}
+ \begin{columns}[T]
+    \begin{column}{.5\textwidth}
+   %  \begin{block}{
+\begin{itemize}
+\item<1-> Given a 2D map with various points of interest -- which labels should be drawn?
+\item<3-> Labels must not intersect each other 
+\item<4-> Variants of the problem:
+\begin{itemize}
+\item Labels with size- constraints (e.g.: uniform height)
+\item Labels are allowed in a radius around corresponding datapoint
+\end{itemize}
+\end{itemize}
+%}
+%    \end{block}
+    \end{column}
+    \begin{column}{.5\textwidth}
+%    \begin{block}
+    {
+    \begin{tikzpicture}[scale=0.5]
+   \newcommand{\centers}{(0,0),(5,3),(2,1),(0,5),(1.6,3.5),(6,0.5), (2,8),(5,8),(4,6),(1,10),(0.5,1),(0,1),(4,3)}
+   \uncover<1->{ \foreach \coord in \centers{\fill \coord circle(0.15);}}        
+   \uncover<2-2>{ \foreach [count=\i] \coord in \centers{\ifthenelse{\i < 111}{\draw \coord node[below]{City \i};}}}{};  
+   \uncover<3->{ \foreach [count=\i] \coord in \centers{\ifthenelse{\i < 11}{\draw \coord node[below]{City \i};}}}{};  
+    \end{tikzpicture}
+    }
+ %   \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Construction of wireless network \cite{chamaret} }
+ \begin{columns}[T]
+    \begin{column}{.63\textwidth}
+%  \begin{block}
+  {
+\begin{itemize}
+\item<1-> Maximize area with reception
+\item<2-> Building base stations may be expensive $\rightarrow$ overlap is inefficient.
+\item<5-> Can also be used for assigning frequencies
+\begin{itemize}
+\item More or less a graph coloring problem
+\item Smallest number of necessary frequencies ($\hat{=}$ colors) is the chromatic number \cite{mcdiarmid} which is related to IS.
+\end{itemize}
+\end{itemize}
+}
+
+    \end{column}
+    \begin{column}{.37\textwidth}
+
+    {
+    \begin{tikzpicture}[scale=0.5]
+   \newcommand{\centers}{(0,0),(2,1),(1.6,3.5),(0,5),(5,3),(0.6,7),(4,6)}
+
+   \uncover<1-2>{ \foreach \coord in \centers{\draw \coord circle(2);}}        
+%   \uncover<2-2>{ \foreach [count=\i] \coord in \centers{\ifthenelse{\i < 111}{\draw \coord node[below]{City \i};}}}{};  
+
+   \uncover<2->{\draw (0,0) -- (2,1) -- (1.6,3.5) -- (0,5)-- (0.6,7);}
+\uncover<3->{ \foreach \coord in \centers{\draw[gray!50] \coord circle(2);}}        
+\newcommand{\centerss}{(0,0),(1.6,3.5),(5,3),(0.6,7),(4,6)}
+\uncover<3->{ \foreach \coord in \centerss{\draw[ultra thick, darkred]\coord circle(0.25);}}        
+\uncover<3->{ \foreach \coord in \centerss{\draw \coord circle(2);}}        
+\uncover<1->{ \foreach \coord in \centers{\fill \coord circle(0.15);}}        
+
+    \end{tikzpicture}
+    }
+
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\subsection{PTAS}
+
+\begin{frame}
+\frametitle{Polynomial time approximation scheme}
+\begin{itemize}
+\item<1-> Finding IS of graph \NP - hard --- therefore finding approximative solutions in polynomial time would already be nice.
+\item<1-> Some random estimate rather uninteresting---approximation should have some quality estimate.
+\uncover<1->{
+\begin{alertblock}{Polynomial time $\rho$ -- approximation scheme}
+Finds solution with a solution quality that is at least $\frac{S_{OPT}}{\rho}$ in polynomial time (for fixed $\rho> 1 $)
+\end{alertblock}}
+\end{itemize}
+\end{frame}
+
+
+% present one or both - if only one add to background or to Algorithms (rename to whatever)
+\section{M(W)IS in Unit Disk Graphs}
+\subsection{Problem description}
+\begin{frame}
+\frametitle{PTAS for M(W)IS problem in UDG \cite{nieberg}}
+\begin{itemize}
+\item Geometric objects are only disks with radius 1
+\item Two variants of the problem -- with or without geometric representation
+\item If geometric representation is known seperation alongside some grid is possible which allows more efficient approaches (shifting strategy \cite{fonseca})
+\item Finding geometric representation from intersection graph is \NP- hard \cite{nphard}
+\end{itemize}
+\end{frame}
+\subsection{Unweighted MIS}
+
+\begin{frame}
+\frametitle{Unweighted MIS of UDG}
+
+Given: Some graph $G = (E,V)$ which is a UDG iff there is a mapping $f: V \rightarrow \mathbb R^2$ s.t.:
+\begin{align*}(u,v) \in E \leftrightarrow ||f(u) - f(v) || \leq 2 \qquad \forall u,v \in V, (u\neq v)\end{align*}
+%\item
+Desired: Subset $I \subset V$ s.t. $|I|\cdot \rho \geq \alpha(G)$\\ $\alpha(G)$ \ldots size maximum IS \\[1em]
+\uncover<2->{
+\begin{itemize}
+\item Idea of algorithm
+\begin{enumerate}
+\item Take subsets of graph with bounded size
+\item Calculate MIS of subsets
+\item Combine MIS of subsets to get IS of whole graph
+\end{enumerate}
+\end{itemize}}
+\end{frame}
+
+\newcommand{\vv}{v_0}
+\begin{frame}
+\frametitle{Step 1: Subsets of finite size}
+
+Define the following sets for some arbitary node $\vv\in V$ 
+\begin{equation*}
+N_r := \{w| w\in V, w \text{ has distance at most $r$ from $\vv$}\}
+\end{equation*}
+\uncover<2->{and calculate MIS $I_r \subset N_r$ for $r= 0,1,\ldots \bar r$ where $\bar r$ is defined as the smallest $r$ s.t. 
+ \begin{equation*}
+ I_{r+1} > \rho|I_r|
+\end{equation*}
+does not hold.}
+%\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Bounding size of $I_{\bar r}$}
+\begin{equation*}
+\forall w\in N_r: \quad ||f(\vv) - f(w)|| \leq 2r
+\end{equation*}
+therefore it's possible to draw a circle with radius $R = 2r +1$ and centerpoint $\vv$ that contains all disks in $I_r$ and
+\begin{align*}
+|I_r| \leq \pi R^2 / \pi = O(r^2).
+\end{align*}
+By definition of $\bar r$ 
+\begin{equation*}
+|I_r| > \rho |I_{r-1}| > \ldots > \rho^r |I_0| = \rho^r
+\end{equation*}also holds. Combining these two results:
+\begin{equation*}
+\rho^r < |I_r| \leq O(r^2)
+\end{equation*} $\implies$ constant (depending only on $\rho$) bound on $\bar r$
+\end{frame}
+
+\begin{frame}
+    \begin{tikzpicture}[scale=0.5]
+    \
+    \coordinate (V) at (2,2);
+    \coordinate (V2) at (3.6,2.2);
+   \newcommand{\None}{(2,0.6),(0,2.1),(V2)}
+   \newcommand{\Ntwo}{(5,1.5),(4,3.8)}
+
+   \uncover<1->{  
+   	\fill (V) circle(0.15);
+	\foreach \coord in \None{\fill \coord circle(0.15);}
+	\foreach \coord in \Ntwo{\fill \coord circle(0.15);}
+	\foreach \coord in \None{\draw (V) --\coord;}
+	\foreach \coord in \Ntwo{\draw (V2) --\coord;}
+	
+}        
+   \uncover<2->{
+	 \draw (V) circle(1);
+   	 \foreach \coord in \None{\draw \coord circle(1);}
+	\foreach \coord in \Ntwo{\draw \coord circle(1);}
+}        
+\uncover<3->{\draw[] ($(V)+(-0.10,0.2)$)--+(-0.6,1)node[above]{$\vv$};}       
+\coordinate(CAP) at (3,1);
+\node<1> [below=1cm, align=flush center,text width=5cm] at (CAP){UDG};
+\node<2-> [below=1cm, align=flush center,text width=5cm] at (CAP){UD arrangement \& UDG};
+\draw[white] (-1.4,5) rectangle(7.2,-2.5);\end{tikzpicture}
+\begin{tikzpicture}[scale=0.5]
+    \coordinate (V) at (2,2);
+    \coordinate (V2) at (3.6,2.2);
+   \newcommand{\None}{(2,0.6),(0,2.1),(V2)}
+   \newcommand{\Ntwo}{(5,1.5),(4,3.8)}
+
+      
+   \uncover<3->{
+
+	\foreach \coord in \None{\fill[gray!50] \coord circle(0.15);}
+	\foreach \coord in \Ntwo{\fill[gray!50] \coord circle(0.15);}
+	\foreach \coord in \None{\draw[gray!50] (V) --\coord;}
+	\foreach \coord in \Ntwo{\draw[gray!50] (V2) --\coord;}
+   	 \foreach \coord in \None{\draw[gray!50] \coord circle(1);}
+	\foreach \coord in \Ntwo{\draw[gray!50] \coord circle(1);}
+     	\fill[] (V) circle(0.15);
+     	\draw[thick] (V) circle(1);	
+}   
+
+   \uncover<4->{  
+
+
+\draw[ultra thick,darkred] (V) circle(0.25);
+}  
+
+\coordinate(CAP) at (3,1);
+ \node<3> [below=1cm, align=flush center,text width=5cm] at (CAP){$N_0$};
+ \node<4-> [below=1cm, align=flush center,text width=5cm] at (CAP){$N_0$ (black) and $I_0$ (red)};
+\draw[white] (-1.4,5) rectangle(7.2,-2.5);\end{tikzpicture}
+\\
+    \begin{tikzpicture}[scale=0.5]
+    \
+    \coordinate (V) at (2,2);
+    \coordinate (V2) at (3.6,2.2);
+   \newcommand{\None}{(2,0.6),(0,2.1),(V2)}
+
+   \newcommand{\Ntwo}{(5,1.5),(4,3.8)}
+  
+   \uncover<5->{
+	\draw<5>[thick] (V) circle(1);
+   	\draw<6->[thick,gray!50] (V) circle(1);       
+	\foreach \coord in \Ntwo{\draw[gray] \coord circle(1);}
+	\foreach \coord in \None{\draw[thick] \coord circle(1);}
+	\foreach \coord in \Ntwo{\draw[gray] (V2) --\coord;}
+	\foreach \coord in \None{\draw (V) --\coord;}
+   	\fill (V) circle(0.15);
+}    
+\foreach \coord in \Ntwo{\draw<6->[thick] (V2) --\coord;}
+\foreach \coord in \None{\draw<6->[thick] (V) --\coord;}
+\foreach \coord in \None{\draw<6->[ultra thick,darkred] \coord circle(0.25);}
+\foreach \coord in \None{\fill<5->[] \coord circle(0.15);}
+\foreach \coord in \Ntwo{\fill<5->[gray!50] \coord circle(0.15);}
+
+\coordinate(CAP) at (3,1);
+\node<5> [below=1cm, align=flush center,text width=5cm] at (CAP){$N_1$};
+\node<6-> [below=1cm, align=flush center,text width=5cm] at (CAP){$N_1$ and $I_1$}; 
+\draw[white] (-1.4,5) rectangle(7.2,-2.5);\end{tikzpicture}
+\begin{tikzpicture}[scale=0.5] % i guess this is the bist picture of them all. use this for copypasting later
+\coordinate (V) at (2,2);
+\coordinate (V2) at (3.6,2.2);
+\newcommand{\None}{(2,0.6),(0,2.1),(V2)}
+\newcommand{\Nonee}{(2,0.6),(0,2.1)}
+\newcommand{\Ntwo}{(5,1.5),(4,3.8)}
+
+\draw<7>[thick] (V) circle(1);
+\draw<7>[thick] (V2) circle(1);
+\foreach \coord in \Ntwo{\fill<7-> \coord circle(0.15);}
+\foreach \coord in \None{\fill<7-> \coord circle(0.15);}
+\draw<8->[thick,gray!50] (V) circle(1);
+\draw<8->[thick,gray!50] (V2) circle(1);
+\foreach \coord in \Nonee{\draw<7->[thick] \coord circle(1);}
+\foreach \coord in \Ntwo{\draw<7->[thick] \coord circle(1);}
+\foreach \coord in \Ntwo{\draw<7->[thick] (V2) --\coord;}
+\foreach \coord in \None{\draw<7->[thick] (V) --\coord;}
+\foreach \coord in \Nonee{\draw<8->[ultra thick,darkred] \coord circle(0.25);}
+\foreach \coord in \Ntwo{\draw<8->[ultra thick,darkred] \coord circle(0.25);}
+\fill<7> (V) circle(0.15);
+\fill<7> (V2) circle(0.15);
+\fill<8->[gray] (V) circle(0.15);
+\fill<8->[gray] (V2) circle(0.15);
+\coordinate(CAP) at (3,1);
+\node<7> [below=1cm, align=flush center,text width=5cm] at (CAP){$N_2$};
+\node<8> [below=1cm, align=flush center,text width=5cm] at (CAP){$N_2$ and $I_2$};
+\node<9-> [below=1cm, align=flush center,text width=5cm] at (CAP){$N_2$ and $I_2$, $\bar r = 1$};
+\draw[white] (-1.4,5) rectangle(7.2,-2.5);
+\end{tikzpicture}
+\end{frame}
+
+
+
+\begin{frame}
+From the definition of $N_r$ it follows that for the subgraph $G' = G[N_{\bar r+1}]$ the maximum independet set size is bounded:
+\begin{equation*}
+\alpha(G') \leq \rho|I_{\bar r}|.
+\end{equation*}
+$H = G\setminus G'$ has no vertices adjacent to vertices in $N_{\bar r}$ and therefore a $\rho$-approximate IS for $H$ ($I_H$) combined with $I_{\bar r}$ yields a $\rho$-approximate IS for G.
+\begin{align*}
+\alpha(G) \leq \alpha(H) + \alpha(G') \leq \rho|I_H \cup I_{\bar r}|
+\end{align*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Algorithm}
+\begin{enumerate}
+\item Define sets $N_r$ for arbitary node $v \in V$ and calculate independent sets $I_r$ until stopping criterion reached
+\begin{itemize}
+\item Remember that $r$ has constant bound $\implies$ determining $I_r$ is possible in $O(n^{C^2})$.
+\end{itemize}
+\item Repeat step 1. for subgraph $H= G \setminus N_{\bar r +1}$ until $H = \varnothing$.
+\item Output independent set $I = \bigcup I_{\bar r}$ where $I_{\bar r}$ are alle the IS found in step 1. 
+\end{enumerate}
+\end{frame}
+
+\subsection{Weighted MIS}
+\begin{frame}
+\frametitle{Algorithm for maximum weighted independet set problem}
+%\begin{itemize}
+When defining sets $N_r$ start with $v$ such that 
+\begin{equation*}
+\omega(v) \geq \omega(v') \forall v' \in V \qquad (=\text{argmax } \omega(v)) 
+\end{equation*}and use
+\begin{equation*}
+\omega(I_{r+1}) > \rho \omega(I_r)
+\end{equation*}as stopping criterion (for $\bar r$) to get bound on the weight of the IS of the subsets.
+%\end{itemize}
+\end{frame}
+
+\section{MIS for Rectangles}
+\subsection{MIS for arbitrary rectangles}
+\begin{frame}
+\frametitle{MIS for arbitrary rectangles \cite{agarwallabel}}
+\begin{itemize}
+\item Geometric objects are rectangles in $\mathbb R^2$ with parallel edges
+\item Desired: Biggest subset of those rectangles that don't intersect each other
+\item $\log n$ -- approximate algorithm for this case with $O(n\log n)$ runtime: 
+\begin{itemize}
+\item Divide and concquer: Split into subsets and calculate independet sets for them
+\item Combine IS of subsets.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Maximum independet set for arbitrary rectangles}
+Given: Set $S$ of rectangles.
+\begin{itemize}
+\item<1-> Sort edges by $x$ and $y$ coordinates --- $O(n\log n)$
+\item<2-> \begin{enumerate}
+\item<2-> Find median in $x$ coordinate --- $O(n)$
+\item<3-> Divide rectangles in 3 sets: $S_M$ (intersecting median), $S_L$ and $S_R$ (left and right of median)
+\item<4-> Apply algorithm 1-4 recursively to $S_L$ and $S_R$ if their size is $\geq 2$ to get approximate solution, else calculate MIS in $O(1)$.
+\item<5-> Calculate MIS of $S_M$ with greedy approach (outlined on blackboard) --- $O(n)$
+\item<6-> Take either $I_L \cup I_R$ or $I_M$ 
+\end{enumerate}
+\end{itemize}
+
+\uncover<7->{Overall runtime: $O(n\log n)$}
+\end{frame}
+%\item TODO: create slides for algorithm in \cite{agarwallabel}.
+%\item Algorithm is more or less: sort edges of rectangles, find median, subdivide in rectangles on left and right side of meidan and combine their IS with those of  rectangles intersectiong median.
+%\item Uses the known height of rectangles combined with their y coordinate to reduce problem difficulty by seperating into set of easier problems ($\rightarrow$ dynamic programming)
+
+
+\subsection{MIS for unit height rectangles}
+\begin{frame}
+\frametitle{MIS for unit height rectangles \cite{agarwallabel}}
+\begin{itemize}[<+->]
+\item Map labels often have similar/identical height
+%\item Could be exploited for better results
+\item Use height to split problem in small subproblems that don't depend on each other
+\item Apply greedy scheme from before for subproblems
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{MIS for unit height rectangles (UHR)}
+\uncover<1->{Draw $m+1$ horizontal lines that fulfill the following criteria:
+\begin{itemize}
+\item $y$ - distance $>1$
+\item Each line intersects $\geq 1$ rectangles
+\item Each rectangle is intersected by $1$ line.
+\end{itemize}
+}
+\uncover<2->{Solve MIS for subsets $S_0$ to $S_m$ (one for every line) with greedy algorithm.\\[1em]}
+\uncover<3->{Take union of either odd or even subsets}
+\end{frame}
+
+%\begin{frame}
+%\frametitle{Possible improvements:}
+%\end{frame}
+
+\subsection{Take away points}
+\begin{frame}
+\frametitle{Take away points}
+For difficult problems use all available information about objects at hand to make problem solvable (or at least get good approximate solutions):
+\begin{itemize}
+\item 1st algorithm (UDG): minimum area of a independet set of geometric shapes used to get an upper bound on size of subsets 
+\item 2nd algorithm (greedy heuristic): reduce dimensionality of problem by line that intersects all rectangles
+\item 3rd algorithm (UHR): decompose problem into subproblems that can be solved easily
+\end{itemize}
+
+\end{frame}
+
+
+
+
+%\section*{Stuff}
+%\subsection{References}
+\begin{frame}[allowframebreaks]\frametitle{References}
+\bibliography{alg}
+\end{frame}
+
+\begin{frame}
+\frametitle{Remarks I}
+Robustness of PTAS for M(W)IS on UDG
+\begin{itemize}
+\item<2-> Polynomial runtime only possible on UDG \uncover<3->{as it assumes bounded area of IS with given size}
+\item<3-> UDG are subset of all graphs --- proving that graph is UDG is \NP- hard
+\item<4-> Robustness would mean: Determine in polynomial runtime whether runtime will be polynomial. \uncover<5->{Is this possible?}
+\item<5-> Actually possible in this case:  If $|I_r > (2r+1)^2$ is found $\implies$ graph is not UDG.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Remarks II}
+Improving PTAS for unit height rectangles to {$(1+\varepsilon)$-- approximative} scheme:
+\begin{itemize}[<+->]
+\item Algorithm described solves $n$ independet subproblems optimally and discards results of $\frac{n}{2}$
+\item Discard solutions of subproblems that are boundaries of used solutions
+\item Could be improved by solving bigger subproblems with less discarded ``boundary-problems'' in between
+\item Solving subproblems of $k$ lines each only every $\frac{1}{k}$-th subproblem has to be discarded $\rightarrow$ $\left(1+\frac{1}{k}\right)$-- approximation.
+\end{itemize}
+\end{frame}
+\end{document}
+
+
+
