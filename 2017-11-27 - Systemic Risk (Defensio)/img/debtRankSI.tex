@@ -1,0 +1,140 @@
+% !TeX root = ../MSc.tex
+\def\sfScale{1.7}
+\def\hDist{5}
+\def\vDist{6.9}
+\newcommand{\drNode}[5][]{\node[minimum size=1cm, circle split part fill={#4,#4,drMap},#1] (#2) at #3 {#2 #5\nodepart{lower}#4};}
+\begin{tikzpicture}[
+    , very thick
+    , font={\fontsize{11pt}{11pt}\bfseries}
+    , circle split draw splits=false
+    , inner sep=2pt
+    , shape=circle split
+    , Edge/.style={thick,-{Latex[length=3mm, width=1.5mm]}}] 
+% \draw(-7.0,-\vDist) rectangle(7.11,\vDist+0.1);
+\clip(-7.0,-\vDist) rectangle(7.11,\vDist+0.1);
+\node(a) at (-\hDist,0){
+    \begin{tikzpicture}[scale=\sfScale]
+    \drNode{1}{(2,5)}{1.0}{D}
+    \foreach \a in {2,...,4}{
+      \drNode{\a}{(\a*0.8-0.4,4)}{0.0}{U}
+      \path[Edge](1) edge (\a);
+    } 
+    \drNode{5}{(1+0.2,2.85)}{0.0}{U}
+    \drNode{6}{(3-0.2,2.85)}{0.0}{U}
+    \path[Edge](5) edge[bend left=25] (2);
+    \path[Edge](2) edge[bend left=25] (5);
+    \path[Edge](4) edge (6);
+    \path[Edge](6) edge (5);
+
+    \drNode{7}{(1.2,1.75)}{0.0}{U}
+    \drNode{8}{(2.8,1.75)}{0.0}{U}
+    \path[Edge](5) edge (7);
+    \path[Edge](6) edge (8);
+    \node[left of=1, node distance = 1.4cm,yshift=0.225cm]{Time: 1};
+    \end{tikzpicture}
+};
+\node(b) at (-0.1,0){
+    \begin{tikzpicture}[scale=\sfScale]
+    \drNode{1}{(2,5)}{1.0}{I}
+    \foreach \a in {2,...,4}{
+      \drNode{\a}{(\a*0.8-0.4,4)}{0.5}{D}
+      \path[Edge](1) edge (\a);
+    } 
+    \drNode{5}{(1.2,2.85)}{0.0}{U}
+    \drNode{6}{(2.8,2.85)}{0.0}{U}
+    \path[Edge](5) edge[bend left=25] (2);
+    \path[Edge](2) edge[bend left=25] (5);
+    \path[Edge](4) edge (6);
+    \path[Edge](6) edge (5);
+
+    \drNode{7}{(1.2,1.75)}{0.0}{U}
+    \drNode{8}{(2.8,1.75)}{0.0}{U}
+    \path[Edge](5) edge (7);
+    \path[Edge](6) edge (8);
+    \node[left of=1, node distance = 1.7cm,yshift=0.225cm]{Time: 2};
+    \end{tikzpicture}
+};
+\node(c) at (\hDist-0.2,0){
+    \begin{tikzpicture}[scale=\sfScale]
+    \drNode{1}{(2,5)}{1.0}{I}
+    \foreach \a in {2,...,4}{
+      \drNode{\a}{(\a*0.8-0.4,4)}{0.5}{I}
+      \path[Edge](1) edge (\a);
+    } 
+    \drNode[inner sep = 1pt]{5}{(1.2,2.85)}{0.25}{D}
+    \drNode[inner sep = 1pt]{6}{(2.8,2.85)}{0.25}{D}
+    \path[Edge](5) edge[bend left=25] (2);
+    \path[Edge](2) edge[bend left=25] (5);
+    \path[Edge](4) edge (6);
+    \path[Edge](6) edge (5);
+
+    \drNode{7}{(1+0.2,1.75)}{0.0}{U}
+    \drNode{8}{(3-0.2,1.75)}{0.0}{U}
+    \path[Edge](5) edge (7);
+    \path[Edge](6) edge (8);
+    \node[left of=1, node distance = 1.7cm,yshift=0.225cm]{Time: 3};
+    \end{tikzpicture}
+};
+\node[xshift=-1.3cm](d) at (0.1,-\vDist){ %-\hDist/2
+    \begin{tikzpicture}[scale=\sfScale]
+    \drNode{1}{(2,5)}{1.0}{I}
+    \foreach \a in {3,...,4}{
+      \drNode{\a}{(\a*0.8-0.4,4)}{0.5}{I}
+      \path[Edge](1) edge (\a);
+    }
+    \drNode[inner sep=.5pt]{2}{(0.8*2-0.4,4)}{0.625}{I}
+    \path[Edge](1) edge (2);
+    \drNode[inner sep=.5pt]{5}{(1.2,2.85)}{0.375}{I}
+    \drNode[inner sep=1pt]{6}{(2.8,2.85)}{0.25}{I}
+    \path[Edge](5) edge[bend left=25] (2);
+    \path[Edge](2) edge[bend left=25] (5);
+    \path[Edge](4) edge (6);
+    \path[Edge](6) edge (5);
+
+    \drNode[inner sep=.5pt]{7}{(1.2,1.75)}{0.125}{D}
+    \drNode[inner sep=.5pt]{8}{(2.8,1.75)}{0.125}{D}
+    \path[Edge](5) edge (7);
+    \path[Edge](6) edge (8);
+
+    \node[left of=1, node distance = 1.7cm,yshift=0.225cm]{Time: 4};
+    \node[left of=2, node distance = 2cm,yshift=-0.25cm]{$\boldmath h_2 = \nicefrac12+\nicefrac14$};
+    \node[left of=5, node distance = 2cm,yshift=-0.25cm]{$\boldmath h_5 = \nicefrac14+\nicefrac18$};
+    \end{tikzpicture}
+};
+\node(e) at (\hDist-0.2,-\vDist){ % \hDist/2
+    \begin{tikzpicture}[scale=\sfScale]
+    \drNode{1}{(2,5)}{1.0}{I}
+    \foreach \a in {3,...,4}{
+      \drNode{\a}{(\a*0.8-0.4,4)}{0.5}{I}
+      \path[Edge](1) edge (\a);
+    }
+    \drNode[inner sep=.5pt]{2}{(0.8*2-0.4,4)}{0.625}{I}
+    \path[Edge](1) edge (2);
+    \drNode[inner sep=.5pt]{5}{(1.2,2.85)}{0.375}{I}
+    \drNode[inner sep=1pt]{6}{(2.8,2.85)}{0.25}{I}
+    \path[Edge](5) edge[bend left=25] (2);
+    \path[Edge](2) edge[bend left=25] (5);
+    \path[Edge](4) edge (6);
+    \path[Edge](6) edge (5);
+
+    \drNode[inner sep=.5pt]{7}{(1.2,1.75)}{0.125}{I}
+    \drNode[inner sep=.5pt]{8}{(2.8,1.75)}{0.125}{I}
+    \path[Edge](5) edge (7);
+    \path[Edge](6) edge (8);
+    \node[left of=1, node distance = 1.7cm,yshift=0.225cm]{Time: 5};
+    \end{tikzpicture}
+};
+\drNode{3}{(-6.1,1-\vDist)}{0.2}{D}
+\node[above of=3](I){Index $i$};
+\node[right of=3,node distance = 2.25cm,yshift=0.25cm](S){Status $s_i(t)$};
+\node[right of=3,node distance = 2.25cm,yshift=-0.7cm](D){Distress $h_i(t)$};
+
+\coordinate(I) at (I);
+\coordinate(S) at (S.west);
+% \coordinate(D) at (D.west);
+\draw(-6.3,1.4-\vDist) --(I);
+\draw(-5.7,1.25-\vDist) --($(S) + (0,0.2)$);
+\draw(-5.7,0.75-\vDist) --(D);
+
+\draw (I)++(0.5:260);
+\end{tikzpicture}

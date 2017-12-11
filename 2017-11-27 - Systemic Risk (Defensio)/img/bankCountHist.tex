@@ -1,0 +1,47 @@
+% !TeX root = ../MSc.tex
+\begin{tikzpicture}[]
+
+\def\file{./data/bankCountHist.csv}
+ \pgfplotstableread[col sep=tab,trim cells]{\file}\table
+% \pgfplotstableread{./data/returnhistF.csv}\loadedtableF
+  \begin{axis}[width=\iftoggle{thesis}{0.7}{0.4}\textwidth
+,	height=115pt
+,	ybar
+,	xlabel={Number of bank connections}
+,	ylabel={Company count}
+,	every node near coord/.append style={rotate=0, anchor=south,font=\footnotesize}
+%,	xticklabels from table={\loadedtable}{label},
+%,	flexible xticklabels from table={\file}{label}{col sep=tab}
+,	xticklabel style={text height=1.5ex} % To make sure the text labels are nicely aligned
+,	xtick={0,1,2,3,4,5,6}
+,	ytick={0,25000,50000}
+,	scaled x ticks = false
+,	ymin = 0,	ymax =55000
+%,	xmin = 0, xmax = 29
+,	ymajorgrids,
+,	axis y line*=left
+,	bar width= 15pt
+,	ybar =-15pt
+%,	hide x axis
+,	axis x line*=bottom,
+,	major grid style={thin,dashed,black!20}
+,	scaled y ticks = false
+,	ylabel style={yshift=\iftoggle{thesis}{15pt}{5pt}}
+,	xtick style={opacity=0}
+,	ytick style={opacity=0}
+,	y tick label style=
+		{/pgf/number format/fixed
+		,/pgf/number format/1000 sep = \thinspace % replace comma as 1000 separator 
+		}
+,	cycle list name=connCountList,
+%,	legend pos=south west
+%,	legend style={fill=white, fill opacity=0.9, draw opacity=1,text opacity=1}
+%,	legend cell align=left
+ ]
+  \pgfplotsinvokeforeach{0,1,2,3,4,5,6}{
+	\addplot+[nodes near coords,nodes near coords align={vertical},
+		point meta=explicit symbolic]	table[trim cells,x expr=#1, y index =#1, meta index= #1] from \file;
+    }
+%	\addlegendentry{\#Companies }
+  \end{axis}
+\end{tikzpicture}

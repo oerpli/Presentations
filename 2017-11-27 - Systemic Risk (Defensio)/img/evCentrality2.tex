@@ -1,0 +1,51 @@
+% !TeX root = ../MSc.tex
+\begin{tikzpicture}[inner sep = 2pt, very thick, scale=1.75,font={\fontsize{11pt}{12}\bfseries}] 
+\coordinate (C1) at (2,2);
+\foreach \a in {1,...,6}{
+  \draw[thick](C1) -- ($(C1)+(360/7*\a:1)$);
+  \node[circle,ellEV=0.13] at ($(C1)+(360/7*\a:1)$) {0.12};
+}
+\coordinate (M) at ($(C1)+(8+360/7*7:1.3)$);
+\draw[thick](C1) -- (M);
+\node[circle,ellEV=0.39]at  (C1) {0.39}; % center 1 finished
+
+\coordinate (C1) at (4.6,2); % create new center to the right
+\draw[thick](C1) -- (M); % connect middle with new center 
+%\node[circle,ellEV=0.31, ultra thick, draw = red]at (M) {0.31};
+\node[circle,ellEV=0.31]at (M) {0.31};
+\draw[ultra thick, draw = red, dashed](M) circle(9pt);%{0.11};
+
+
+\foreach \a in {1,2,4}{
+  \draw[thick](C1) -- ($(C1)+(360/6*\a:1)$);
+  \node[circle,ellEV=0.17] at ($(C1)+(360/6*\a:1)$) {0.12};
+}
+\coordinate (R1) at ($(C1)+(20:1.3)$);
+\coordinate (RM) at ($(C1)+(-20:1.3)$);
+\coordinate (R2) at ($(C1)+(360/6*5:1)$);
+
+\draw[thick](C1) -- (R1);
+\draw[thick](C1) -- (R2);
+\draw[thick](RM) -- (R1);
+\draw[thick](RM) -- (R2);
+\node[circle,ellEV=0.50]at (C1) {0.50};
+\node[circle,ellEV=0.21]at  (RM) {0.21};
+
+\coordinate (RR1) at ($(R1)+(20:1.3)$);
+\coordinate (RR2) at ($(R1)+(-10:1.5)$);
+\coordinate (RR3) at ($(R1)+(-40:1.3)$);
+
+\draw[thick](R1) -- (RR1);
+\draw[thick](R1) -- (RR3);
+\draw[thick](RR1) -- (RR2);
+\draw[thick](RR2) -- (RR3);
+
+\node[circle,ellEV=0.16]at (RR1) {0.16};
+\node[circle,ellEV=0.11] at (RR2) {0.11};
+\draw[ultra thick, draw = red, dashed](RR2) circle(9pt);%{0.11};
+\node[circle,ellEV=0.16] at (RR3) {0.16};
+
+
+\node[circle,ellEV=0.36]at  (R1) {0.36};
+\node[circle,ellEV=0.25] at  (R2) {0.25};
+\end{tikzpicture}

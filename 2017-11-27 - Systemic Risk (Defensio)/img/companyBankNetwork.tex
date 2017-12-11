@@ -1,0 +1,64 @@
+% !TeX root = ../MSc.tex
+\begin{tikzpicture}[scale=\cbnScale, {Latex[length=3mm, width=1.5mm]}-, deposit/.style={depositColor, dashed}] 
+\coordinate (C1) at (2,2);
+
+
+% Flowerlike thingy on left 
+\node[bank] (X) at (C1){}; % center 1 finished
+\foreach \a in {1,...,6}{
+  \node[company] (C) at ($(X)+(360/7*\a:1)$){};
+  \path[thick, deposit](C) edge [bend left=18] (X);
+  \path[thick](X)  edge [bend left=18] (C);
+}
+
+% Specify center of hexagon of banks on right
+\coordinate (M) at ($(C1)+(0:2.15)$);
+
+\foreach \a in {0,...,5}{ % Hexagon
+    \node[bank] (B\a) at ($(M)+(360/6*\a:1.15)$) {};
+}
+
+% Connect bank3 of hexagon with flower center
+\path[thick](X)  edge [bend left=18] (B3);
+\path[thick](B3)  edge [bend left=18] (X);
+
+% Draw lines from  Bank a to Bank b iff a is smaller than b
+\foreach \a in {0,...,5}{
+    \foreach \b in {\a,...,5}{
+        \ifthenelse{\a=\b}{}{
+			\ifthenelse{\a > 2}{
+%				\path[thick](B\b) edge[bend left=10] (B\a);
+				\path[thick, deposit](B\a) edge[] (B\b);
+			}{
+				\path[thick](B\b) edge(B\a);
+			}
+        }
+    }
+}
+
+% Add 3 companies to Bank 0,2,4
+\foreach \a in {0,1,2}{
+    \node[bank] (BX) at ($(M)+(240 +120*\a:1.15)$) {};
+    \foreach \b in {0,...,2}{
+        \ifthenelse{\a=\b \AND \a = 1}{}{
+            \node[company] (C\a\b) at ($(BX)+(210+120*\a+30*\b:0.85)$) {};
+            \draw[thick](BX) -- (C\a\b);
+        }
+    }
+}
+
+% Extra connections for three companies on far right
+\path[thick](B1)  edge [bend left=15] (C12);
+\path[thick, deposit](C12) edge [bend left=25] (B1);
+\path[thick, deposit](C10) edge [bend left=25] (B5);
+\path[thick](B5)  edge [bend left=15] (C10);
+
+% Extra connections for three companies on top/bottom
+\path[thick](B3) edge[bend right=15] (C22);
+\path[thick](B1) edge[] (C20);
+\path[thick](B5) edge[] (C02);
+%\path[thick](B3) edge[bend left=15] (C00);
+\path[thick, deposit](C00) edge[bend right=15] (B3);
+
+\iftoggle{thesis}{}{\node[opacity = 0] (push) at (2,-0.6){X};}
+\end{tikzpicture} 

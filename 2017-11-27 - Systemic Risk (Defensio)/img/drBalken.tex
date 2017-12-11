@@ -1,0 +1,55 @@
+% !TeX root = ../MSc.tex
+\begin{tikzpicture}[]
+\def\file{./data/5000c/drSortedBoth.csv}
+\pgfplotstableread[col sep=tab,trim cells]{\file}\table
+\begin{axis}[
+, 	height=\HEIGHT
+,	width=0.5\textwidth
+,	xbar
+,	xlabel={DebtRank $R^F$}
+,	ylabel={Companies \& banks ranked by DebtRank}
+,	axis y line*=left
+,	scaled x ticks = false
+,	xmin = 0
+,	xmax =0.705
+,	xtick = {0,0.25,0.50,0.7}
+,	xticklabels = {0.00,0.25,0.50,0.70}
+,	ymin = -\CUTOFF, ymax = 0
+,	xmajorgrids,
+,	ytick = \empty
+,	bar width= \BarWidth
+,	xbar =-\BarWidth
+%,	hide y axis
+,	major grid style={thin,dashed,black!20}
+,	legend pos=south east
+,	legend style={fill=white, fill opacity=0.9, draw opacity=1,text opacity=1}
+,	legend cell align=left
+,	every node near coord/.append style={anchor=west,font=\scriptsize}
+,	cycle list name=compBankList
+,	x tick style={opacity=0}
+,	ylabel style={yshift=-25pt}
+,	ylabel near ticks
+]
+\addplot+[
+    , point meta=explicit symbolic,
+    , discard if not={bank}{0},
+    , xticklabels from table={\table}{label}
+    ] table[
+    , trim cells
+    , y expr=-\coordindex - 0.5
+    , x =debtrank
+    , meta=label
+    ] from \file;
+\addlegendentry{Companies}
+\addplot+[
+    ,   point meta=explicit symbolic
+    ,   discard if not={bank}{1}
+    ,   xticklabels from table={\table}{label}
+    ] table[
+    ,   trim cells
+    ,   y expr=-\coordindex - 0.5
+    ,   x =debtrank
+    ] from \file;
+\addlegendentry{Banks}
+\end{axis}
+\end{tikzpicture}

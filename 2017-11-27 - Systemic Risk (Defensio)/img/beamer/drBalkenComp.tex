@@ -1,0 +1,49 @@
+% !TeX root = ../../MScBeamer.tex
+\begin{tikzpicture}[]
+\def\file{./data/5000c/drSortedComp.csv}
+\pgfplotstableread[col sep=tab,trim cells]{\file}\table
+\begin{axis}[
+,	height = 0.7*\HEIGHT
+,	width=\paperwidth
+,	ybar
+,	ylabel={DebtRank}
+,	scaled y ticks = false
+,	ymin = 0,	ymax =0.45
+,	ytick = {0,0.15,0.30,0.45}
+,	yticklabels = {0.0,0.15,0.30,0.45}
+,	ylabel style={yshift=5pt}
+,	xmin = 0, xmax = \CUTOFF % 35 bis Flughafen Wien
+,	ymajorgrids,
+,	axis y line*=left
+,   axis x line*=bottom
+,	bar width= \BarWidth
+,	ybar =-\BarWidth
+%,	hide y axis
+,	major grid style={thin,dashed,black!20}
+%,	legend pos=north west
+%,	legend style={fill=white, fill opacity=0.9, draw opacity=1,text opacity=1}
+%,	legend cell align=left
+,	every node near coord/.append style={anchor=west,font=\scriptsize ,rotate=70}
+,	cycle list name=compBankList
+,	x tick style={opacity=0}
+,	y tick style={opacity=0}
+,	xtick = data % add ONACE as YTICK
+,	xticklabels from table={\table}{ona} % ona = 3 digits of ONACE
+,	xticklabel style={rotate = 70, font=\scriptsize\ttfamily\bfseries, anchor=east}
+, ]
+\addplot+[
+		,	nodes near coords
+		,	nodes near coords align={vertical},
+		,	point meta=explicit symbolic,
+%		,	yticklabels from table={\table}{label}
+		,	xtick = data
+		,	xticklabels from table={\table}{onace}
+		]table[
+		,	trim cells
+		,	x expr=\coordindex +0.5
+		,	y =debtrank
+%		,	meta=label
+		] from \file;
+%	\addlegendentry{Companies}
+\end{axis}
+\end{tikzpicture}

@@ -1,0 +1,69 @@
+% !TeX root = ../../MSc.tex
+\begin{tikzpicture}
+	\def\DRTX{./data/5000c/hists/BDeg.csv}
+	\def\DRT{./data/5000c/hists/BDeg2.csv}
+	\begin{axis}[
+		,	width=0.95\textwidth
+		,	height=170pt
+		%,	axis on top
+		,	scale only axis
+		,	ymode=log
+		%,	xmode=log
+		,	ybar = 0pt% -3pt
+		,	legend cell align = left
+		,	bar width= 3.75pt
+		%,	x tick label as interval=false
+		%,	xtickten={-16,-14,-12,...,4}
+		%,	yticklabel={}
+		,	xtick pos=left
+		,	ytick pos=left
+		,	xmin=-40
+		,	xmax=3000
+		,	ymin=0.5
+		,	ymax=1000
+		%,	grid=none
+		,	ymajorgrids
+		,	log origin=infty
+		,	cycle list name=compBankList
+		,	ylabel = {Count}
+		,	xlabel = {Degree of banks in full network}
+		,	ylabel near ticks
+		]
+		\addplot+[,draw=none] table [x=left,y=in] {\DRT};
+		\addplot+[,draw=none] table [x=left,y=out] {\DRT};
+	\end{axis}
+	\begin{axis}[
+		,	width=0.79\textwidth
+		,	xshift=2.6cm
+		,	yshift=2.1cm
+		,	height=105pt
+		,				,	axis background/.style={fill=gray!02}
+		,	scale only axis
+		,	ymode=log
+		%,	xmode=log
+		,	ybar = 0pt% -3pt
+		,	legend cell align = left
+		,	legend style={draw=none}
+		,	bar width= 1.75pt
+		%,	x tick label as interval=false
+		%,	xtickten={-16,-14,-12,...,4}
+		%,	yticklabel={}
+		,	xtick pos=left
+		,	ytick pos=left
+		,	xmin=-1
+		,	xmax=100
+		,	ymin=0.5
+		%,	ymax=1
+		%,	grid=none
+		,	ymajorgrids
+		,	log origin=infty
+		,	cycle list name=compBankList
+		,	ylabel = {Count}
+		,	xlabel = {Degree of banks in full network}
+		,	ylabel near ticks
+		,	ylabel style={fill = white}
+		]
+		\addplot+[,draw=none] table [x=left,y=in] {\DRTX};\addlegendentry{Indegree}
+		\addplot+[,draw=none] table [x=left,y=out] {\DRTX};\addlegendentry{Outdegree}
+	\end{axis}
+\end{tikzpicture}

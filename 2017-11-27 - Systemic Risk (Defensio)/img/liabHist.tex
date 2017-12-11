@@ -1,0 +1,64 @@
+% !TeX root = ../MSc.tex
+\begin{tikzpicture}[]
+\def\file{./data/histLiabTransposed.csv}
+ \pgfplotstableread[col sep=tab,trim cells]{\file}\table
+%\pgfplotstableread[col sep=tab,trim cells]{\fileB}\tableB
+%\pgfplotstableread{./data/returnhistF.csv}\loadedtableF
+\begin{axis}[width=\iftoggle{thesis}{1.0}{0.53}\textwidth
+,	height=350pt
+,	xbar stacked
+,	xlabel={Sum of liabilities (EUR)}
+,	ylabel={Liability types ordered by their total sum}
+,	ylabel style={yshift=-25pt}
+%,	border={1pt 1pt 1pt 0pt}
+%,	ytick=data
+,	ytick = \empty
+%,	xtick = {1E11,...,5E11}
+%,	yticklabels from table={\table}{name}
+,	every node near coord/.append style={rotate=0, anchor=west,font=\footnotesize  }
+%,	scaled x ticks = false
+,	xmajorgrids,
+%,	axis x line*=bottom
+,	axis y line*=left
+%,	hide y axis
+,	bar width= 8pt
+,	xmin = 0
+,	xmax = 5.5E11
+,	ymax = 0
+,	ymin =-31
+,	x tick style={opacity=0}
+,	major grid style={thin,dashed,black!20}
+,	legend pos=south east
+,	legend style={fill=white, fill opacity=0.9, draw opacity=1,text opacity=1, draw = none}
+,	legend style={
+		,	fill=white
+		,	draw opacity=1
+		,	text opacity=1
+		% ,	draw=none
+		% ,	legend columns=-1
+		% % ,	fill opacity=0.9
+		% ,	column sep=0.28ex
+		% ,	yshift=8pt
+		% ,	xshift=8pt
+	}
+% ,	legend image post style={xscale=1.65,yscale=1.8}
+,	legend image post style={xscale=1.4,yscale=1.4}
+,	legend cell align=left
+,	cycle list name=connCountList
+,	]
+\pgfplotsinvokeforeach{0,1,...,5}
+{
+\addplot+[]
+	table[trim cells,y expr= -\coordindex+0.5, x =c#1] from \file;\label{plt:liab#1}\addlegendentry{{#1 Bank\ifthenelse{#1 = 1}{}{s}}}
+}
+\addplot+[nodes near coords,nodes near coords align={vertical},
+	point meta=explicit symbolic] 
+	table[trim cells,y expr= -\coordindex+0.5, x =c6, meta = name] from \file;
+	\addlegendentry{{6 Banks}} 
+\end{axis}
+% white rectangles to hide dotted lines
+% \draw[fill=white,draw=none](6.5,1.1) rectangle(16,5);
+% \draw[fill=white,draw=none](8,0.65) rectangle(13,0.2);
+% \node[] at (11,2.5) {\input{./img/bankCountHistSmall.tex}};% small plot in plot
+
+\end{tikzpicture}

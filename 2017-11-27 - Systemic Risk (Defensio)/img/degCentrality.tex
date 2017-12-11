@@ -1,0 +1,49 @@
+% !TeX root = ../MSc.tex
+\begin{tikzpicture}[circle,inner sep = 2pt, very thick, scale=1.25, font={\fontsize{11pt}{12}\bfseries}] 
+\coordinate (C1) at (2,2);
+\foreach \a in {1,...,6}{
+  \draw[thick](C1) -- ($(C1)+(360/7*\a:1)$);
+  \node[degCen=1] at ($(C1)+(360/7*\a:1)$) {1};
+}
+\coordinate (M) at ($(C1)+(8+360/7*7:1.3)$);
+\draw[thick](C1) -- (M);
+\node[degCen=7]at  (C1) {7}; % center 1 finished
+
+\coordinate (C1) at (4.6,2); % create new center to the right
+\draw[thick](C1) -- (M); % connect middle with new center 
+\node[degCen=2]at (M) {2};
+%\draw[ultra thick, draw = red, dashed](M) circle(7pt);
+
+
+\foreach \a in {1,2,4}{
+  \draw[thick](C1) -- ($(C1)+(360/6*\a:1)$);
+  \node[degCen=1] at ($(C1)+(360/6*\a:1)$) {1};
+}
+\coordinate (R1) at ($(C1)+(20:1.3)$);
+\coordinate (RM) at ($(C1)+(-20:1.3)$);
+\coordinate (R2) at ($(C1)+(360/6*5:1)$);
+
+\draw[thick](C1) -- (R1);
+\draw[thick](C1) -- (R2);
+\draw[thick](RM) -- (R1);
+\draw[thick](RM) -- (R2);
+\node[degCen=6]at (C1) {6};
+\node[degCen=2]at (RM) {2};
+
+\coordinate (RR1) at ($(R1)+(20:1.3)$);
+\coordinate (RR2) at ($(R1)+(-10:1.5)$);
+\coordinate (RR3) at ($(R1)+(-40:1.3)$);
+
+\draw[thick](R1) -- (RR1);
+\draw[thick](R1) -- (RR3);
+\draw[thick](RR1) -- (RR2);
+\draw[thick](RR2) -- (RR3);
+
+\node[degCen=2]at (RR1) {2};
+\node[degCen=2] at (RR2) {2};
+\node[degCen=2] at (RR3) {2};
+
+
+\node[degCen=4]at  (R1) {4};
+\node[degCen=2] at  (R2) {2};
+\end{tikzpicture}

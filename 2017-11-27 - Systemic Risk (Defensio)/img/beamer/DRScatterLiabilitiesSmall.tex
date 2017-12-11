@@ -1,0 +1,41 @@
+% !TeX root = ../../MScBeamer.tex
+\def\File{./data/\NWSize/LiabilitiesDebtRank.txt}
+\begin{tikzpicture}
+\begin{axis}[
+,	scale  only  axis
+,	axis y line*=left % the ’*’ avoids arrow heads
+,	height=90pt
+,	xmode=log
+,	width=0.35\paperwidth
+,	xlabel={Liabilities (EUR)} 
+,	ylabel={}
+,	ticks=major
+, 	major grid style={line width=0.1pt,draw=gray!30}
+,	xmin = \XMIN
+,	xmax = \XMAX
+,	ymin = \YMIN
+,	ymax = \YMAX
+,	legend cell align=left
+,	legend pos=north west
+,	legend image post style={scale=1.25}
+]
+\addplot[bankColor
+	,	only marks
+	,	discard if not={Bank}{1}
+	,	mark size=1.5pt
+	]table[
+		x = Liabilities
+	,	y = DebtRank
+	,	filter discard warning=false
+	]{\File};
+\addplot[companyColor
+	,	only marks
+	,	discard if not={Bank}{0}
+	,	mark size=1.5pt
+	]table[
+		x = Liabilities
+	,	y = DebtRank
+	,	filter discard warning=false
+	]{\File};
+\end{axis}
+\end{tikzpicture}

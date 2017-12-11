@@ -1,0 +1,130 @@
+% !TeX root = ../../MScBeamer.tex
+\def\sfScale{1.7}
+\def\hDist{5.25}
+\def\vDist{6.9}
+\newcommand{\drNode}[5][]{\node[very thick, minimum size=1.3cm, circle split part fill={#4,#4,drMap},#1] (#2) at #3 {#2 #5\nodepart{lower}#4};}
+\begin{tikzpicture}[
+    , very thick
+    , font={\fontsize{11pt}{11pt}\bfseries}
+    , circle split draw splits=false
+    , inner sep=2pt
+    , shape=circle split
+    , Edge/.style={thick,-{Latex[length=3mm, width=1.5mm]}}] 
+% \draw(-7.0,-\vDist) rectangle(7.11,\vDist+0.1);
+%\draw(-8,0) rectangle(\hDist/2,\vDist+0.1);
+\clip(-8,0) rectangle(\hDist/2,\vDist+0.1);
+\foreach \Time in {1,...,4}{
+    \only<\Time>{
+        \node(a) at ($(0*\hDist,0) - (\Time*\hDist,0)$){
+            \begin{tikzpicture}[scale=\sfScale]
+            \drNode{1}{(2,5)}{1.0}{D}
+            \foreach \a in {2,...,4}{
+            \drNode{\a}{(\a*0.9-0.7,4)}{0.0}{U}
+            \path[Edge](1) edge (\a);
+            } 
+            \drNode{5}{(1.1,2.85)}{0.0}{U}
+            \drNode{6}{(2.9,2.85)}{0.0}{U}
+            \path[Edge](5) edge[bend left=25] (2);
+            \path[Edge](2) edge[bend left=25] (5);
+            \path[Edge](4) edge (6);
+            \path[Edge](6) edge (5);
+
+            \drNode{7}{(1.1,1.75)}{0.0}{U}
+            \drNode{8}{(2.9,1.75)}{0.0}{U}
+            \path[Edge](5) edge (7);
+            \path[Edge](6) edge (8);
+            \node[left of=1, node distance = 1.7cm,yshift=0.225cm]{Time: 1};
+            \end{tikzpicture}
+        };
+        \node(a) at ($(1*\hDist,0) - (\Time*\hDist,0)$){
+            \begin{tikzpicture}[scale=\sfScale]
+            \drNode{1}{(2,5)}{1.0}{I}
+            \foreach \a in {2,...,4}{
+            \drNode{\a}{(\a*0.9-0.7,4)}{0.5}{D}
+            \path[Edge](1) edge (\a);
+            } 
+            \drNode{5}{(1.1,2.85)}{0.0}{U}
+            \drNode{6}{(2.9,2.85)}{0.0}{U}
+            \path[Edge](5) edge[bend left=25] (2);
+            \path[Edge](2) edge[bend left=25] (5);
+            \path[Edge](4) edge (6);
+            \path[Edge](6) edge (5);
+
+            \drNode{7}{(1.1,1.75)}{0.0}{U}
+            \drNode{8}{(2.9,1.75)}{0.0}{U}
+            \path[Edge](5) edge (7);
+            \path[Edge](6) edge (8);
+            \node[left of=1, node distance = 1.7cm,yshift=0.225cm]{Time: 2};
+            \end{tikzpicture}
+        };
+        \node(a) at ($(2*\hDist,0) - (\Time*\hDist,0)$){
+            \begin{tikzpicture}[scale=\sfScale]
+            \drNode{1}{(2,5)}{1.0}{I}
+            \foreach \a in {2,...,4}{
+            \drNode{\a}{(\a*0.9-0.7,4)}{0.5}{I}
+            \path[Edge](1) edge (\a);
+            } 
+            \drNode{5}{(1.1,2.85)}{0.25}{D}
+            \drNode{6}{(2.9,2.85)}{0.25}{D}
+            \path[Edge](5) edge[bend left=25] (2);
+            \path[Edge](2) edge[bend left=25] (5);
+            \path[Edge](4) edge (6);
+            \path[Edge](6) edge (5);
+
+            \drNode{7}{(1.1,1.75)}{0.0}{U}
+            \drNode{8}{(2.9,1.75)}{0.0}{U}
+            \path[Edge](5) edge (7);
+            \path[Edge](6) edge (8);
+            \node[left of=1, node distance = 1.7cm,yshift=0.225cm]{Time: 3};
+            \end{tikzpicture}
+        };
+        \node(a) at ($(3*\hDist,0) - (\Time*\hDist,0)$){
+            \begin{tikzpicture}[scale=\sfScale]
+            \drNode{1}{(2,5)}{1.0}{I}
+            \foreach \a in {3,...,4}{
+            \drNode{\a}{(\a*0.9-0.7,4)}{0.5}{I}
+            \path[Edge](1) edge (\a);
+            }
+            \drNode[inner sep =1pt]{2}{(0.9*2-0.7,4)}{0.625}{I}
+            \path[Edge](1) edge (2);
+            \drNode[inner sep =1pt]{5}{(1.1,2.85)}{0.375}{I}
+            \drNode[]{6}{(2.9,2.85)}{0.25}{I}
+            \path[Edge](5) edge[bend left=25] (2);
+            \path[Edge](2) edge[bend left=25] (5);
+            \path[Edge](4) edge (6);
+            \path[Edge](6) edge (5);
+
+            \drNode[inner sep=1pt]{7}{(1.1,1.75)}{0.125}{D}
+            \drNode[inner sep=1pt]{8}{(2.9,1.75)}{0.125}{D}
+            \path[Edge](5) edge (7);
+            \path[Edge](6) edge (8);
+
+            \node[left of=1, node distance = 1.7cm,yshift=0.225cm]{Time: 4};
+            \end{tikzpicture}
+        };
+        \node(a) at ($(4*\hDist,0) - (\Time*\hDist,0)$){
+            \begin{tikzpicture}[scale=\sfScale]
+            \drNode{1}{(2,5)}{1.0}{I}
+            \foreach \a in {3,...,4}{
+            \drNode{\a}{(\a*0.9-0.7,4)}{0.5}{I}
+            \path[Edge](1) edge (\a);
+            }
+            \drNode[inner sep=1pt]{2}{(0.9*2-0.7,4)}{0.625}{I}
+            \path[Edge](1) edge (2);
+            \drNode[inner sep=1pt]{5}{(1.1,2.85)}{0.375}{I}
+            \drNode[]{6}{(2.9,2.85)}{0.25}{I}
+            \path[Edge](5) edge[bend left=25] (2);
+            \path[Edge](2) edge[bend left=25] (5);
+            \path[Edge](4) edge (6);
+            \path[Edge](6) edge (5);
+
+            \drNode[inner sep=1pt]{7}{(1.1,1.75)}{0.125}{I}
+            \drNode[inner sep=1pt]{8}{(2.9,1.75)}{0.125}{I}
+            \path[Edge](5) edge (7);
+            \path[Edge](6) edge (8);
+            \node[left of=1, node distance = 1.7cm,yshift=0.225cm]{Time: 5};
+            \end{tikzpicture}
+        };
+    }
+}
+\end{tikzpicture}

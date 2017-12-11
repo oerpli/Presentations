@@ -1,0 +1,53 @@
+% !TeX root = ../../MScBeamer.tex
+\begin{tikzpicture}[]
+\def\file{./data/bankCountHist.csv}
+ \pgfplotstableread[col sep=tab,trim cells]{\file}\table
+% \pgfplotstableread{./data/returnhistF.csv}\loadedtableF
+  \begin{axis}[width=\iftoggle{thesis}{0.7}{0.4}\textwidth
+,	height=130pt
+,	ybar
+,	xlabel={Number of bank connections}
+,	ylabel={Company count}
+,	every node near coord/.append style={rotate=0, anchor=south,font=\footnotesize}
+%,	xticklabels from table={\loadedtable}{label},
+%,	flexible xticklabels from table={\file}{label}{col sep=tab}
+,	xticklabel style={text height=1.5ex} % To make sure the text labels are nicely aligned
+,	xtick={0,1,2,3,4,5,6}
+,	ytick={25000,50000}
+,	yticklabels={25k,50k}
+,	scaled x ticks = false
+,	ymin = 0,	ymax =55000
+%,	xmin = 0, xmax = 29
+,	ymajorgrids,
+,	axis y line*=left
+,	bar width= 15pt
+,	ybar =-15pt
+%,	hide x axis
+,	axis x line*=bottom,
+,	major grid style={thin,dashed,black!20}
+,	scaled y ticks = false
+,	ylabel style={yshift=-5pt}
+,	xtick style={opacity=0}
+,	y tick label style=
+		{/pgf/number format/fixed
+		,/pgf/number format/1000 sep = \thinspace % replace comma as 1000 separator 
+		}
+,	cycle list name=connCountList,
+%,	legend pos=south west
+%,	legend style={fill=white, fill opacity=0.9, draw opacity=1,text opacity=1}
+%,	legend cell align=left
+ ]
+  \pgfplotsinvokeforeach{0,1,2,3,4,5,6}{
+	\addplot+[nodes near coords,nodes near coords align={vertical},
+		point meta=explicit symbolic]	table[trim cells,x expr=#1, y index =#1, meta index= #1] from \file;}
+\end{axis}
+	\node[anchor=west](a) at (5.8,2.2){$\#C = \alt<1>{106\thinspace919}{\ \ \!51\thinspace980}$};
+	\node[anchor=west](b) at (5.8,1.7){$\#E = \ \ \!71\thinspace439$};
+	\uncover<+->{
+		\draw[line width=5pt, red](0.15,0)--(.85,3);
+		\draw[line width=5pt, red](0.15,3)--(.85,0);
+		\node[anchor=west](c) at (5.82,.7){ Affects 51\% of companies};
+		\node[anchor=west](c) at (5.82,.2){ but only 24\% of liabilities};
+}
+
+\end{tikzpicture}

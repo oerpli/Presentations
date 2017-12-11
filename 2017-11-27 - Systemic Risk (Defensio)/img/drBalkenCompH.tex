@@ -1,0 +1,107 @@
+% !TeX root = ../MSc.tex
+\begin{tikzpicture}[]
+\def\file{./data/5000c/drSortedComp.csv}
+\pgfplotstableread[col sep=tab,trim cells]{\file}\table
+\begin{axis}[clip marker paths=true,% axis on top=true
+, 	height=150pt
+,	width=\textwidth
+,	ybar
+,	ylabel={DebtRank}
+%,	ylabel={Index sorted by DebtRank}
+,	scaled y ticks = false
+,	ymin = 0,	ymax =0.7
+,	ytick = {0,0.25,0.50,0.7}
+,	yticklabels = {0.00,0.25,0.50,0.70}
+,	xmin = 0, xmax = \CUTOFF % 35 bis Flughafen Wien
+,	ymajorgrids,
+% ,	axis y line*=left
+% ,   axis x line*=bottom
+,	bar width= \BarWidth
+,	ybar =-\BarWidth
+%,	hide y axis
+,	major grid style={thin,dashed,black!20}
+%,	legend pos=north west
+,	legend columns=\iftoggle{thesis}{3}{5}
+,	legend style={fill=white, fill opacity=0.9, draw opacity=1,text opacity=1, draw = none}
+,	legend cell align=left
+,	every node near coord/.append style={anchor=west, rotate=50,font=\scriptsize\ttfamily\bfseries, inner sep = 0.5pt, xshift = 2pt, yshift=3pt, rounded corners=2pt, fill = white}
+,	x tick style={opacity=0}
+,	y tick style={opacity=0}
+,	cycle list name=onaceColors
+%,	xtick = \empty
+,	xtick = data % add ONACE as xTICK
+,	xticklabels from table={\table}{o} % o = 1 ona = 3 digits of ONACE
+,	xticklabel style={font=\scriptsize\ttfamily\bfseries, anchor=north,yshift=5pt}
+, ]
+% M 0 Dienstleistung/Services
+% K 1 Finance & 
+% F 2 Baugewerbe
+% L 3 Immobilien
+% Q 9 Health
+% N 4 Sonstiges
+% H 5 Logistik
+% G 6 Kraftfahrzeuge
+% D 7 Energy
+% I 8 Gastronomy
+% S 15 Dienstleistung sonstige
+% C 10 Verarbeitendes Gewerbe/Herstellung
+% O 11 Government
+% E 12 Water & Sewage
+% J 13 Kommunikation
+% B 14 Mining
+% R 16 Art & Entertainment
+% A 17 Land & Forst
+
+% this plot ensures that there exists an xtick label at every bar.
+% necessary because xtick = data uses only the x values from the first plot
+\addplot[forget plot, draw = none
+	,	point meta=explicit symbolic,
+	,	xtick = data
+	,	xticklabels from table={\table}{o}
+	]table[
+	,	trim cells
+	,	x expr= \coordindex +0.5
+	,	y =debtrank
+	,	meta=o
+	] from \file;
+
+	% \pgfplotsset{cycle list shift=-1}
+
+\foreach \i in {0,...,9}{
+	\addplot+[
+	% ,	nodes near coords
+	% ,	nodes near coords align={vertical},
+	,	point meta=explicit symbolic,
+	,	discard if not={idx}{\i}
+%	,	yticklabels from table={\table}{label}
+%	,	xtick = data
+%	,	xticklabels from table={\table}{o}
+	]table[
+	,	trim cells
+	,	x expr= \coordindex +0.5
+	,	y =debtrank
+	,	meta=label
+	] from \file;
+}
+% M 0 Dienstleistung/Services
+% K 1 Finance & 
+% F 2 Baugewerbe
+% L 3 Immobilien
+% Q 9 Health
+% N 4 Sonstiges
+% H 5 Logistik
+% G 6 Kraftfahrzeuge
+% D 7 Energy
+% I 8 Gastronomy
+\addlegendentry{M Services}
+\addlegendentry{K Finance \& Insurance}
+\addlegendentry{F Construction}
+\addlegendentry{L Real estate}
+\addlegendentry{N Other services}
+\addlegendentry{H Logistics}
+\addlegendentry{G Automobile sector}
+\addlegendentry{D Energy}
+\addlegendentry{I Gastronomy}
+\addlegendentry{Q Health}
+\end{axis}
+\end{tikzpicture}

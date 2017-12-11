@@ -1,0 +1,345 @@
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{float}
+%\usepackage[ruled,vlined]{algorithm2e}
+%\usepackage{nicefrac}
+
+
+% Theorems etc
+
+\iftoggle{beamer}{}{
+    \usepackage{ntheorem}
+    \newtheorem{definition}{Definition}[chapter]
+    \newtheorem{remark}{Remark}[chapter]
+}
+ 
+ 
+ 
+ \def\nBanks{796\space}
+ \def\nCompaniesGephi{5\thinspace000\xspace}
+ \def\NWSize{\iftoggle{final}{5000}{500}c}
+%  \def\NWSize{500c}
+
+ %
+\usetikzlibrary{shapes,backgrounds,calc}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{positioning,graphs}
+
+\definecolor{uvred}{RGB}{255,31,0}
+\definecolor{uvblue}{RGB}{0,105,170}
+
+\definecolor{Red}{rgb}{0.89, 0.0, 0.13}
+\definecolor{Green}{rgb}{0.01, 0.75, 0.24}
+\definecolor{gv}{rgb}{0.61, 0.85, 0.24}
+\definecolor{bv}{rgb}{0.26, 0.57, 0.66}
+\colorlet{uvblue}{uvblue}
+\colorlet{uvbluedark}{black!40!uvblue}
+\colorlet{uvbluelight}{white!40!uvblue}
+
+
+%\usetikzlibrary{pgfplots.clickable}\pgfplotsset{/pgfplots/annot/printable=false}
+%\pgfplotsset{compat=1.15}
+\pgfplotsset{
+%%%%
+clickable coords/.style={}, %% comment this line out if coords should be clickable
+%%%%
+plotl/.style={uvbluelight,no marks,ultra thick,samples=500},
+plott/.style={uvblue,no marks,ultra thick,samples=500},
+plotd/.style={uvbluedark,no marks,ultra thick,samples=500},
+%%
+plotA/.style={uvblue!40!white,ultra thick,mark=otimes*},
+plotB/.style={uvblue!70!white,ultra thick,mark=triangle*},
+plotC/.style={uvblue!90!white,ultra thick,mark=pentagon*},
+plotD/.style={uvblue!70!black,ultra thick,mark=diamond*},
+plotE/.style={uvblue!50!black,ultra thick,mark=square*},
+plotF/.style={uvblue!20!black,ultra thick,mark=otimes},
+%plotG/.style={uvblue!20!black,ultra thick,mark=otimes},
+%
+LplotA/.style={white!10!uvbluelight,ultra thick,},
+LplotB/.style={uvbluelight,ultra thick,},
+LplotC/.style={uvblue,ultra thick},
+LplotD/.style={uvbluedark,ultra thick},
+LplotE/.style={black!40!uvbluedark,ultra thick},
+LplotF/.style={black!60!uvbluedark,ultra thick},
+%
+asdfas/.style={}
+}
+
+\pgfplotsset{
+    discard if not/.style 2 args={
+        x filter/.code={
+            \edef\tempa{\thisrow{#1}}
+            \edef\tempb{#2}
+            \ifx\tempa\tempb
+            \else
+                \def\pgfmathresult{inf}
+            \fi
+        }
+    }
+}
+
+\pgfplotstableset{
+    discard if not/.style 2 args={
+        row predicate/.code={
+            \def\pgfplotstable@loc@TMPd{\pgfplotstablegetelem{##1}{#1}\of}
+            \expandafter\pgfplotstable@loc@TMPd\pgfplotstablename
+            \edef\tempa{\pgfplotsretval}
+            \edef\tempb{#2}
+            \ifx\tempa\tempb
+            \else
+                \pgfplotstableuserowfalse
+            \fi
+        }
+    }
+}
+
+
+\pgfplotsset{
+    /pgfplots/flexible xticklabels from table/.code n args={3}{%
+        \pgfplotstableread[#3]{#1}\coordinate@table
+        \pgfplotstablegetcolumn{#2}\of{\coordinate@table}\to\pgfplots@xticklabels
+        \let\pgfplots@xticklabel=\pgfplots@user@ticklabel@list@x
+    }
+}
+
+%% Text shading macros
+%\newcommand{\ugly}[1]{\colorbox{blue!30}{#1}\xspace}
+\colorlet{hlblue}{uvred!30}
+\sethlcolor{hlblue}
+
+% Figure with source Attribution
+\newcommand\sourcedFigure[2]{
+\begin{tikzpicture}
+    \node[] (fig) {#1};
+    \node [anchor=south east,color=darkgray,inner sep=0,xshift=-15pt,yshift=0pt]at (fig.north east) {\footnotesize Source: #2};
+\end{tikzpicture}}
+
+%: Math macros
+\newcommand{\norm}[1]{\left\lvert#1\right\rvert}
+
+% Border around tikzpictures 
+\usetikzlibrary{backgrounds}
+
+%: Use colormap for custom charts:
+\usepgfplotslibrary{colormaps}
+\pgfplotsset{colormap name=viridis}%
+\tikzset{
+    ellEV/.style={
+        % pgfplots/colormap name=viridis,
+        color of colormap={200 + #1*1600}, % offset * 2 + scale <= 2000
+        draw=.!80!black,
+        fill=.!70!white,
+        text = black},
+    degCen/.style={
+        color of colormap={200 + #1 * 800/7}, % offset +  + scale <= 1000
+        draw=.!80!black,
+        fill=.!70!white,
+        text = black
+    },
+    degCen2/.style={
+        color of colormap={300 + #1 * 700/5}, % offset + scale <= 1000
+        draw=.!80!black,
+        fill=.!70!white,
+        text = black
+    },
+    drMap/.style={
+        color of colormap={250 + #1 * 750}, % offset + scale <= 1000
+        draw=.!80!black,
+        fill=.!70!white,
+        text = black
+    },
+    bankCount/.style={ % between 0 and 6
+    ,    color of colormap={#1 * 1000/6} % offset + scale <= 1000
+    ,    draw=.!60!black
+    ,    fill=.!100!white
+    ,    text = black
+	},
+    onaceColor/.style={ % between 0 and 10
+    ,    color of colormap={#1 * 111} % offset + scale <= 1000
+    ,    draw=.!60!black
+    ,    fill=.!100!white
+    ,    text = black
+    },
+    bankColor/.style={
+    ,    color of colormap={850}
+    ,    draw=.!70!black
+    ,    fill=.!100!white
+    ,    text = black
+    },
+    companyColor/.style={
+    ,   color of colormap={400}
+    ,   draw=.!70!black
+    ,   fill=.!100!white
+    ,   text = black
+    },
+    bankColorLine/.style={
+    ,    color of colormap={850}
+    ,    draw=.!100!white
+    ,    fill=.!100!white
+    ,    text = black
+    },
+    companyColorLine/.style={
+    ,   color of colormap={400}
+    ,   draw=.!100!white
+    ,   fill=.!100!white
+    ,   text = black
+	},
+    depositColor/.style={
+    ,   color of colormap={1000}
+    ,   draw=.!70!black
+    ,   fill=.!100!white
+    ,   text = black
+	},
+	adjMatrix/.style={
+    ,   color of colormap={#1 * 825/5 + 125}
+    ,   draw=.!100!black
+    ,   fill= none
+%    ,   text=.!100!black
+	},
+	diffGlg/.style={ % between 0 and 10
+    ,    color of colormap={#1 * 111} % offset + scale <= 1000
+%,    draw=.!60!black
+%,    fill=.!100!white
+%,    text = black
+    },
+}
+
+\pgfplotscreateplotcyclelist{connCountList}{
+	{bankCount=6},
+	{bankCount=5},
+	{bankCount=4},
+	{bankCount=3},
+	{bankCount=2},
+	{bankCount=1},
+	{bankCount=0},
+}
+\pgfplotscreateplotcyclelist{onaceColors}{
+	{onaceColor=0},
+	{onaceColor=9},
+	{onaceColor=4},
+	{onaceColor=5},
+	{onaceColor=3},
+	{onaceColor=2},
+	{onaceColor=7},
+	{onaceColor=1},
+	{onaceColor=8},
+	{onaceColor=6},
+% 	{onaceColor=10},
+% 	{onaceColor=11},
+% 	{onaceColor=12},
+% 	{onaceColor=13},
+% 	{onaceColor=14},
+% 	{onaceColor=15},
+% 	{onaceColor=16},
+% 	{onaceColor=17},
+}
+\pgfplotscreateplotcyclelist{compBankList}{
+	{companyColor},
+	{bankColor},
+}
+
+
+
+
+\makeatletter
+\pgfutil@namelet{pgf@sh@fbg@circle split@original}{pgf@sh@fbg@circle split}%
+\newif\ifpgfshapecirclesplitdrawsplits
+\pgfshapecirclesplitdrawsplitstrue
+\pgfkeys{%
+  /pgf/circle split draw splits/.is if=pgfshapecirclesplitdrawsplits
+}
+\def\pgf@sm@shape@name{circle split}
+\pgf@sh@beforebgpath{%
+  \ifpgfshapecirclesplitdrawsplits%
+    \csname pgf@sh@fbg@circle split@original\endcsname%
+  \fi
+}
+
+
+
+\tikzset{circle split part fill/.style  args={#1,#2,#3}{%
+ alias=tmp@name, % Jake's idea !!
+  postaction={%
+    insert path={
+     \pgfextra{% 
+     \pgfpointdiff{\pgfpointanchor{\pgf@node@name}{center}}%
+                  {\pgfpointanchor{\pgf@node@name}{east}}%            
+     \pgfmathsetmacro\insiderad{\pgf@x}
+      \fill[#3=#1]
+	  		(\pgf@node@name.base)
+			([xshift=-\pgflinewidth]\pgf@node@name.east)
+            arc (0:180:\insiderad-\pgflinewidth);
+      \fill[#3=#2]
+            (\pgf@node@name.base)
+            ([xshift=\pgflinewidth]\pgf@node@name.west)
+            arc (180:360:\insiderad-\pgflinewidth)--cycle;
+         }}}}}  
+\makeatother  
+
+\tikzset{
+    bank/.style={
+        ,   regular polygon
+        ,   regular polygon sides=4
+        ,   bankColor
+    },
+    company/.style={
+        ,   circle
+        ,   companyColor
+    }
+} 
+
+
+% put figures on top of pages  
+\makeatletter
+\setlength{\@fptop}{8pt}
+\makeatother
+
+
+% Force floats to right page
+\usepackage{afterpage}
+\newcommand\atevenpage[1]{%
+  \afterpage{\clearpage% be sure, that there are no pending floats
+    \ifodd\value{page}% still a odd page
+      \atevenpage{#1}%
+    \else
+      #1%
+    \fi
+  }%
+}
+\newcommand\atoddpage[1]{%
+  \afterpage{\clearpage% be sure, that there are no pending floats
+    \ifodd\value{page}% still a odd page
+      #1%
+    \else
+      \atevenpage{#1}%
+    \fi
+  }%
+}
+
+%\newrobustcmd{\tikzinline}[1]{\tikz #1}
+%\DeclareRobustCommand\capTikz[1][green]{\tikz\draw[fill=#1,line width=0.5pt]  circle(4pt);\xspace}
+\DeclareRobustCommand{\capNode}[1]{\tikz[anchor=base,baseline=-.125cm]{\node[#1] (l) at (0,0) {};}\xspace}
+\DeclareRobustCommand{\capEdge}[1]{\tikz[scale=0.8,anchor=base,baseline=-.125cm]{\draw[#1, -{Latex[length=1.5mm, width=1mm]}] (0,-0.25)--(0.5,0.25);}\xspace}
+
+
+\newcommand{\plotref}[1]{{[\,\ref{#1}\,]}\xspace}
+
+
+\newcommand{\cbnScale}{1.7}
+
+
+\pgfplotsset{
+        % define the custom colormap
+        colormap={RdYlGn}{
+            rgb255=(0, 104, 55),
+            rgb255=(255, 255, 190),
+            rgb255=(166, 0, 38),
+		},
+		% define the custom colormap
+        colormap={ugly}{
+            rgb255=(255, 0, 0),
+            rgb255=(255, 255, 0),
+            rgb255=(0, 255, 0),
+		},
+		colormap/viridis
+    }

@@ -1,0 +1,50 @@
+% !TeX root = ../MSc.tex
+\begin{tikzpicture}[scale=1.5] 
+\coordinate (C1) at (2,2);
+\foreach \a in {1,...,6}{
+  \node[] at  ($(C1)+(360/7*\a:1.3)$) {\scriptsize 0.13\ \ };
+  \draw[thick](C1) -- ($(C1)+(360/7*\a:1)$);
+  \draw[ellEV=0.13] ($(C1)+(360/7*\a:1)$) circle(0.12);
+}
+\coordinate (M) at ($(C1)+(8+360/7*7:1.3)$);
+\draw[thick](C1) -- (M);
+\draw[ellEV=0.39] (C1) circle(0.12) node[left] {\scriptsize 0.39\ \ }; % center 1 finished
+
+\coordinate (C1) at (4.6,2); % create new center to the right
+\draw[thick](C1) -- (M); % connect middle with new center 
+\draw[ellEV=0.31] (M) circle(0.12) node[above=5pt]{\scriptsize 0.31};
+
+\foreach \a in {1,2,4}{
+  \node[] at  ($(C1)+(360/6*\a:1.3)$) {\scriptsize 0.17};
+  \draw[thick](C1) -- ($(C1)+(360/6*\a:1)$);
+  \draw[ellEV=0.17] ($(C1)+(360/6*\a:1)$) circle(0.12);
+}
+\coordinate (R1) at ($(C1)+(20:1.3)$);
+\coordinate (RM) at ($(C1)+(-20:1.3)$);
+\coordinate (R2) at ($(C1)+(360/6*5:1)$);
+\node[] at  ($(C1)+(360/6*5:1.4)$) {\scriptsize 0.25}; % R2 node
+
+\draw[thick](C1) -- (R1);
+\draw[thick](C1) -- (R2);
+\draw[thick](RM) -- (R1);
+\draw[thick](RM) -- (R2);
+\draw[ellEV=0.5] (C1) circle(0.12) node[below right] {\scriptsize\ 0.50};
+\draw[ellEV=0.21] (RM) circle(0.12) node[below right] {\scriptsize 0.21};
+
+\coordinate (RR1) at ($(R1)+(20:1.3)$);
+\coordinate (RR2) at ($(R1)+(-10:1.5)$);
+\coordinate (RR3) at ($(R1)+(-40:1.3)$);
+
+\draw[thick](R1) -- (RR1);
+\draw[thick](R1) -- (RR3);
+\draw[thick](RR1) -- (RR2);
+\draw[thick](RR2) -- (RR3);
+
+\draw[ellEV=0.16] (RR1) circle(0.12) node[above=5pt] {\scriptsize 0.16};
+\draw[ellEV=0.11] (RR2) circle(0.12) node[right=3pt] {\scriptsize 0.11};
+\draw[ellEV=0.16] (RR3) circle(0.12) node[right=3pt] {\scriptsize 0.16};
+
+
+\draw[ellEV=0.36] (R1) circle(0.12) node[above=5pt]{\scriptsize 0.36\ \ };
+\draw[ellEV=0.12] (R2) circle(0.12);
+\end{tikzpicture}

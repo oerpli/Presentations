@@ -1,0 +1,46 @@
+% !TeX root = ../../MScBeamer.tex
+%\pgfplotstableread{./data/BilanzsummeDebtrank.txt}\loadedtable
+\def\File{./data/\NWSize/BilanzsummeDebtrankBankCompanies.txt}
+\begin{tikzpicture}
+\begin{axis}[
+,	scale  only  axis
+,	axis y line*=left% the ’*’ avoids arrow heads
+,	height=90pt
+,	xmode=log
+,	width=0.35\paperwidth
+,	xlabel={Total assets (EUR)} 
+,	ylabel={DebtRank}
+,	ylabel style={yshift=-10pt}
+,	ticks=major
+%,	xmajorgrids
+%,	enlargelimits=false
+, 	major grid style={line width=0.1pt,draw=gray!30}
+,	xmin = 1E4
+,	xmax = 1E12
+%,	ymin= 0
+%,	ymax=0.75
+,	legend cell align=left
+,	legend pos=north west
+,	legend image post style={scale=2.5}
+]
+\addplot[bankColor
+	,	only marks
+	,	discard if not={Bank}{1}
+	,	mark size=1pt
+	]table[
+		x = TotalAssets
+	,	y = DebtRank
+	,	filter discard warning=false
+	]{\File};\addlegendentry{Banks}%\label{plt:scattercost}
+\draw [dashed, thick,rounded corners=3pt] (axis cs:\XMIN,\YMIN) rectangle (axis cs:\XMAX,\YMAX);
+\addplot[companyColor
+	,	only marks
+	,	discard if not={Bank}{0}
+	,	mark size=1pt
+	]table[
+		x = TotalAssets
+	,	y = DebtRank
+	,	filter discard warning=false
+	]{\File};\addlegendentry{Companies}%\label{plt:scattercost}
+\end{axis}
+\end{tikzpicture}

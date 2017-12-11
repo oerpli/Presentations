@@ -1,0 +1,25 @@
+% !TeX root = ../MSc.tex
+\begin{tikzpicture}[font={\fontsize{11pt}{12}\bfseries},scale=1.5, very thick]
+\begin{scope}[circle,inner sep = 5pt]
+  \coordinate (V) at (2,2);
+  \node[degCen2=4](A0) at (V) {4};
+  \node[degCen2=0](A1) at ($(A0) + (2*360/5:0.9)$) {0};
+  \node[degCen2=1](A2) at ($(A0) + (1*360/5:0.9)$) {1};
+  \node[degCen2=1](A3) at ($(A0) + (3*360/5:0.9)$) {1};
+  \node[degCen2=2](A4) at ($(A0) + (4*360/5:0.9)$) {2};
+  \node[degCen2=2](A5) at ($(A0) + (5*360/5:0.9)$) {2};
+  \draw[thick] (A5) --(A4); 
+  \foreach \coord in {2,...,5}{\draw[thick] (A0) --(A\coord); }
+\end{scope}
+\begin{scope}[circle split draw splits=false,inner sep=2pt,shape=circle split]
+  \coordinate (V) at (6,2); % similar picture, with offset
+  \node[circle split part fill={0,4,degCen2}](A0) at (V) {0\nodepart{lower}4};
+  \node[circle split part fill={0,0,degCen2}](A1) at ($(A0) + (2*360/5:1)$) {0\nodepart{lower}0};
+  \node[circle split part fill={1,0,degCen2}](A2) at ($(A0) + (1*360/5:1)$) {1\nodepart{lower}0};
+  \node[circle split part fill={1,0,degCen2}](A3) at ($(A0) + (3*360/5:1)$) {1\nodepart{lower}0};
+  \node[circle split part fill={2,0,degCen2}](A4) at ($(A0) + (4*360/5:1)$) {2\nodepart{lower}0};
+  \node[circle split part fill={1,1,degCen2}](A5) at ($(A0) + (5*360/5:1)$) {1\nodepart{lower}1};
+  \draw[thick, -{Latex[length=3mm, width=2mm]}] (A5) --(A4); 
+  \foreach \coord in {2,...,5}{\draw[thick, -{Latex[length=3mm, width=2mm]}] (A0) --(A\coord);}
+\end{scope}
+\end{tikzpicture}

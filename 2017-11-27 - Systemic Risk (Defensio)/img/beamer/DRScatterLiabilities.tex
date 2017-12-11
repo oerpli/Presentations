@@ -1,0 +1,45 @@
+% !TeX root = ../../MScBeamer.tex
+\def\File{./data/\NWSize/LiabilitiesDebtRank.txt}
+\begin{tikzpicture}
+\begin{axis}[
+,	scale  only  axis
+,	axis y line*=left% the ’*’ avoids arrow heads
+,	height=90pt
+,	xmode=log
+,	width=0.35\paperwidth
+,	xlabel={Liabilities (EUR)} 
+,	ylabel={DebtRank}
+,	ylabel style={yshift=-10pt}
+,	ticks=major
+%,	xmajorgrids
+%,	enlargelimits=false
+, 	major grid style={line width=0.1pt,draw=gray!30}
+,	xmin = 1E5
+,	xmax = 1E11
+%,	ymin= 0
+%,	ymax=0.75
+,	legend cell align=left
+,	legend pos=north west
+,	legend image post style={scale=2.5}
+]
+\addplot[bankColor
+	,	only marks
+	,	discard if not={Bank}{1}
+	,	mark size=1pt
+	]table[
+		x = Liabilities
+	,	y = DebtRank
+	,	filter discard warning=false
+	]{\File};\addlegendentry{Banks}%\label{plt:scattercost}
+\addplot[companyColor
+	,	only marks
+	,	discard if not={Bank}{0}
+	,	mark size=1pt
+	]table[
+		x = Liabilities
+	,	y = DebtRank
+	,	filter discard warning=false
+	]{\File};\addlegendentry{Companies}%\label{plt:scattercost}
+\draw [dashed, thick,rounded corners=3pt] (axis cs:\XMIN,\YMIN) rectangle (axis cs:\XMAX,\YMAX);
+\end{axis}
+\end{tikzpicture}
