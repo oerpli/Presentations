@@ -1,0 +1,584 @@
+\documentclass{beamer}
+\usetheme{Malmoe}
+\setbeamertemplate{navigation symbols}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \insertframenumber/\inserttotalframenumber
+}
+\usecolortheme{beaver}
+%\usepackage{natbib}   
+%\bibliographystyle{plainnat}
+\bibliographystyle{apalike}   % Or any other style you like
+%\bibliographystyle{natbib} % kürzt automatisch vornamen ab und so zeug 
+
+%\beamertemplatenavigationsymbolsempty
+%\usepackage{float}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+\usepackage{amsmath}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{graphicx}
+%\usepackage{wrapfig}
+\usepackage{textcomp}
+\usepackage{braket}
+\usepackage{bbm}
+\usepackage{framed}
+\usepackage{ifthen}
+\usepackage{bbold}
+\usepackage{colortbl}
+\usepackage{xifthen}
+\usepackage{color}
+\usepackage{ifthen}
+%\usepackage{setspace}
+\usepackage[T1]{fontenc}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{amsbsy}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{scalefnt}
+\usetikzlibrary{shapes,shapes.multipart}
+\usepackage{caption}
+\addto\captionsngerman{
+\renewcommand{\figurename}{Figure}%
+\renewcommand{\tablename}{Tab.}%
+}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+\setlength{\parindent}{0em} 
+
+%\sloppy \frenchspacing \raggedbottom 
+
+
+\usetikzlibrary{shapes,decorations,calc,arrows}
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=external]
+\usepackage{verbatim}
+
+\usepackage{environ}
+
+\NewEnviron{csproblem}[1]{%
+\begin{center}\fbox{\parbox{\textwidth}{%
+    {\centering\rmfamily\scshape #1\par}%
+    \parskip=2ex
+    \everypar{\hangindent=2em}%
+    \BODY
+}}\end{center}}
+
+
+
+% Prov makro
+\DeclareMathOperator*{\Prov}{Prov}
+\DeclareMathOperator*{\Var}{Var}
+
+\DeclareMathOperator*{\Proov}{Proof}
+
+\newcommand{\NP}{\ensuremath{\mathcal{NP}}}
+\begin{document}
+\part{ABS}
+\title{Polynomial Kernel for Block Graph Deletion}
+\author{Abraham Hinteregger}
+\institute{Vienna University of Technology}
+\date{25.1.2018}
+\titlepage
+\setcounter{tocdepth}{3}
+\AtBeginSection[]{
+\begin{frame}
+\frametitle{Chapter} 
+\tableofcontents[currentsection,currentsubsection,hideothersubsections]
+\end{frame}
+}
+
+
+
+\section{Problem Statement}
+\subsection{Block Graphs}
+\begin{frame}{Block Graphs}
+    \begin{columns}[T]
+        \begin{column}{.7\textwidth}
+   {
+         \begin{itemize}[<+->]
+    \item Block graphs consist of cliques
+    \item Multiple cliques can share a vertice (\alert<2>{articulation points})
+    \item No \alert<4>{diamond graphs \tikz[baseline=-0.5ex,scale=0.15]{
+        \foreach \i in {(-1,-1),(-1,1),(1,-1),(1,1)}{
+            \fill \i circle(0.3);
+            \draw[semithick] (-1,-1)--(-1,1)--(1,1)--(1,-1)--(-1,-1)--(1,1);
+    }}} and \alert<6>{cycles of length \(\geq 4\)} as induced subgraphs (necessary \& sufficient condition)
+        \end{itemize}
+    }
+        \end{column}
+        \begin{column}{.3\textwidth} 
+        {
+        \begin{tikzpicture}[scale=1]
+        \newcommand{\A}{(0,0),(0,1),(1,0),(1,1)}%
+        \newcommand{\B}{(1,1),(0.5,1.8),(1.5,1.8)}%
+        \newcommand{\C}{(3,3)}
+        
+        \foreach[count=\i] \start in \A {
+            \foreach[count=\j] \end in \A {
+                \ifthenelse{\i < \j}{
+                    \draw[thick]\start --\end;
+                }{}
+            }
+        }
+
+        \foreach[count=\i] \start in \B {
+            \foreach[count=\j] \end in \B {
+                \ifthenelse{\i < \j}{
+                    \draw[thick]\start --\end;
+                }{}
+            }
+        }
+
+        \foreach \i in {1,...,5}{\coordinate (K\i) at ($(2.5,0.5)+(\i*360/5:0.7)$);}
+        \foreach \i in {1,...,5}{
+            \foreach \j in {1,...,5}{
+                \ifthenelse{\i < \j}{
+                    \draw[thick](K\i) --(K\j);
+                }{}
+            }
+        }
+
+        \foreach \i in {1,...,6}{\coordinate (KK\i) at ($(1.85,2.41)+(\i*360/6:0.7)$);}
+        \foreach \i in {1,...,6}{
+            \foreach \j in {1,...,6}{
+                \ifthenelse{\i < \j}{
+                    \draw[thick](KK\i) --(KK\j);
+                }{}
+            }
+        }
+        \draw[thick](K1)--(KK6);
+
+        \newcommand{\AP}{(K1),(KK6),(1,1),(1.5,1.8)}
+        
+        \foreach \ap in \AP{
+            \draw<2>[darkred,ultra thick] \ap circle(0.12);
+        }
+        
+        \draw<3>[darkred,ultra thick] (0.5,1.8)--(KK3);
+        \draw<4>[darkred,ultra thick] (0.5,1.8)--(1.5,1.8)--(1,1)--(0.5,1.8)--(KK3)--(KK4);
+        \draw<5>[darkred,ultra thick] (KK5)--(K2);
+        \draw<6>[darkred,ultra thick] (KK5)--(KK6)--(K1)--(K2)--cycle;
+        
+        \foreach \i in {1,...,6}{\fill (KK\i) circle(0.1);}
+        \foreach \i in {1,...,5}{\fill (K\i) circle(0.1);}
+        \foreach \i in \A{\fill \i circle(0.1);}
+        \foreach \i in \B{\fill \i circle(0.1);}
+
+
+
+        \end{tikzpicture}
+        }
+        \end{column}
+      \end{columns}
+\end{frame}
+
+\subsection{Block Tree}
+\begin{frame}{Block Tree}
+    A block tree \(\mathcal T_G\) of a graph \(G\) is a graph with the vertex set \(\mathcal B \cup \mathcal C\). \(\mathcal B = \) set of blocks of \(G\) and \(\mathcal C = \) set of articulation points of \(G\). Vertices  \(\mathcal T_G\) are connected with edge \(\{c,B\} \in E(\mathcal T_G)\) iff the vertex \(c\) is in the block \(B\) in \(G\).
+
+    \begin{minipage}{.45\textwidth}
+        \begin{center}
+        \begin{tikzpicture}[scale=1]
+        \newcommand{\A}{(0,0),(0,1),(1,0),(1,1)}%
+        \newcommand{\B}{(1,1),(0.5,1.8),(1.5,1.8)}%
+        \newcommand{\C}{(3,3)}
+        
+        \foreach[count=\i] \start in \A {
+            \foreach[count=\j] \end in \A {
+                \ifthenelse{\i < \j}{
+                    \draw[thick]\start --\end;
+                }{}
+            }
+        }
+
+        \foreach[count=\i] \start in \B {
+            \foreach[count=\j] \end in \B {
+                \ifthenelse{\i < \j}{
+                    \draw[thick]\start --\end;
+                }{}
+            }
+        }
+
+        \foreach \i in {1,...,5}{\coordinate (K\i) at ($(2.5,0.5)+(\i*360/5:0.7)$);}
+        \foreach \i in {1,...,5}{
+            \foreach \j in {1,...,5}{
+                \ifthenelse{\i < \j}{
+                    \draw[thick](K\i) --(K\j);
+                }{}
+            }
+        }
+
+        \foreach \i in {1,...,6}{\coordinate (KK\i) at ($(1.85,2.41)+(\i*360/6:0.7)$);}
+        \foreach \i in {1,...,6}{
+            \foreach \j in {1,...,6}{
+                \ifthenelse{\i < \j}{
+                    \draw[thick](KK\i) --(KK\j);
+                }{}
+            }
+        }
+        \draw[thick](K1)--(KK6);
+
+        \newcommand{\AP}{(K1),(KK6),(1,1),(1.5,1.8)}
+
+        \foreach \i in {1,...,6}{\fill (KK\i) circle(0.1);}
+        \foreach \i in {1,...,5}{\fill (K\i) circle(0.1);}
+        \foreach \i in \A{\fill \i circle(0.1);}
+        \foreach \i in \B{\fill \i circle(0.1);}
+        \foreach \i in \AP{\fill[darkred] \i circle(0.102);}
+
+        \end{tikzpicture}
+    \end{center}
+    \end{minipage}
+    \begin{minipage}{.45\textwidth}
+        \begin{center}
+        \begin{tikzpicture}[scale=1]
+            \coordinate (B1) at (0.5,0.5);
+            \coordinate (B2) at (1,1.53);
+            \coordinate (B3) at (1.85,2.41);
+            \coordinate (B4) at (2.5,0.5);
+            \foreach \i in {1,...,5}{\coordinate (K\i) at ($(B4)+(\i*360/5:0.7)$);}
+            \foreach \i in {1,...,6}{\coordinate (KK\i) at ($(B3)+(\i*360/6:0.7)$);}
+            \coordinate (B5) at ($(K1)!0.5!(KK6)$);
+
+            \newcommand{\Blocks}{(B5),(B2),(B1),(B4),(B3)}
+            
+            
+            
+            \newcommand{\AP}{(K1),(KK6),(1,1),(1.5,1.8)}
+            
+            \draw[thick](B1)--(1,1)--(B2)--(KK4)--(B3)--(KK6)--(B5)--(K1)--(B4);
+            \foreach \i in \Blocks{\fill \i circle(0.2);}
+            \foreach[count=\j from 2] \i in \Blocks{\node<2>[scale=0.7,white] (XX) at \i {\(K_\j\)};}
+            \foreach \i in \AP{\fill[darkred] \i circle(0.1);}
+
+    
+            \end{tikzpicture}
+        \end{center}\end{minipage}
+\end{frame}
+
+\begin{frame}{Block Graph Deletion}
+\begin{csproblem}{Block Graph Deletion}
+    \textbf{Input}: A simple undirected graph \(G\), an integer \(k\)
+
+    \textbf{Parameter}: \(k\)
+
+    \textbf{Question}: Is there a subset \(S\) of \(V\) with \(|S|\leq k\) such that \(G - S\) is a block graph?
+\end{csproblem}
+
+\end{frame}
+
+\begin{frame}{Paper overview}
+    The main results of \cite{kim_polynomial_2017} are:
+    \begin{itemize}
+        \item<alert@2-> {\rmfamily\scshape Block Graph Deletion} admits a kernel with size \(\mathcal{O}(k^6)\)
+        \item {\rmfamily\scshape Block Graph Deletion} can be solved in time \(10^k \cdot n^{\mathcal{O}(1)}\)
+    \end{itemize}
+
+    \uncover<3->{
+        Some details and most proofs will be omitted. For details look at the published paper (not the conference paper or the arxiv-preprint)
+    }
+\end{frame}
+
+\section{Kernelization}
+\subsection{Reduction Rules 1-6}
+\begin{frame}{Reduction Rules 1-3}
+    Testing if a graph is a block graph can be decided in quadratic time~\cite{hopcroft_algorithm_1973}
+    \vspace{-5pt}
+    \begin{itemize}[<+->]
+        \item \textbf{RR1 (Block component rule):} If \(G\) has a component \(H\) that is a block graph then we remove \(H\) from \(G\).\uncover<4->{\alert<4-6>{\(\implies\)graph only has obstructed components}}
+        \item \textbf{RR2 (Cut vertex rule):} \(\exists v\in V(G)\) s.t. \(G - v\) contains a component \(H\) where \(G[V(H) \cup \{v\}]\) is a connected block graph, we remove \(H\) from \(G\).\uncover<5->{\alert<5-6>{\(\implies\)no ``unobstructed'' blocks}}
+        \item \textbf{RR3 (Twin rule):} If \(S\) is a set of vertices that are pairwise true twins\footnote{Two vertices are true twins if they share all their neighbors (except each other) and are connected} in \(G\) and \(|S| \geq k+2\) remove vertices until \(|S| = k+1\).\uncover<6->{\alert<6>{\(\implies\)size of blocks is bounded by \(k+x\) where x is the number of articulation points contained in the block }}
+    \end{itemize}
+    
+    %\paragraph{RR2: Cut vertex rule}
+\end{frame}
+\begin{frame}{Reduction Rule 4}
+    \begin{minipage}{.7\textwidth}
+        \begin{itemize}[<+-|alert@+>]
+            \item \textbf{RR4 (Reduce block-cut vertex paths):}\\Let \(t_1t_2t_3t_4\) be an induced path \uncover<2->{and for \(1\leq i \leq 3\), let \(S_i\subseteq V(G)\{t_1\ldots t_4\}\) be a clique of \(G\) s.t.:}
+            \begin{itemize}
+                \item For each \(1 \leq i \leq 3\) and \(v\in S_i\):\\ \qquad \(N_G(v)\setminus S_i = \{t_i,t_{i+1}\}\)
+                \item For each \(2 \leq i \leq 3\):\\ \qquad \(N_G(t_i) = \{t_{i-1},t_{i+1}\}\cup S_{i-1}\cup S_i\)
+                \vspace{10pt}
+                \item Then: Remove \(S_2\) \alert<5>{\uncover<5->{\& contract edge between \(t_2\) and \(t_3\)}}
+            \end{itemize}
+        \end{itemize}
+    \end{minipage}
+    \begin{minipage}{.25\textwidth}
+        \begin{center}
+        \begin{tikzpicture}[scale=1]
+            \coordinate (B1) at (0,1);
+            \coordinate (B2) at (1,2.25);
+            \coordinate (B3) at (2,1);
+
+            \coordinate (T1) at (0,0);
+            \coordinate (T2) at (0,2.25);
+            \coordinate (T3) at (2,2.25);
+            \coordinate (T4) at (2,0);
+
+            \coordinate (G) at (1,-1);
+            
+            \newcommand{\Blocks}{(B1),(B2),(B3)}
+            \newcommand{\AP}{(T1),(T2),(T3),(T4)}
+          \uncover<3->{
+            \begin{scope}
+                \foreach \s in {(T1),(T4)}{
+                    \foreach \i in {-1,...,1}{
+                        \draw[thick, gray]\s--($(G)+0.75*(\i,0)$);
+                    }
+                }
+                \fill[gray](1,-1) ellipse(1 and 0.5);
+                \node[white] (XX) at (G){Rest of \(G\)};
+            \end{scope}
+            }
+
+            \draw<-4>[very thick](T1)--(B1)--(T2)--(B2)--(T3)--(B3)--(T4);
+            \draw<5->[very thick](T1)--(B1)--(B3)--(T4);
+
+            \fill[darkred] (T1) circle(0.25);
+            \fill<-4>[darkred] (T2) circle(0.25);
+            \fill<-4>[darkred] (T3) circle(0.25);
+            \fill<5->[darkred] ($(B1)!0.5!(B3)$) circle(0.25);
+            \node<5->[white] (XX) at ($(B1)!0.5!(B3)$) {\(t_{23}\)};
+
+            \fill[darkred] (T4) circle(0.25);
+
+            \node[white] (XX) at (T1) {\(t_1\)};
+            \node<-4>[white] (XX) at (T2) {\(t_2\)};
+            \node<-4>[white] (XX) at (T3) {\(t_3\)};
+            \node[white] (XX) at (T4) {\(t_4\)};
+
+            \uncover<2-3>{\fill (B2) circle(0.35);}
+            \uncover<2->{
+                \fill (B1) circle(0.35);
+                \fill (B3) circle(0.35);
+                \node[white] (XX) at (B1) {\(S_1\)};
+                \node<-3>[white] (XX) at (B2) {\(S_2\)};
+                \node[white] (XX) at (B3) {\(S_3\)};
+            }
+            \end{tikzpicture}
+        \end{center}\end{minipage}
+\end{frame}
+
+\begin{frame}{Proof: Soundness of RR4}
+    \begin{itemize}[<+->]
+        \item Assume there is an obstruction in \(S_2 \cup \{t_2,t_3\}\) (the vertices affected by RR4)
+        \item A vertex in \(S_2\) cannot be part of an obstruction (a cycle of length \(\geq 4\) or a diamond graph \tikz[baseline=-0.5ex,scale=0.15]{
+            \foreach \i in {(-1,-1),(-1,1),(1,-1),(1,1)}{
+                \fill \i circle(0.3);
+                \draw[semithick] (-1,-1)--(-1,1)--(1,1)--(1,-1)--(-1,-1)--(1,1);
+        }}
+        \item Vertices in obstructions are 2-connected, thus the obstruction is a superset of \(\{t_2,t_3\}\) that contains no vertex of \(S_2\).
+        \item As \(t_1\ldots t_4\) is an induced path, the obstruction cannot be a diamond graph or a cycle of length 4 $\implies$ the obstruction has to be a cycle of length \(\geq 5\)
+        \item Contracting an edge in a cycle of length \(\geq 5\) results in a cycle of length \(\geq 4\). Therefore, RR4 does not remove an obstruction.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Reduction Rule 5}
+\textbf{Proposition:} Given a graph $G$ and $v\in V(G)$ and $k$ a positive integer. In $\mathcal O(kn^3)$ time we can find either:
+\vspace{-5pt}
+\begin{enumerate}
+\item $k+1$ pairwise vertex disjoint obstructions\uncover<2->{\alert{$\implies$No-instance}}
+\item $k+1$ obstructions containing vertex $v$\uncover<2->{\alert{$\implies$Remove $v$, $k\!=\!k\!-\!1$}}
+\item $S_v\subseteq V(G)\setminus\{v\}$ with $|S_v| \leq 7k$ s.t. $G- S_v$ has no obstruction containing $v$.
+\end{enumerate}
+The complete degree of $v$ is defined as the minimum number of compoments of $G[N_G(v)\setminus S_v]$ among all $S_v$ considered above.
+\begin{itemize}
+    \item<2-> \textbf{RR5 ($(k+1)$-distinct obstructions rule):}\\
+    Apply the proposition above. 
+    \begin{itemize}
+        \item<3-> If it's reduced with RR1-RR5 and has more than $\mathcal O(k^6)$ vertices, $G$ has a vertex $v$ s.t. RR6 can be applied
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Reduction Rule 6}
+    \begin{itemize}[<+->]
+        \item \textbf{RR6 (Large complete degree rule):}\\
+        \(v\in V(G)\) and \(X\subseteq V(G)\setminus \{v\}\) with \(|X|\leq 7k|\).\\
+        Let \(\mathcal C\) be a set of connected components of \(G - X \cup \{c\}\).\\
+        Let \(\varphi : X \to C_3\) where \(C_3\) is the set of subsets of \(\mathcal C\) with cardinality 3, s.t.:
+        \begin{itemize}
+            \item \(v\) together with any component in \(\mathcal C\) induces a subgraph of \(G\) that is a blockgraph.
+            \item \(v\) has a neighbor in \(\forall C\in \mathcal C\) and there is a \(x\in X\) that has a neighbor in \(C\).
+            \item \(\varphi(x)\) maps \(x\) to components that are neighbors of \(x\). 
+            \item \(\varphi(x) \cap \varphi(y) \neq \emptyset\) iff \(x\neq y\)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Illustration of RR6}
+    \begin{figure}
+    \begin{tikzpicture}[scale=0.95]
+        \coordinate (v) at (0,3.);
+        \coordinate (x) at (0,0.5);
+        \coordinate (C) at (-0.25,2);
+        \node[fill,draw,thick,anchor=center,shape=rectangle,minimum width=0.02cm,minimum height=0.02cm,scale=0.5] (v) at (v){};
+        \node[anchor=south] at (v.north) {\(v\)};
+
+        \foreach[count=\i from -3] \c in {1,...,7}{
+            \coordinate (C\c) at ($(C)+1*0.7*(\i,0)$);
+            \coordinate (CT\c) at ($(C\c)+(0,0.4)$);
+            \coordinate (CB\c) at ($(C\c)+(0,-0.4)$);
+            }
+
+        \foreach[count=\i from -2] \x in {1,...,5}{
+            \coordinate (X\x) at ($(x)+0.8*(\i,0)$);
+        }
+        \node[fill=black!30,thick,shape=rectangle,minimum width=4.25cm,minimum height=1.4cm,anchor=center,rounded corners=1mm,yshift=-0.3cm,xshift=-0.15cm] (X) at (x) {};
+        \node[anchor=south west]at (X.south){Rest of \(G\)};
+
+        \node[draw=black,fill=darkred!50!white,thick,shape=rectangle,minimum width=2cm,minimum height=1cm,anchor=center,rounded corners=1mm,yshift=-0.3cm] (R1) at ($(X1)!0.5!(X2)$) {};
+        \node[anchor=south]at (R1.south){\(X, |X|\leq 7k\)};
+        
+        \foreach \x in {1,...,5}{
+            \node[fill,draw,thick,anchor=center,shape=rectangle,minimum width=0.02cm,minimum height=0.02cm,scale=0.4] (X\x) at (X\x){};
+        }
+
+        \foreach \c in {1,...,6}{        
+            \draw[black,fill=darkred!50!white,thick] (C\c) ellipse(0.25 and 0.5);
+        }
+        \draw[black,fill=black!30,thick] (C7) ellipse(0.25 and 0.5);
+        
+
+        \foreach \c in {1,...,7}{
+            \node at (C\c) {\(C_\c\)};
+            \draw[very thick] (CT\c)--(v);
+            \fill (CT\c) circle(0.07);
+            \fill (CB\c) circle(0.07);
+        }
+
+        
+        \foreach \c in {1,2,5}{
+            \draw[very thick] (X1)--(CB\c);
+        }
+        \foreach \c in {3,4}{
+            \draw[dashed, very thick] (X1)--(CB\c);
+        }
+        \foreach \c in {3,4,6}{
+            \draw[very thick] (X2)--(CB\c);
+        }
+        \foreach \x in {3,4,5}{
+            \draw[dashed,very thick] (X\x)--(CB7);
+        }
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=0.95]
+        \coordinate (v) at (0.25,3);
+        \coordinate (x) at (0,0.5);
+        \coordinate (C) at (-0.25,2);
+
+
+
+        \foreach[count=\i from -3] \c in {1,...,7}{
+            \coordinate (C\c) at ($(C)+1*0.6*(\i,0)$);
+        }
+        \coordinate (C8) at ($(C)+1*0.6*(-4,0)$);% For new vertices
+        \coordinate (C1) at ($(C)+1*0.6*(-3,0)$);
+        \coordinate (C2) at ($(C)+1*0.6*(-2,0)$);
+        \coordinate (C5) at ($(C)+1*0.6*(-1,0)$);
+        \coordinate (C9) at ($(C)+1*0.6*(0,0)$);% For new vertices
+        \coordinate (C3) at ($(C)+1*0.6*(1,0)$);
+        \coordinate (C4) at ($(C)+1*0.6*(2,0)$);
+        \coordinate (C6) at ($(C)+1*0.6*(3,0)$);
+        \coordinate (C7) at ($(C)+1*0.6*(4,0)$);
+
+        \foreach \c in {1,...,9}{
+            \coordinate (CT\c) at ($(C\c)+(0,0.4)$);
+            \coordinate (CB\c) at ($(C\c)+(0,-0.4)$);
+        }
+
+        \foreach[count=\i from -2] \x in {1,...,5}{
+            \coordinate (X\x) at ($(x)+1*(\i,0)$);
+        }
+        \node[fill=black!30,thick,shape=rectangle,minimum width=5cm,minimum height=1.4cm,anchor=center,rounded corners=1mm,yshift=-0.3cm,xshift=-0.15cm] (X) at (x) {};
+        \node[anchor=south west]at (X.south){Rest of \(G\)};
+
+        \node[draw=black,fill=darkred!50!white,thick,shape=rectangle,minimum width=2cm,minimum height=1cm,anchor=center,rounded corners=1mm,yshift=-0.3cm] (R1) at ($(X1)!0.5!(X2)$) {};
+        \node[anchor=south]at (R1.south){\(X, |X|\leq 7k\)};
+        
+
+        \draw[darkred,very thick] (X1)--(CB8);
+        \draw[darkred,very thick] (X1)--(CT8);
+        \draw[darkred,very thick] (X2)--(CB9);
+        \draw[darkred,very thick] (X2)--(CT9);
+        \draw[darkred,very thick] (v)--(CB8);
+        \draw[darkred,very thick] (v)--(CT8);
+        \draw[darkred,very thick] (v)--(CB9);
+        \draw[darkred,very thick] (v)--(CT9);
+
+        \node[fill,draw,thick,anchor=center,shape=rectangle,minimum width=0.02cm,minimum height=0.02cm,scale=0.5] (v) at (v){};
+        \node[anchor=south] at (v.north) {\(v\)};
+
+        \foreach[count=\i from -2] \x in {1,...,5}{
+            \node[fill,draw,thick,anchor=center,shape=rectangle,minimum width=0.02cm,minimum height=0.02cm,scale=0.4] (X\x) at (X\x){};
+        }
+
+        \foreach \c in {1,...,6}{        
+            \draw[black,fill=darkred!50!white,thick] (C\c) ellipse(0.25 and 0.5);
+        }
+        \draw[black,fill=black!30,thick] (C7) ellipse(0.25 and 0.5);
+        
+        \foreach \c in {8,9}{
+            \node[fill=darkred,draw,thick,anchor=center,shape=rectangle,minimum width=0.02cm,minimum height=0.02cm,scale=0.5] at (CT\c){};            \node[fill=darkred,draw,thick,anchor=center,shape=rectangle,minimum width=0.02cm,minimum height=0.02cm,scale=0.5] at (CB\c){};
+        }
+        \foreach \c in {1,...,7}{
+            \fill (CT\c) circle(0.07);
+            \fill (CB\c) circle(0.07);
+            \node at (C\c) {\(C_\c\)};
+            }
+        \draw[very thick] (CT7)--(v);
+
+        
+        \foreach \c in {1,2,5}{
+            \draw[very thick] (X1)--(CB\c);
+        }
+        \foreach \c in {3,4}{
+            \draw[dashed, very thick] (X1)--(CB\c);
+        }
+        \foreach \c in {3,4,6}{
+            \draw[very thick] (X2)--(CB\c);
+        }
+        \foreach \x in {3,4,5}{
+            \draw[dashed,very thick] (X\x)--(CB7);
+        }
+
+
+
+    \end{tikzpicture}
+    \caption{Application of RR6: $\bigcup_{x\in X} \varphi(x)$ gets disconnected from $v$ and for each $x\in X$ two vertex disjoint paths (\tikz[baseline=-0.5ex,scale=0.14]{
+        \draw[very thick,darkred](-1,-1)--(1,1);
+        \node[fill=darkred,draw,thick,anchor=center,shape=rectangle,minimum width=0.02cm,minimum height=0.02cm,scale=0.4] at (0,0){};
+        \fill (-1,-1) circle(0.35);
+        \fill (1,1) circle(0.35);
+        }) from $x$ to $v$ are added}
+\end{figure}
+\vspace{-15pt}
+\uncover<2->{For $\geq 3|X|$ removed edges $2|X|$ edges are introduced that are connected to a vertex with degree $2$}
+
+\uncover<3->{RR6 reduces edges that connect two vertices with degree $\geq 3$ by at least 1.}
+\end{frame}
+
+\subsection{Algorithm for obtaining the kernel}
+\begin{frame}{Outline of algorithm for polykernel}
+    \begin{itemize}
+        \item<+-> Apply rules 1-5 exhaustively. Then one of the following is true:
+        \begin{enumerate}
+            \item<alert@7> The given instance is a No-instance
+            \item<alert@7> The reduced graph is a polykernel of size $\mathcal O(k^6)$
+            \item<alert@6> There exists a vertex $v$ s.t. RR6 can be applied
+        \end{enumerate}
+        \item<+-> Count the number of components (from RR6) with obstructions \uncover<+->{($\#>k\implies$ No-instance)}
+        \item<+-> Application of RR6 yields components that are connected to the rest of the graph via a cut vertex $x\in X$. 
+        \item<+-> These components can be removed from $G$ with RR2 (Cut vertex rule), then start again from top.
+        \item<+-> Each application of RR6 reduces the number of edges which connect two vertices with a vertex degree $\geq 3$ by at least 1.
+        \item<+-> Therefore at some point either (1) or (3) is true
+    \end{itemize}
+    
+\end{frame}
+\nocite{thomasse_4k$^2$_2010}
+\begin{frame}{References}
+\bibliography{fpt}
+\end{frame}
+\end{document}
