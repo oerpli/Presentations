@@ -1,0 +1,117 @@
+% !TeX root = ../report.tex
+
+\DeclareRobustCommand{\circN}[1]{\tikz[anchor=base,baseline=-.125cm]{\node(n){};\fill (n) circle(0.15);}}
+\DeclareRobustCommand{\circI}[1]{\tikz[anchor=base,baseline=-.125cm]{\node(n){};\fill (n) circle(0.15);\draw[ultra thick, MidnightBlue](n)circle(0.25);}}
+\DeclareRobustCommand{\circX}[1]{\tikz[anchor=base,baseline=-.125cm]{\node(n){};\fill[gray] (n) circle(0.1);}}
+
+\begin{figure}[t]
+\centering
+\newcommand{\vv}{v_0}
+    \begin{tikzpicture}[scale=0.8]
+    \
+    \coordinate (V) at (2,2);
+    \coordinate (V2) at (3.6,2.2);
+   \newcommand{\None}{(2,0.6),(0,2.1),(V2)}
+   \newcommand{\Ntwo}{(5,1.5),(4,3.8)}
+
+   {  
+   	\fill (V) circle(0.1);
+	\foreach \coord in \None{\fill \coord circle(0.1);}
+	\foreach \coord in \Ntwo{\fill \coord circle(0.1);}
+	\foreach \coord in \None{\draw (V) --\coord;}
+	\foreach \coord in \Ntwo{\draw (V2) --\coord;}
+	
+}        
+   {
+	 \draw (V) circle(1);
+   	 \foreach \coord in \None{\draw \coord circle(1);}
+	\foreach \coord in \Ntwo{\draw \coord circle(1);}
+}        
+{\draw[] ($(V)+(-0.05,0.1)$)--+(-0.6,1)node[above]{$\vv$};}       
+\coordinate(CAP) at (3,1);
+\node [below=1.25cm, align=flush center,text width=5cm] at (CAP){UD arrangement \& UDG};
+\draw[white] (-1.4,5) rectangle(7.2,-2.5);\end{tikzpicture}
+%%%%%
+\begin{tikzpicture}[scale=0.8]
+    \coordinate (V) at (2,2);
+    \coordinate (V2) at (3.6,2.2);
+   \newcommand{\None}{(2,0.6),(0,2.1),(V2)}
+   \newcommand{\Ntwo}{(5,1.5),(4,3.8)}
+
+      
+   {
+
+	\foreach \coord in \None{\fill[gray!50] \coord circle(0.1);}
+	\foreach \coord in \Ntwo{\fill[gray!50] \coord circle(0.1);}
+	\foreach \coord in \None{\draw[gray!50] (V) --\coord;}
+	\foreach \coord in \Ntwo{\draw[gray!50] (V2) --\coord;}
+   	 \foreach \coord in \None{\draw[gray!50] \coord circle(1);}
+	\foreach \coord in \Ntwo{\draw[gray!50] \coord circle(1);}
+     	\fill[] (V) circle(0.15);
+     	\draw[thick] (V) circle(1);	
+}   
+
+   {  
+
+
+\draw[ultra thick,MidnightBlue] (V) circle(0.25);
+}  
+
+\coordinate(CAP) at (3,1);
+ \node [below=1.25cm, align=flush center,text width=5cm] at (CAP){$N_0$ and $I_0$};
+\draw[white] (-1.4,5) rectangle(7.2,-2.5);\end{tikzpicture}
+\\
+%%%
+%%%%%
+    \begin{tikzpicture}[scale=0.8]
+    \
+\coordinate (V) at (2,2);
+\coordinate (V2) at (3.6,2.2);
+\newcommand{\None}{(2,0.6),(0,2.1),(V2)}
+\newcommand{\Ntwo}{(5,1.5),(4,3.8)}
+%\draw[thick] (V) circle(1);
+\draw[thick,gray!50] (V) circle(1);       
+\foreach \coord in \Ntwo{\draw[gray] \coord circle(1);}
+\foreach \coord in \None{\draw[thick] \coord circle(1);}
+\foreach \coord in \Ntwo{\draw[gray] (V2) --\coord;}
+\foreach \coord in \None{\draw (V) --\coord;}
+\fill (V) circle(0.15);
+    
+\foreach \coord in \Ntwo{\draw[thick] (V2) --\coord;}
+\foreach \coord in \None{\draw[thick] (V) --\coord;}
+\foreach \coord in \None{\draw[ultra thick,MidnightBlue] \coord circle(0.25);}
+\foreach \coord in \None{\fill[] \coord circle(0.15);}
+\foreach \coord in \Ntwo{\fill[gray!50] \coord circle(0.1);}
+
+\coordinate(CAP) at (3,1);
+\node [below=1.25cm, align=flush center,text width=5cm] at (CAP){$N_1$ and $I_1$}; 
+\draw[white] (-1.4,5) rectangle(7.2,-2.5);\end{tikzpicture}
+\begin{tikzpicture}[scale=0.8] % i guess this is the bist picture of them all. use this for copypasting later
+\coordinate (V) at (2,2);
+\coordinate (V2) at (3.6,2.2);
+\newcommand{\None}{(2,0.6),(0,2.1),(V2)}
+\newcommand{\Nonee}{(2,0.6),(0,2.1)}
+\newcommand{\Ntwo}{(5,1.5),(4,3.8)}
+
+%\draw[thick] (V) circle(1);
+%\draw[thick] (V2) circle(1);
+\foreach \coord in \Ntwo{\fill \coord circle(0.15);}
+\foreach \coord in \None{\fill \coord circle(0.15);}
+\draw[thick,gray!50] (V) circle(1);
+\draw[thick,gray!50] (V2) circle(1);
+\foreach \coord in \Nonee{\draw[thick] \coord circle(1);}
+\foreach \coord in \Ntwo{\draw[thick] \coord circle(1);}
+\foreach \coord in \Ntwo{\draw[thick] (V2) --\coord;}
+\foreach \coord in \None{\draw[thick] (V) --\coord;}
+\foreach \coord in \Nonee{\draw[ultra thick,MidnightBlue] \coord circle(0.25);}
+\foreach \coord in \Ntwo{\draw[ultra thick,MidnightBlue] \coord circle(0.25);}
+\fill (V) circle(0.15);
+\fill (V2) circle(0.15);
+%\fill[gray] (V) circle(0.15);
+%\fill[gray] (V2) circle(0.15);
+\coordinate(CAP) at (3,1);
+\node[below=1.25cm, align=flush center,text width=5cm] at (CAP){$N_2$ and $I_2$};
+\draw[white] (-1.4,5) rectangle(7.2,-2.5);
+\end{tikzpicture}
+\caption{Unit disk graph (with disk representation) and the sets calculated by the algorithm. Nodes in a neighborhood set $N_r$ are marked with \circN\ \ and nodes in independent sets $I_r$ are marked with \circI \ . Not yet considered nodes are marked with \circX\ \ .  The algorithm starts at $\vv$ and takes neighborhoods $N_r$ of increasing size $r$ until the size of the independent set $I_r\subset N_r$ is below a certain threshold.}\label{fig:udgalg}
+\end{figure}

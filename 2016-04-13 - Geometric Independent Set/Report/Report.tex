@@ -1,0 +1,100 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[11pt,a4paper]{article}
+%\usepackage[sc]{mathpazo}
+\usepackage{termpaper}
+%\usepackage{natbib}   
+%\bibliographystyle{plainnat}
+%\bibliographystyle{apalike}   % Or any other style you like
+%\bibliographystyle{natbib} % kürzt automatisch vornamen ab und so zeug 
+
+\usepackage[english]{babel}
+\usepackage[hidelinks]{hyperref}
+%\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsbsy,amsmath,amssymb,amsthm}
+\usepackage{bbm}
+\usepackage{bbold}
+%\usepackage{bm}
+\usepackage{braket}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage{listings}
+%\usepackage{natbib}
+\usepackage{scalefnt}
+\usepackage{setspace}
+\usepackage{textcomp}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{verbatim}
+
+\usepackage{xifthen}
+\usepackage{subcaption}
+\usepackage[plain]{fancyref} % add page number to references (without plain)
+\usepackage[kerning=true,tracking=true]{microtype} % better readability
+\usepackage{todonotes}%\todo 
+\usepackage{mathtools} % no idea 
+\usepackage{nicefrac}%nicefrac allows typesetting fractions like 1/2. It is sometimes more readable than \frac.
+\usepackage{paralist}%better itemize/enumerate
+%\usepackage{savetrees} 
+\usepackage{float} % use H to force float position
+
+
+
+\usetikzlibrary{shapes,shapes.multipart,calc}
+
+%\addto\captionsngerman{
+%\renewcommand{\figurename}{Figure}%
+%\renewcommand{\tablename}{Tab.}%
+%}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+\setlength{\parindent}{0em} 
+
+%\sloppy \frenchspacing \raggedbottom 
+
+
+%\usetikzlibrary{shapes,decorations,calc,arrows}
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=external]
+
+
+
+% Prov makro
+\DeclareMathOperator*{\Prov}{Prov}
+\DeclareMathOperator*{\Var}{Var}
+
+
+    \newcommand{\figref}[1]{\figurename~\ref{#1}}
+
+\DeclareMathOperator*{\Proov}{Proof}
+\newcommand{\NP}{\ensuremath{\mathcal{NP}}}
+\newcommand{\TODO}[1][TODO]{\textcolor{red}{TODO}\todo{{#1}}}
+\newcommand{\bigo}[1]{\ensuremath{\mathcal{O}(#1) }}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+%\newtheorem{proof}{Proof}
+
+%opening
+
+\title{Polynomial Time Approximation Schemes for the Geometric Independent Set Problem}
+\author{ \authorname{Abraham Hinteregger} \\
+ \studentnumber{1025914} \\
+ \curriculum{066931} \\
+ \email{oerpli@outlook.com}
+}
+\setcounter{tocdepth}{3}
+\begin{document}
+\input{content}
+\bibliographystyle{plain}
+\bibliography{alg}
+\end{document}
+
+
+

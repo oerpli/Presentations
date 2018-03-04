@@ -1,0 +1,29 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{termpaper}
+
+\RequirePackage[top=2cm, left=2cm, right=2cm, bottom=3cm]{geometry}
+\RequirePackage{needspace}
+
+%% Title formatting
+
+\def\authorname#1{{\large#1}}
+\def\studentnumber#1{{\large Matr.: #1}}
+\def\curriculum#1{{\large Curriculum: #1}}
+\def\email#1{\texttt{#1}}
+
+\makeatletter
+
+%\makeatletter
+
+\def\@maketitle{%
+ \newpage%
+ \null%
+ \begin{center}%
+  \huge{\@title}\par%
+  \vskip 1em%
+  \large{\@author}%
+  \vskip 1em%
+  \normalsize{\@date}%
+ \end{center}%
+ \par\par%
+}

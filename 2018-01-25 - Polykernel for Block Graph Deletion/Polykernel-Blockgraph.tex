@@ -97,8 +97,8 @@
 \begin{frame}{Block Graphs}
     \begin{columns}[T]
         \begin{column}{.7\textwidth}
-   {
-         \begin{itemize}[<+->]
+    {
+            \begin{itemize}[<+->]
     \item Block graphs consist of cliques
     \item Multiple cliques can share a vertice (\alert<2>{articulation points})
     \item No \alert<4>{diamond graphs \tikz[baseline=-0.5ex,scale=0.15]{
@@ -172,7 +172,7 @@
         \end{tikzpicture}
         }
         \end{column}
-      \end{columns}
+        \end{columns}
 \end{frame}
 
 \subsection{Block Tree}
@@ -290,11 +290,10 @@
     \begin{itemize}[<+->]
         \item \textbf{RR1 (Block component rule):} If \(G\) has a component \(H\) that is a block graph then we remove \(H\) from \(G\).\uncover<4->{\alert<4-6>{\(\implies\)graph only has obstructed components}}
         \item \textbf{RR2 (Cut vertex rule):} \(\exists v\in V(G)\) s.t. \(G - v\) contains a component \(H\) where \(G[V(H) \cup \{v\}]\) is a connected block graph, we remove \(H\) from \(G\).\uncover<5->{\alert<5-6>{\(\implies\)no ``unobstructed'' blocks}}
-        \item \textbf{RR3 (Twin rule):} If \(S\) is a set of vertices that are pairwise true twins\footnote{Two vertices are true twins if they share all their neighbors (except each other) and are connected} in \(G\) and \(|S| \geq k+2\) remove vertices until \(|S| = k+1\).\uncover<6->{\alert<6>{\(\implies\)size of blocks is bounded by \(k+x\) where x is the number of articulation points contained in the block }}
+        \item \textbf{RR3 (Twin rule):} If \(S\) is a set of vertices that are pairwise true twins\footnote{Two vertices are true twins if they share all their neighbors (except each other) and are connected} in \(G\) and \(|S| \geq k+2\) remove vertices until \(|S| = k+1\).\uncover<6->{\alert<6>{\(\implies\)If one of the vertices is part of an obstruction, all of them are.}}
     \end{itemize}
-    
-    %\paragraph{RR2: Cut vertex rule}
 \end{frame}
+    
 \begin{frame}{Reduction Rule 4}
     \begin{minipage}{.7\textwidth}
         \begin{itemize}[<+-|alert@+>]
@@ -303,7 +302,7 @@
                 \item For each \(1 \leq i \leq 3\) and \(v\in S_i\):\\ \qquad \(N_G(v)\setminus S_i = \{t_i,t_{i+1}\}\)
                 \item For each \(2 \leq i \leq 3\):\\ \qquad \(N_G(t_i) = \{t_{i-1},t_{i+1}\}\cup S_{i-1}\cup S_i\)
                 \vspace{10pt}
-                \item Then: Remove \(S_2\) \alert<5>{\uncover<5->{\& contract edge between \(t_2\) and \(t_3\)}}
+                \item Then: Remove \(S = S_1\cup S_2\cup S_3\) \alert<5>{\uncover<5->{\& contract edge between \(t_2\) and \(t_3\)}}
             \end{itemize}
         \end{itemize}
     \end{minipage}
@@ -323,7 +322,7 @@
             
             \newcommand{\Blocks}{(B1),(B2),(B3)}
             \newcommand{\AP}{(T1),(T2),(T3),(T4)}
-          \uncover<3->{
+            \uncover<3->{
             \begin{scope}
                 \foreach \s in {(T1),(T4)}{
                     \foreach \i in {-1,...,1}{
@@ -336,13 +335,13 @@
             }
 
             \draw<-4>[very thick](T1)--(B1)--(T2)--(B2)--(T3)--(B3)--(T4);
-            \draw<5->[very thick](T1)--(B1)--(B3)--(T4);
+            \draw<5->[very thick](T1)--($(T2)!0.5!(T3)$)--(T4);
 
             \fill[darkred] (T1) circle(0.25);
             \fill<-4>[darkred] (T2) circle(0.25);
             \fill<-4>[darkred] (T3) circle(0.25);
-            \fill<5->[darkred] ($(B1)!0.5!(B3)$) circle(0.25);
-            \node<5->[white] (XX) at ($(B1)!0.5!(B3)$) {\(t_{23}\)};
+            \fill<5->[darkred] ($(T2)!0.5!(T3)$) circle(0.25);
+            \node<5->[white] (XX) at ($(T2)!0.5!(T3)$) {\(t_{23}\)};
 
             \fill[darkred] (T4) circle(0.25);
 
@@ -351,27 +350,24 @@
             \node<-4>[white] (XX) at (T3) {\(t_3\)};
             \node[white] (XX) at (T4) {\(t_4\)};
 
-            \uncover<2-3>{\fill (B2) circle(0.35);}
-            \uncover<2->{
-                \fill (B1) circle(0.35);
-                \fill (B3) circle(0.35);
-                \node[white] (XX) at (B1) {\(S_1\)};
-                \node<-3>[white] (XX) at (B2) {\(S_2\)};
-                \node[white] (XX) at (B3) {\(S_3\)};
-            }
+            \uncover<2-3>{
+            \foreach \i in {1,2,3}{
+                \fill (B\i) circle(0.35);
+                \node<-3>[white] (XX) at (B\i) {\(S_\i\)};
+            }}
             \end{tikzpicture}
         \end{center}\end{minipage}
 \end{frame}
 
 \begin{frame}{Proof: Soundness of RR4}
     \begin{itemize}[<+->]
-        \item Assume there is an obstruction in \(S_2 \cup \{t_2,t_3\}\) (the vertices affected by RR4)
-        \item A vertex in \(S_2\) cannot be part of an obstruction (a cycle of length \(\geq 4\) or a diamond graph \tikz[baseline=-0.5ex,scale=0.15]{
+        \item Assume there is an obstruction in \(S \cup \{t_2,t_3\}\) (the vertices affected by RR4)
+        \item A vertex in \(S\) cannot be part of an obstruction (a cycle of length \(\geq 4\) or a diamond graph \tikz[baseline=-0.5ex,scale=0.15]{
             \foreach \i in {(-1,-1),(-1,1),(1,-1),(1,1)}{
                 \fill \i circle(0.3);
                 \draw[semithick] (-1,-1)--(-1,1)--(1,1)--(1,-1)--(-1,-1)--(1,1);
         }}
-        \item Vertices in obstructions are 2-connected, thus the obstruction is a superset of \(\{t_2,t_3\}\) that contains no vertex of \(S_2\).
+        \item Vertices in obstructions are 2-connected, thus the obstruction is a superset of \(\{t_2,t_3\}\) that contains no vertex of \(S\).
         \item As \(t_1\ldots t_4\) is an induced path, the obstruction cannot be a diamond graph or a cycle of length 4 $\implies$ the obstruction has to be a cycle of length \(\geq 5\)
         \item Contracting an edge in a cycle of length \(\geq 5\) results in a cycle of length \(\geq 4\). Therefore, RR4 does not remove an obstruction.
     \end{itemize}
@@ -389,7 +385,7 @@ The complete degree of $v$ is defined as the minimum number of compoments of $G[
     \item<2-> \textbf{RR5 ($(k+1)$-distinct obstructions rule):}\\
     Apply the proposition above. 
     \begin{itemize}
-        \item<3-> If it's reduced with RR1-RR5 and has more than $\mathcal O(k^6)$ vertices, $G$ has a vertex $v$ s.t. RR6 can be applied
+        \item<3-> If $G$ is reduced with RR1-RR5 and has more than $\mathcal O(k^6)$ vertices, $G$ has a vertex $v$ s.t. RR6 can be applied
     \end{itemize}
 \end{itemize}
 \end{frame}
