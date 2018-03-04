@@ -14,7 +14,7 @@ Presentations I consider more interesting are bold (ymmv).
 * 2016-06-13	 CS |	Formula Evaluation (Logic as game & μ-Calculus)
 * 2016-06-27	 CS |	**Complexity and Philosophy** (some highlights from [S. Aaronsons essay](http://www.scottaaronson.com/papers/philos.pdf))
 * 2017-11-27	 Ph |	**Systemic Risk** (Defensio of my master's thesis in physics)
-* 2018-01-25	 CS |	**Polykernel for Block Graph Deletion** ([Kernelization](https://en.wikipedia.org/wiki/Kernelization) of Block graph deletion problem, some troublesome proofs omitted)
+* 2018-01-25	 CS |	**Polykernel for Block Graph Deletion** ([Kernelization](https://en.wikipedia.org/wiki/Kernelization) of Block graph deletion problem, some proofs omitted)
 
 
 ## Getting started
