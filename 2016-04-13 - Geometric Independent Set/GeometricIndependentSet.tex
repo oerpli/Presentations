@@ -82,7 +82,7 @@
 \newcommand{\NP}{\ensuremath{\mathcal{NP}}}
 \begin{document}
 \part{ABS}
-\title{Geometric Independet Set Problem}
+\title{Geometric Independent Set Problem}
 \author{Abraham Hinteregger}
 \institute{Vienna University of Technology}
 \date{13.4.2016}
@@ -433,7 +433,7 @@ By definition of $\bar r$
 
 
 \begin{frame}
-From the definition of $N_r$ it follows that for the subgraph $G' = G[N_{\bar r+1}]$ the maximum independet set size is bounded:
+From the definition of $N_r$ it follows that for the subgraph $G' = G[N_{\bar r+1}]$ the maximum independent set size is bounded:
 \begin{equation*}
 \alpha(G') \leq \rho|I_{\bar r}|.
 \end{equation*}
@@ -457,7 +457,7 @@ $H = G\setminus G'$ has no vertices adjacent to vertices in $N_{\bar r}$ and the
 
 \subsection{Weighted MIS}
 \begin{frame}
-\frametitle{Algorithm for maximum weighted independet set problem}
+\frametitle{Algorithm for maximum weighted independent set problem}
 %\begin{itemize}
 When defining sets $N_r$ start with $v$ such that 
 \begin{equation*}
@@ -478,14 +478,14 @@ When defining sets $N_r$ start with $v$ such that
 \item Desired: Biggest subset of those rectangles that don't intersect each other
 \item $\log n$ -- approximate algorithm for this case with $O(n\log n)$ runtime: 
 \begin{itemize}
-\item Divide and concquer: Split into subsets and calculate independet sets for them
+\item Divide and concquer: Split into subsets and calculate independent sets for them
 \item Combine IS of subsets.
 \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Maximum independet set for arbitrary rectangles}
+\frametitle{Maximum independent set for arbitrary rectangles}
 Given: Set $S$ of rectangles.
 \begin{itemize}
 \item<1-> Sort edges by $x$ and $y$ coordinates --- $O(n\log n)$
@@ -538,7 +538,7 @@ Given: Set $S$ of rectangles.
 \frametitle{Take away points}
 For difficult problems use all available information about objects at hand to make problem solvable (or at least get good approximate solutions):
 \begin{itemize}
-\item 1st algorithm (UDG): minimum area of a independet set of geometric shapes used to get an upper bound on size of subsets 
+\item 1st algorithm (UDG): minimum area of a independent set of geometric shapes used to get an upper bound on size of subsets 
 \item 2nd algorithm (greedy heuristic): reduce dimensionality of problem by line that intersects all rectangles
 \item 3rd algorithm (UHR): decompose problem into subproblems that can be solved easily
 \end{itemize}
@@ -569,7 +569,7 @@ Robustness of PTAS for M(W)IS on UDG
 \frametitle{Remarks II}
 Improving PTAS for unit height rectangles to {$(1+\varepsilon)$-- approximative} scheme:
 \begin{itemize}[<+->]
-\item Algorithm described solves $n$ independet subproblems optimally and discards results of $\frac{n}{2}$
+\item Algorithm described solves $n$ independent subproblems optimally and discards results of $\frac{n}{2}$
 \item Discard solutions of subproblems that are boundaries of used solutions
 \item Could be improved by solving bigger subproblems with less discarded ``boundary-problems'' in between
 \item Solving subproblems of $k$ lines each only every $\frac{1}{k}$-th subproblem has to be discarded $\rightarrow$ $\left(1+\frac{1}{k}\right)$-- approximation.
