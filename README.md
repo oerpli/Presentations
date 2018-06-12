@@ -6,15 +6,15 @@ Slides for presentations I've held during my studies (**Ph**ysics and **C**omput
 
 Presentations I consider more interesting are bold (ymmv).
 
-* `Ph` `2013-05-17` [Nucleation](/2013-05-17%20-%20Nucleation) (Computational Physics)
-* `Ph` `2013-10-04` [Sampling the Ising Model](/2013-10-04%20-%20Sampling%20the%20Ising%20Model) (Presentation of my bachelor's thesis in physics)
-* `CS` `2014-06-30` [Grades.HS](/2014-06-30%20-%20Grades.HS) (Boring presentation of tiny Haskell project)
-* `CS` `2015-12-17` [Provability Logic G](/2015-12-17%20-%20Provability%20Logic%20G) (Model theory, Tableau algorithm)
-* `CS` `2016-04-13` [**Geometric Independent Set**](/2016-04-13%20-%20Geometric%20Independent%20Set) (PTAS algorithm for some GIS problems, [**Report**](/2016-04-13%20-%20Geometric%20Independent%20Set/Report))
-* `CS` `2016-06-13` [Formula Evaluation](/2016-06-13%20-%20Formula%20Evaluation) (Logic as game & μ-Calculus)
-* `CS` `2016-06-27` [**Complexity and Philosophy**](/2016-06-27%20-%20Complexity%20and%20Philosophy) (some highlights from [S. Aaronsons essay](http://www.scottaaronson.com/papers/philos.pdf))
-* `Ph` `2017-11-27` [**Systemic Risk**](/2017-11-27%20-%20Systemic%20Risk%20(Defensio)) (Defensio of my master's thesis in physics)
-* `CS` `2018-01-25` [**Polykernel for Block Graph Deletion**](/2018-01-25%20-%20Polykernel%20for%20Block%20Graph%20Deletion) ([Kernelization](https://en.wikipedia.org/wiki/Kernelization) of Block graph deletion problem, some proofs omitted)
+* `Ph` `2013-05-17` [Nucleation](https://github.com/oerpli/Presentations/tree/master/2013-05-17%20-%20Nucleation) (Computational Physics)
+* `Ph` `2013-10-04` [Sampling the Ising Model](https://github.com/oerpli/Presentations/tree/master/2013-10-04%20-%20Sampling%20the%20Ising%20Model) (Presentation of my bachelor's thesis in physics)
+* `CS` `2014-06-30` [Grades.HS](https://github.com/oerpli/Presentations/tree/master/2014-06-30%20-%20Grades.HS) (Boring presentation of tiny Haskell project)
+* `CS` `2015-12-17` [Provability Logic G](https://github.com/oerpli/Presentations/tree/master/2015-12-17%20-%20Provability%20Logic%20G) (Model theory, Tableau algorithm)
+* `CS` `2016-04-13` [**Geometric Independent Set**](https://github.com/oerpli/Presentations/tree/master/2016-04-13%20-%20Geometric%20Independent%20Set) (PTAS algorithm for some GIS problems, [**Report**](https://github.com/oerpli/Presentations/tree/master/2016-04-13%20-%20Geometric%20Independent%20Set/Report))
+* `CS` `2016-06-13` [Formula Evaluation](https://github.com/oerpli/Presentations/tree/master/2016-06-13%20-%20Formula%20Evaluation) (Logic as game & μ-Calculus)
+* `CS` `2016-06-27` [**Complexity and Philosophy**](https://github.com/oerpli/Presentations/tree/master/2016-06-27%20-%20Complexity%20and%20Philosophy) (some highlights from [S. Aaronsons essay](http://www.scottaaronson.com/papers/philos.pdf))
+* `Ph` `2017-11-27` [**Systemic Risk**](https://github.com/oerpli/Presentations/tree/master/2017-11-27%20-%20Systemic%20Risk%20(Defensio)) (Defensio of my master's thesis in physics)
+* `CS` `2018-01-25` [**Polykernel for Block Graph Deletion**](https://github.com/oerpli/Presentations/tree/master/2018-01-25%20-%20Polykernel%20for%20Block%20Graph%20Deletion) ([Kernelization](https://en.wikipedia.org/wiki/Kernelization) of Block graph deletion problem, some proofs omitted)
 
 
 ## Getting started
