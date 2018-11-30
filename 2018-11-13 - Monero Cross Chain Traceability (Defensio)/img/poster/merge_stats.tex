@@ -1,0 +1,77 @@
+% !TeX root = ../../CI-Poster.tex
+\def\barWidth{7pt}
+\def\barShift{3.6pt}
+\pgfplotstableread[col sep=tab,trim cells]{./data/merge_stats.csv}\table
+\begin{tikzpicture}[
+	every axis/.style={
+	% , scaled y ticks = false
+	, yticklabel style={niceNums}
+    , ymin = 0, ymax = 105000
+    , ytick={0,50000,100000}
+    , ylabel style={font=\scriptsize}
+    , yticklabel style={font=\scriptsize}
+    , width=0.85\textwidth
+    , height=220pt
+    , barPlots/.style={
+		, bar width=\barWidth
+		, ybar stacked
+		, draw=none}
+	, fancyDateTicks
+	}
+	]
+\begin{axis}[bar shift=-\barShift
+    , axis y line* = left
+    , ylabel={\#RM w. status}
+    % , ytick={0,500000,1000000,1500000,2000000,2500000}
+	, ymajorgrids, ytick style={draw=none}
+	, legend cell align={left}
+	, legend pos = {outer north east}
+    , legend style={anchor = south east,yshift=0pt,xshift=0pt,draw=none, legend columns=4}
+]
+    % Outplots
+    \addplot[barPlots, fill=orange] table[x = month,y = wrong_out]\table;
+    \addplot[barPlots, fill=vir0] table[x = month,y = unknown_out]\table;
+    \addplot[barPlots, fill=vir6] table[x = month,y = correct_out]\table;
+    \addlegendimage{/pgfplots/refstyle=plt:omh_acc_o}
+    % Outlegends
+    \addlegendentry{Mixin (Out)}
+    \addlegendentry{Unknown (Out)}
+    \addlegendentry{Real (Out)}
+    \addlegendentry{Acc. (Out)}
+
+    %Inlegend Images & entries
+    \addlegendimage{/pgfplots/refstyle=plt:omh_wi}
+    \addlegendimage{/pgfplots/refstyle=plt:omh_ui}
+    \addlegendimage{/pgfplots/refstyle=plt:omh_ci}
+    \addlegendimage{/pgfplots/refstyle=plt:omh_acc_i}
+    \addlegendentry{Mixin (In)}
+    \addlegendentry{Unknown (In)}
+    \addlegendentry{Real (In)}
+    \addlegendentry{Acc. (In)}
+\end{axis}
+\begin{axis}[bar shift=\barShift, hide axis]
+    \addplot[barPlots, fill=vir10] table[x = month,y = wrong_in]\table;%
+    \label{plt:omh_wi}
+    \addplot[barPlots, fill=vir2] table[x = month,y = unknown_in]\table;%
+    \label{plt:omh_ui}
+    \addplot[barPlots, fill=vir8] table[x = month,y = correct_in]\table;%
+    \label{plt:omh_ci}
+\end{axis}
+\begin{axis}[
+    , axis y line*=right
+    , y filter/.code={\pgfmathparse{#1*100}\pgfmathresult}
+    , ylabel={Accuracy \%}, ymin=0, ymax=105
+    , ylabel style={font=\scriptsize,yshift=5pt}
+    , yticklabel style={font=\scriptsize}
+    , ytick={0,50,100}
+    , xtick=\empty
+    , date coordinates in=x
+    , ytick style={draw=none}
+    , xmin=2014-03-15, xmax = 2018-08-15 % xmaxCutoff
+	,]
+    % \addplot[] table[x=month,y=accuracy]\table;
+    \addplot[twoColorDashed={vir6,dashed,line width=1.5mm}{orange,line width=1.5mm} ] table[x=month,y= accuracy_out]\table;\label{plt:omh_acc_o}
+    \addplot[twoColorDashed={vir8,line width=1.5mm}{vir10,line width=1.5mm}] table[x=month,y= accuracy_in ]\table;\label{plt:omh_acc_i}
+    \qrMacro{http://git.io/fNf1m}
+\end{axis}
+\end{tikzpicture}

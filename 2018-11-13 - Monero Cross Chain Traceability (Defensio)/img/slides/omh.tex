@@ -1,0 +1,71 @@
+% !TeX root = ../../CI-Slides.tex
+\begin{tikzpicture}[scale=1.0, -{Latex[length=3mm, width=2mm]}
+    ,   remEdge/.style={thick, dashed, virNodeDark=1.0} 
+    ,   txNode/.style={opacity=1.0,inner sep=2pt,rounded corners=2pt}
+    ,   sureEdge/.style={thick, virNodeDark=0.7}] 
+\coordinate (C1) at (2,2);
+
+
+\begin{scope}[xshift=-3.6cm]
+    \node[text=white] (TX2) at (-2.25,0.8){TX1};
+    \node[virNode=0.450] (X3) at (-1,0.8){O1}; 
+
+    \node[text=white] (TX1) at (-2.25,-0.4){TX2};
+    \node[virNode=0.525] (X1) at (-1,0){O2}; 
+    \node[virNode=0.600] (X2) at (-1,-0.8){O3}; 
+    
+    \node[text=white] (TX3) at (-2.25,-1.6){TX3};
+    \node[virNode=0.675] (X4) at (-1,-1.6){O4}; 
+    \node[virNode=0.25,text=white] (Y1) at (1,0){R1};
+    \node[virNode=0.30,text=white] (Y2) at (1,-0.8){R2};
+    
+    \node[text=white] (TX4) at (1.75,0.75){TX4};
+    \node[virNode=0.63] (Y3) at (2.25,0){O5};
+    \node[virNode=0.67] (Y4) at (2.25,-0.8){O6};
+   
+    \path[thick, nodeBlack](X1) edge[] (Y1);
+    \path[thick, nodeBlack](X2) edge[] (Y2);
+    \path[thick, nodeBlack](X3) edge[] (Y1);
+    \path[thick, nodeBlack](X4) edge[] (Y2);
+
+    \begin{scope}[on background layer]
+        \node[virNode=0.03,txNode,fit={(TX1) (X1) (X2)} ] (E1) {};
+        \node[virNode=0.00,txNode,fit={(TX2) (X3)} ] (E1) {};
+        \node[virNode=0.06,txNode,fit={(TX3) (X4)} ] (E1) {};
+        \node[virNode=0.00,txNode,fit={(TX4) (Y2) (Y4)} ] (E1) {};
+    \end{scope}
+
+\end{scope}
+
+
+\begin{scope}[xshift=3.6cm]
+    \node[text=white] (TX2) at (-2.25,0.8){TX1};
+    \node[virNode=0.450] (X3) at (-1,0.8){O1}; 
+
+    \node[text=white] (TX1) at (-2.25,-0.4){TX2};
+    \node[virNode=0.525] (X1) at (-1,0){O2}; 
+    \node[virNode=0.600] (X2) at (-1,-0.8){O3}; 
+    
+    \node[text=white] (TX3) at (-2.25,-1.6){TX3};
+    \node[virNode=0.675] (X4) at (-1,-1.6){O4}; 
+    \node[virNode=0.25,text=white] (Y1) at (1,0){R1};
+    \node[virNode=0.30,text=white] (Y2) at (1,-0.8){R2};
+    
+    \node[text=white] (TX4) at (1.75,0.75){TX4};
+    \node[virNode=0.63] (Y3) at (2.25,0){O5};
+    \node[virNode=0.67] (Y4) at (2.25,-0.8){O6};
+   
+    \path[remEdge](X3) edge[] (Y1);
+    \path[sureEdge](X1) edge[] (Y1);
+    \path[sureEdge](X2) edge[] (Y2);
+    \path[remEdge](X4) edge[] (Y2);
+
+    \begin{scope}[on background layer]
+        \node[virNode=0.03,txNode,fit={(TX1) (X1) (X2)} ] (E1) {};
+        \node[virNode=0.00,txNode,fit={(TX2) (X3)} ] (E1) {};
+        \node[virNode=0.06,txNode,fit={(TX3) (X4)} ] (E1) {};
+        \node[virNode=0.00,txNode,fit={(TX4) (Y2) (Y4)} ] (E1) {};
+    \end{scope}
+
+\end{scope}
+\end{tikzpicture} 

@@ -1,0 +1,121 @@
+% $Id: INF_Poster_example.tex 7714 2011-08-31 17:34:46Z tkren $
+%
+% TU Wien - Faculty of Informatics
+% poster template
+%
+% This template is using the beamer document class and beamerposter package, see
+% <http://www.ctan.org/tex-archive/macros/latex/contrib/beamer/>
+% <http://www.ctan.org/tex-archive/macros/latex/contrib/beamerposter/>
+% <http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php>
+%
+% For questions and comments send an email to
+% Thomas Krennwallner <tkren@kr.tuwien.ac.at>
+%
+
+\documentclass[final,hyperref={pdfpagelabels=true}]{beamer}
+
+\usepackage{TUINFPST}
+\usepackage[utf8]{inputenc} % Determines encoding of the input. All input files have to use UTF8 encoding.
+\usepackage{qrcode}
+\usepackage{natbib}
+\usepackage{xspace}
+% Definition imports
+\input{./img/figureDefinitions.tex}
+\input{./data/numberMacros.tex}
+ 
+% \title[Computational Intelligence]{Interactive Computer Generated Architecture}
+% if you have a long title looking squeezed on the poster, just force
+% some distance:
+\title[Computational Intelligence]{%
+Monero Cross-Chain Traceability\\[0.2\baselineskip]%
+{\normalsize Empirical Analysis of Privacy Implications\\[0.15\baselineskip]from Currency Hard-Forks}
+  %Description Logics into HEX-Programs %\\[0.2\baselineskip]%
+}
+\author[a.hinteregger@outlook.at]{Abraham Hinteregger}
+\institute[]{%
+\vspace*{-0.75\baselineskip}
+  Technische Universität Wien\\[0.25\baselineskip]
+  Institut für Informationssysteme\\[0.25\baselineskip]
+  Arbeitsbereich: Algorithms and Complexity Group\\[0.25\baselineskip]
+  Betreuer: Ao.Univ.Prof. Dipl.-Ing. Dr.techn. Günther Raidl\\[0.25\baselineskip]
+  Mitbetreuer: Dr. Bernhard Haslhofer (AIT)
+}
+\titlegraphic{%
+% \includegraphics[height=40mm]{./graphics/ait2.jpg}%
+% \hspace*{25pt}%
+\includegraphics[height=52mm]{./graphics/186-1}%
+}
+\date[\today]{\today}
+\subject{epilog}
+\keywords{Cryptocurrency, Monero, Traceability}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Display a grid to help align images 
+%\beamertemplategridbackground[12.7mm]
+
+% play around with the background colors
+% \setbeamercolor{background canvas}{bg=yellow}
+
+% use a background picture
+% \usebackgroundtemplate{%
+%   \includegraphics[width=\paperwidth]{logo_KBS_2_CMYK}
+% }
+
+% play around with block colors
+\setbeamercolor{block body}{fg=black,bg=white}
+\setbeamercolor{block title}{fg=TuWienBlue,bg=white}
+
+\setbeamertemplate{block begin}{
+  \begin{beamercolorbox}{block title}%
+    \begin{tikzpicture}%
+      \node[draw,rectangle,line width=3pt,rounded corners=0pt,inner sep=0pt]{%
+        \begin{minipage}[c][2cm]{\linewidth}
+          \centering\textbf{\insertblocktitle}
+        \end{minipage}
+      };
+    \end{tikzpicture}%
+  \end{beamercolorbox}
+  \vspace*{1cm}
+  \begin{beamercolorbox}{block body}%
+}
+
+\setbeamertemplate{block end}{
+  \end{beamercolorbox}
+  \vspace{1cm}
+}
+
+% setup postit
+\setbeamercolor{postit}{fg=black,bg=yellow} 
+\newenvironment{postit}
+{\begin{beamercolorbox}[sep=1em,wd=7cm]{postit}}
+{\end{beamercolorbox}}
+
+
+% for crop marks, uncomment the following line
+% \usepackage[cross,width=88truecm,height=123truecm,center]{crop}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% We have a single poster frame.
+\begin{frame}
+  \input{./sections/Poster.tex}
+  % \begin{tikzpicture}[remember picture,overlay]
+  %   \node[inner sep=0pt,xshift=-30cm,yshift=23cm] at (current page.east) {%
+  %     \begin{postit}%
+  %       Post-It time!%
+  %     \end{postit}%
+  %   }; 
+  % \end{tikzpicture}
+\end{frame}
+\end{document}
+
+%%% Local Variables:
+%%% TeX-PDF-mode: t
+%%% TeX-debug-bad-boxes: t
+%%% TeX-master: t
+%%% TeX-parse-self: t
+%%% TeX-auto-save: t
+%%% reftex-plug-into-AUCTeX: t
+%%% End:

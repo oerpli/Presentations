@@ -1,0 +1,58 @@
+% !TeX root = ../../CI-Thesis.tex
+\pgfplotstableread[col sep=tab,trim cells]{./data/monthly_stats.csv}\table
+\begin{tikzpicture}
+\begin{axis}[
+    %, title={Accuracy of Guess Newest heuristic}
+    , width=0.90\textwidth
+    , height=200pt
+    , axis y line* = left
+    % enlargelimits=0.15,
+    % legend style={at={(0.5,-0.15)}, anchor=north,legend columns=-1},
+    , ylabel={\# Inputs}
+    , bar width=2mm
+    , ymin = 0
+    , ymax = 2750000
+    , ytick={0,500000,1000000,1500000,2000000,2500000}
+    , ymajorgrids, ytick style={draw=none}
+    , legend cell align={left}
+    , legend pos = {north east}
+    , legend style={draw=none, legend columns=1}
+    , fancyDateTicks
+    ]
+    %Bars
+    \addplot[forget plot,ybar, bar width = 3.25pt,xshift=-1.625pt, fill=vir4, draw = none] table[x = month,y = num_in]\table;
+    \addplot[forget plot,ybar, bar width = 3.25pt,xshift=1.625pt, fill=vir8, draw = none] table[x = month,y = nt_in]\table;
+    % Legends
+    \addlegendimage{ybar, area legend, fill=vir4, draw = none}\addlegendentry{\# all Inputs}
+    \addlegendimage{ybar, area legend, fill=vir8, draw = none}\addlegendentry{\# nontrivial inputs}
+    %\addlegendimage{ybar, area legend, fill=vir4!50!black, draw=none,
+    %    postaction={ybar, fill=vir8!50!black,draw=none, xshift=4mm}}
+    %\addlegendentry{\# Traced inputs (shaded areas)}
+    \addlegendimage{twoColorDashed={vir10}{vir8}}\addlegendentry{\% of nontrivial inputs traced}
+
+    
+    %Shades
+    \addplot[ybar, area legend, bar width = 3.25pt,xshift=-1.625pt, fill = black, opacity = 0.5, draw = none] table[x = month,y = linked_in]\table;
+    \addplot[ybar, area legend, bar width = 3.25pt, xshift=1.625pt,fill = black, opacity = 0.5, draw = none] table[x = month,y = linked_nt_abs]\table;
+
+    %\addlegendentry{\#Inputs Linked}
+    %\addlegendentry{\#NT Inputs Linked}
+\end{axis}
+\begin{axis}[
+    ,legend cell align={left}
+    , width=0.90\textwidth
+    ,height=200pt
+    , axis y line*=right
+    , ylabel={Nontrivial inputs traced (\%)}
+    , ymin = 0, ymax = 110
+    , xtick = \empty
+    , y filter/.code={\pgfmathparse{#1*100}\pgfmathresult}
+    , ytick style={draw=none}
+    , date coordinates in=x
+    , xmin = 2014-03-15
+    , xmaxCutoff
+    ]
+    % \addplot[vir10,opacity=0.8,thick,smooth] table[x = month,y = linked_nt]\table;
+    \addplot[twoColorDashed={vir10}{vir8}] table[x = month,y = linked_nt]\table;\label{plt:linked_nt}
+    \end{axis}
+\end{tikzpicture}

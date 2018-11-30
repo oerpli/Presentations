@@ -1,0 +1,40 @@
+% !TeX root = ../CI-Thesis.tex
+\begin{tikzpicture}[scale=0.75
+    , every node/.style={transform shape}
+    , arr/.style={font=\sffamily, ultra thick, shape border rotate = 180,XMVColor, single arrow, minimum width = 40pt, minimum height = 40pt, anchor=tip}
+    ,  real/.style={}
+    ,  mixin/.style={strike out}
+]
+\newcommand{\mi}[1]{\textcolor{black}{#1}}
+\newcommand{\ri}[1]{\textcolor{vir8}{\textbf{#1}}}
+\begin{scope}
+    \node[arr] (last) at (-2,0){\ldots};
+    \node[arr] (last) at (last.east) {0:\{b c\}};
+    \node[arr] (last) at (last.east) {1:\{b c\}};
+    \node[arr] (last) at (last.east) {2:\{a b c\}};
+    % Fork 1 
+    \node[arr, XMOColor] (last) at (last.east){3:\{a d e f\}};
+    \node[arr, XMOColor] (last) at (last.east) {4:\{v w x\}};
+    \node[arr,XMOColor] (last) at (last.east) {\ldots};
+    % Fork 2
+    \node[arr] (last) at ($(last.tip)-(0,1.53)$) {\ldots};
+    \node[arr, anchor=east] (last) at (last.tip) {\,4:\{x y z\}};
+    \node[arr, anchor=east] (last) at (last.tip) {3:\{a e f g\}};
+    \node[arr, anchor=east, rotate = -45] (last) at ($(last.tip)-(0.1,0)$) {\ldots};
+\end{scope}
+\begin{scope}[yshift=-3.5cm]
+    \node[arr] (last) at (-2,0){\ldots};
+    \node[arr] (last) at (last.east) {0:\{b c\}};
+    \node[arr] (last) at (last.east) {1:\{b c\}};
+    \node[arr] (last) at (last.east) {2:\{\ri{a} \mi{b c}\textcolor{white}{\}}};
+    % Fork 1 
+    \node[arr,XMOColor] (last) at (last.east){3:\{\mi{a d} \textcolor{white}{ e f\}}};
+    \node[arr,XMOColor] (last) at (last.east) {4:\{\mi{v w} \ri{x}\textcolor{white}\}};
+    \node[arr,XMOColor] (last) at (last.east) {\ldots};
+    % Fork 2
+    \node[arr] (last) at ($(last.tip)-(0,1.53)$) {\ldots};
+    \node[arr,anchor=east] (last) at (last.tip) {4:\{\ri{x} \mi{y} \mi{z \!}\textcolor{white}{\}}};
+    \node[arr,anchor=east] (last) at (last.tip) {3:\{\mi{a} \textcolor{white}{ e f \mi{g}\}}};
+    \node[arr,anchor=east, rotate = -45] (last) at ($(last.tip)-(0.1,0)$) {\ldots};
+\end{scope}
+\end{tikzpicture}

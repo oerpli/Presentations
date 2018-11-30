@@ -1,0 +1,44 @@
+% !TeX root = ../../CI-Slides.tex
+\pgfplotstableread[col sep=tab,trim cells]{./data/monthly_stats.csv}\table
+\begin{tikzpicture}
+\begin{axis}[
+    %, title={Accuracy of Guess Newest heuristic}
+    , width=\textwidth
+    , height=200pt
+    , axis y line* = left
+    % enlargelimits=0.15,
+    % legend style={at={(0.5,-0.15)}, anchor=north,legend columns=-1},
+    , ylabel={\# Inputs/Outputs}
+    , bar width=2mm
+    , ymin = 0
+    , ymax = 4000000
+    , ymajorgrids, ytick style={draw=none}
+    , legend cell align={left}
+    , legend pos = {north east}
+    , legend style={draw=none, legend columns=2}
+    , fancyDateTicksSlides
+    ]
+    \addplot[vir1,ultra thick,smooth] table[x = month,y = num_in]\table;\addlegendentry{\#Inputs}
+    
+    \addlegendimage{vir2,densely dashed, ultra thick, smooth}\addlegendentry{Avg \#Inputs per non-CB TX}
+    \addplot[vir10,ultra thick,smooth] table[x = month,y = num_out]\table;\addlegendentry{\#Outputs}
+    \addlegendimage{vir8,densely dashed, ultra thick, smooth}\addlegendentry{Avg \#Outputs per non-CB TX}
+\end{axis}
+\begin{axis}[
+    ,legend cell align={left}
+    ,width=\textwidth
+    ,height=200pt
+    , axis y line*=right
+    , ylabel={Avg. \#Inputs/Outputs}
+    , ymin = 0, ymax = 100
+    , xtick = \empty
+    , ymax = 80
+    % , y filter/.code={\pgfmathparse{#1*100}\pgfmathresult}
+    , date coordinates in=x
+    , ytick style={draw=none}
+    , xmin = 2014-03-15, xmaxCutoff
+    ]
+    \addplot[vir2,densely dashed,ultra thick,smooth] table[x = month,y = avg_in]\table;\label{plt:avg_in}
+    \addplot[vir8,densely dashed,ultra thick,smooth] table[x = month,y = avg_out]\table;\label{plt:avg_out}
+    \end{axis}
+\end{tikzpicture}

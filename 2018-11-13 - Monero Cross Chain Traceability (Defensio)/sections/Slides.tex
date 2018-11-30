@@ -1,0 +1,279 @@
+% !TeX root = ../CI-Slides.tex
+% \tableofcontents
+% ---------------------------------------------------------%
+
+\section{Introduction}
+\subsection{Cryptocurrencies}
+\begin{frame}{Cryptocurrencies}
+	\begin{itemize}
+	\item \cite{nakamoto_bitcoin:_2008}	laid the foundation of modern cryptocurrencies (scheme for trusted decentralized transactions)	
+	\item Transactions have inputs (references to previous outputs) and outputs
+	\item Each output is issued to address of a user (public key)
+	\item Recipient can spend outputs with private key
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Blockchain}
+	\resizebox{\textwidth}{!}{\input{./img/figBlock.tex}}
+\end{frame}
+
+\begin{frame}{Transaction}
+	\resizebox{\textwidth}{!}{\input{./img/figTX.tex}}
+\end{frame}
+
+\subsection{Monero}
+\begin{frame}{Monero}\label{sec:monero}
+	\begin{itemize}
+		\item Public nature of Bitcoin TX history prevents meaningful level of anonymity
+		\item Monero (based on CryptoNote, \cite{van_saberhagen_cryptonote_2013}) addresses this issue with the following methods:
+		\begin{itemize}[<+-|alert@+>]
+			\item Stealth Addresses (hide recipient addr.) $\to$ unlinkability (p.~\ref{sec:mih})
+			\item \alert<4->{Ring Signatures (obfuscate spent outputs) $\to$ untraceability}
+			\item Confidential Transactions (hide amounts) $\to$ fungibility
+		\end{itemize} 
+	\end{itemize}
+\end{frame}
+
+\subsection{Ring Signatures}
+\begin{frame}{Ring Signatures \& Traceability}
+	\vspace*{-10pt}
+	\begin{itemize}[<+->]
+		\item Each TX input references:
+		\begin{itemize}
+			\item Bitcoin: Output from older TX (TXO)
+			\item Monero: Non-empty set of TXOs (a ring)
+		\end{itemize}
+		\item One ringmember is real, the others are decoys (mixins)
+		\includegraphics[width=\textwidth]{./img/slides/cn-44.png}
+{		\hspace*{90pt}\scriptsize Source: \url{https://cryptonote.org/inside/}}
+		\item Decoys are sampled from set of eligible outputs
+	\end{itemize}
+\end{frame}
+\section{Traceability Analysis}
+
+
+\subsection{Traceability Methods I (ZMR \& IR)}
+\begin{frame}{Zero Mixin Removal \& Intersection Removal}
+	\resizebox{\textwidth}{!}{\input{./img/slides/zmr.tex}}
+	\begin{itemize}
+		\item Outputs O1-O4 are referenced in rings R1-R4
+		\item<2-> R1 only references O1 $\implies$ must be the real input
+		\item<3-> $I = \{R3,R4\}$ reference $O=\{O3,O4\}$  \\
+		\qquad	$|I| = |O|$ $\implies$ O3 \& O4 spent in R3 \& R4
+		\item<4-> $R2$ only has one non-mixin reference remaining.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Output Merging Heuristic (OMH)}
+	\begin{itemize}
+		\item Output merging mostly due to denomination splitting:
+		\begin{itemize}
+			\item Initially, amounts were disclosed on blockchain
+			\item Ring signatures required multiple outputs with identical amounts
+			\item Outputs were partitioned to facilitate this (7 $\to$ 5 + 2)
+		\end{itemize}
+	\end{itemize}
+	\uncover<2->{
+	\resizebox{\textwidth}{!}{\input{./img/slides/omh.tex}}
+	\begin{itemize}
+		\item TX4 has two inputs which reference a TXO from TX2
+		\item<3-> OMH assumes that these outputs are real
+	\end{itemize}}
+\end{frame}
+
+%\subsection{Previous Results}
+\begin{frame}{Traceability Analysis}
+	\cite{kumar_traceability_2017} and \cite{moser_empirical_2018} found:
+	\begin{itemize}[<+->]
+		\item Iteratively removing known spent outputs from rings allows identification of new spent outputs
+
+
+		\begin{itemize}
+			\item $\to$ identified majority of real spent outputs
+		\end{itemize}
+		\item TX outputs were partitioned into denominations (7 $\to$ 5 + 2)
+		\begin{itemize}
+			\item $\to$ guessing real inputs mostly correct
+		\end{itemize}
+		\item Temporal distribution of decoys and spent outputs don't match
+		\begin{itemize}
+			\item $\to$ Educated guessing based on output-age effective 
+		\end{itemize}
+		\item Transaction protocol has been updated since 
+	\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Improvements to the protocol}
+	\begin{itemize}
+		\item ZMR works like a chain reaction from an initial set of inputs without decoys.
+		\begin{itemize}
+			\item Since 2016, the mandatory minimum ringsize has been increased
+			\item Minimum ringsizes + RingCT TX were effective
+			\item Ringsize $\equiv 11$ since last update
+		\end{itemize}
+		\item Mixin sampling has been improved with different approaches
+		\begin{itemize}
+			\item Triangular distribution
+			\item Recent zone: Force 25-50\% recent outputs
+			\item Gamma distribution: Distribution based on empirical analysis
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\subsection{Traceability Methods II (Cross Chain Analysis)}
+\begin{frame}{Currency hardforks}
+	\begin{itemize}
+		\item A cryptocurrency can be forked, resulting in two currencies.
+		\item A fork can either start a new blockchain or continue the existing chain.
+		\begin{center}
+			\input{./img/slides/hardfork.tex}
+		\end{center}
+		\item Pre-fork funds can be spent on both chains
+		\item This can be exploited for linking/tracing analysis
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Cross Chain (Fork) Analysis}
+\begin{itemize}[<+->]
+	% \item Bitcoin \& Bitcoin Cash:
+	% \begin{itemize}
+	% 	\item Multiple Input Heuristic employed by GraphSense
+	% 	\item If pre-fork funds are spent, addresses could be clustered on both post-fork branches
+	% \end{itemize}
+	% \item Monero:
+	% \begin{itemize}
+		\item Double spends are prevented with \emph{key images}
+		\item Key image is derived from spent output and may occur at most once on the TX record
+		\item Method to derive key image must be identical on all branches
+		\item If two rings on two branches have the same key image, they spend the same TXO. 
+	% \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Contribution of this work}
+\begin{frame}{Contribution of this work}
+	\begin{itemize}
+		\item Up to date evaluation of existing methods
+		\begin{itemize}
+			\item Previous studies published shortly after introduction of RingCT
+			\item Changes to mixin sampling and ringsize in 09/2017 and 04/2018.
+		\end{itemize}
+		\item Quantify impact on traceability from recent Monero hardforks \begin{itemize}
+			\item Monero Original: Continuation of Monero v6 (ASIC compatible)
+			\item MoneroV: Fork with some changes to emission curve
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\section{Results}
+\subsection{Dataset}
+\begin{frame}{Dataset \& Method}
+	\begin{enumerate}
+		\item Exported Monero (XMR), MoneroV (XMV) and Monero Original (XMO) blockchain up to Aug. 31$^\text{th}$, 2018.
+		\item Employed Zero Mixin Removal \& Intersection Removal
+		\item Added fork data and applied cross chain analysis (+ZMR/IR)
+		\item Applied heuristics from \cite{kumar_traceability_2017} and \cite{moser_empirical_2018}:
+		\begin{itemize}
+			\item Guess Newest Heuristic
+			\item Output Merging Heuristic
+		\end{itemize}
+		\item Evaluated accuracy with ground truth (where possible) with results from steps 3.
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Monero Activity}
+	\def\imgFile{./img/slides/txs.tex}
+	\resizebox{\textwidth}{!}{\input{\imgFile}}
+\end{frame}
+\subsection{Results}
+\begin{frame}{Traced Inputs}
+	\def\imgFile{./img/slides/linked.tex}
+	\input{\imgFile}
+\end{frame}
+\begin{frame}
+	\pgfplotstableread{./data/ringsizes/ringsizesNontrivial.csv}\ringsizes
+	\def\rsCSV{https://git.io/flUOZ}
+	\def\imgFile{./img/slides/rsp1.tex}
+	\resizebox{\textwidth}{!}{\input{\imgFile}}
+\end{frame}
+\begin{frame}
+	\pgfplotstableread{./data/ringsizes/ringsizesNontrivial.csv}\ringsizes
+	\def\rsCSV{https://git.io/flUOZ}
+	\def\imgFile{./img/slides/rsp2.tex}
+	\resizebox{\textwidth}{!}{\input{\imgFile}}
+\end{frame}
+
+
+\begin{frame}{Guess Newest Heuristic}
+	\def\imgFile{./img/slides/guess_newest.tex}
+	\input{\imgFile}
+\end{frame}
+\begin{frame}{Output Merging Heuristic}
+	\def\imgFile{./img/slides/merge_stats.tex}
+	\input{\imgFile}
+\end{frame}
+\begin{frame}{Inputs/Outputs (per TX)}
+	\def\imgFile{./img/slides/inputs.tex}
+	\input{\imgFile}
+\end{frame}
+
+
+\begin{frame}{Summary}
+	\begin{itemize}[<+->]
+		\item Nowadays, most Monero TXs are untraceable
+		\item Guess Newest Heuristic does not work with current mixin sampling technique
+		\item Impact from Cross Chain Analysis not very large
+		\begin{enumerate}
+			\item Forks didn't have a lot of traction
+			\item Mandatory ringsize of 7 enough to prevent chain reactions
+		\end{enumerate}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[allowframebreaks]{References}
+    \bibliographystyle{apalike-refs}
+    \bibliography{cryptoPoster}
+\end{frame}
+
+\subsection{Appendix}
+\begin{frame}{Bitcoin analytics}
+	\begin{itemize}
+		\item Analysis techniques impeded privacy of Bitcoin
+		\item Sets of addresses belonging to a user can often be identified 
+		\begin{itemize}
+			\item Multi Input Heuristic
+			\item Change Heuristics
+		\end{itemize}
+		\item Simplified transaction graph allows further analysis
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Multiple Input Heuristic (MIH)}\label{sec:mih}
+	\resizebox{\textwidth}{!}{\input{./img/slides/multiInput.tex}}
+	\begin{itemize}[<+->] % <+-| alert@+>
+ 		\item Transactions TX1-TX3 spend outputs belonging to A1-A3
+		\item All outputs spent in a TX likely belong to the same person
+		\item Overlapping clusters are merged
+		% \item Scala library: \href{https://github.com/graphsense/graphsense-clustering}{github.com/graphsense/graphsense-clustering}
+		% \qrcode{https://github.com/graphsense/graphsense-clustering}
+	\end{itemize}
+	\footnotetext{Back: \ref{sec:monero}}
+\end{frame}
+\begin{frame}{Address Clustering}
+	\resizebox{\textwidth}{!}{\input{./img/slides/addressClustering.tex}}
+	\begin{itemize}[<+->] % <+-| alert@+>
+	\item Address graph shows addresses (1-6) and TXs (edges)
+	\item Use information from e.g. MIH to label nodes
+	\item Simplify graph: Address graph $\Rightarrow$ Entity graph
+	\end{itemize}
+	\footnotetext{Back: \ref{sec:monero}}
+\end{frame}
+
+
+% \subsection{Cross-Chain Traceability}
+% \subsection{Accuracy OMH}
+% \subsection{Accuracy GNH}
+% \end{document}

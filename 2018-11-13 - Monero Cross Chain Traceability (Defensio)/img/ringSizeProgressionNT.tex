@@ -1,0 +1,37 @@
+% !TeX root = ../Plots.tex
+% ringSizeProgressionNT
+\begin{tikzpicture}[scale=1.5]
+\def\XDOMMAX{13}
+\def\XDOMMIN{-2}
+\begin{axis}[
+	, xlabel={Ringsize}
+	, ylabel={Months}
+	, zlabel={Density}
+	, xmin=0
+	, xmax=11
+	, xtick={1,...,10},
+	, zmin=0
+	, legend style={nodes={scale=0.65, transform shape}}
+	, area plot/.style={
+        fill opacity=0.65,
+        waterFall=#1,
+        mark=none,
+    }
+]
+\pgfplotstableread{./data/ringsizes/ringsizesNontrivial.csv}\ringsizesNT
+% \pgfplotstablegetrowsof\ringsizes
+% \pgfmathsetmacro\numberofrows{\pgfplotsretval-1}
+
+\addplot3 [black, thick] table [x = avg, y = age, z expr = 0]{\ringsizesNT};
+\addlegendentry{Average ringsize}
+\addplot3 [red, thick] table [x = effavg, y = age, z expr = 0]{\ringsizesNT};
+\addlegendentry{Effective avg ringsize}
+\pgfplotsinvokeforeach{1,...,10}{
+	\addplot3 [area plot=#1] table [x expr = #1, y=age, z=ring#1]{\ringsizesNT};
+ }
+% \addplot3 [area plot=#1] (x,#1,{normal(#1,2-0.1*#1)}) --(axis cs:\XDOMMAX,#1,0)--(axis cs:\XDOMMIN,#1,0);
+% \pgfplotsinvokeforeach{4,3,...,1}{
+%     \addplot3 [area plot=#1] table [x expr=\coordindex, y expr=#1, z=plot#1] {\dummydata};
+% }
+\end{axis}
+\end{tikzpicture}

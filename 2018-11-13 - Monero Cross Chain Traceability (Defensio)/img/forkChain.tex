@@ -1,0 +1,29 @@
+% !TeX root = ../CI-Thesis.tex
+\begin{tikzpicture}[scale=0.8
+        , every node/.style={transform shape, font=\sffamily,XMRColor, ultra thick, shape border rotate = 180}
+        , box/.style={minimum height = 30pt, minimum width = 30pt}
+        , arr/.style={single arrow, minimum width = 30pt, minimum height = 40pt, anchor=tip}
+        ]
+    \node[box] (last) at (-2,0){0};% top color=vir6, bottom color=vir8,
+    \node[arr] (last) at (last.east) {1};%\node[arr] (last) at (last.east) {2};
+    \node[arr] (last) at (last.east) {\ldots};
+    \node[arr] (f1) at (last.east) {1\,545\,999};
+    % Fork 1 
+    \node[arr, XMOColor] (last) at (f1.east){1\,546\,000};
+        \node[arr, XMOColor] (last) at (last.east) {\ldots};
+        \node[arr, XMOColor] (last) at (last.east) {\XMOHEIGHT};
+
+    % Fork 2
+    \node[arr, rotate = -45, yshift=-0.5mm] (last) at ($(f1.south west) + (0.19,0)$) {\ldots};%{1\,546\,001};
+        %\node[arr,xshift = 0.5mm] (last) at (last.east) {\ldots};
+        \node[arr,xshift = 0.5mm] (f2) at (last.east) {1\,564\,965};
+
+    % 2nd Fork 2
+    \node[arr] (last) at (f2.east) {\ldots};
+        \node[arr] (last) at (last.east) {\XMRHEIGHT};
+
+    % 2nd Fork 2
+    \node[arr, XMVColor, rotate = -45, yshift=-0.5mm] (last) at ($(f2.south west) + (0.18,0)$) {\ldots};% {1\,564\,966};
+    \node[arr, XMVColor, xshift = 0.5mm] (last) at (last.east) {\ldots};
+    \node[arr, XMVColor] (last) at (last.east) {\XMVHEIGHT};
+\end{tikzpicture}

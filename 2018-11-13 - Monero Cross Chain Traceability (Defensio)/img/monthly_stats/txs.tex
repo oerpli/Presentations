@@ -1,0 +1,29 @@
+% !TeX root = ../../CI-Thesis.tex
+\pgfplotstableread[col sep=tab,trim cells]{./data/monthly_stats.csv}\table
+\begin{tikzpicture}
+\begin{axis}[
+    %, title={Accuracy of Guess Newest heuristic}
+    , width=\textwidth
+    , height=150pt
+    % enlargelimits=0.15,
+    % legend style={at={(0.5,-0.15)}, anchor=north,legend columns=-1},
+    , ylabel={Count}
+    , bar width=2mm
+    , ymin = 0
+    , ymax = 250000
+    % , scaled y ticks = false
+    , y tick label style={niceNums}
+    , ymajorgrids, ytick style={draw=none}
+    , legend cell align={left}
+    , legend pos = {north west}
+    , legend style={draw=none, legend columns=2}
+    , fancyDateTicks
+]
+    \addplot[vir10,very thick,smooth] table[x = month,y = num_tx]\table;\addlegendentry{\#All TXs}
+    \addplot[vir0,ultra thick,smooth] table[x = month,y = ringct]\table;\addlegendentry{\#RingCT TXs}
+    \addplot[vir7,ultra thick,smooth] table[x = month,y = cb_tx]\table;\addlegendentry{\#CB TXs}
+    \addplot[vir3,ultra thick,smooth] table[x = month,y = real_tx]\table;\addlegendentry{\#Non-CB TXs}
+    % \addlegendimage{vir5, ultra thick, smooth}%\addlegendimage{/pgfplots/refstyle=plt:rel_min_rs}
+    % \addlegendentry{\% of inputs /w min. RS}
+\end{axis}
+\end{tikzpicture}

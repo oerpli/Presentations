@@ -1,0 +1,40 @@
+% !TeX root = ../../CI-Thesis.tex
+\pgfplotstableread[col sep=tab,trim cells]{./data/monthly_stats.csv}\table
+\begin{tikzpicture}
+\begin{axis}[
+    %, title={Accuracy of Guess Newest heuristic}
+    , width=\textwidth
+    , height=200pt
+    , axis y line* = left
+    % enlargelimits=0.15,
+    % legend style={at={(0.5,-0.15)}, anchor=north,legend columns=-1},
+    , ylabel={(Effective) Ringsize}
+    , bar width=2mm
+    , ymin = 0
+    , ymax = 11
+    , ymajorgrids, ytick style={draw=none}
+    , legend cell align={left}
+    , legend pos = {north west}
+    , legend style={draw=none, legend columns=-1}
+    , fancyDateTicks]
+    \addplot[vir1,ultra thick,smooth] table[x = month,y = avg_rs]\table;\addlegendentry{Avg. ringsize$\quad$}
+    \addplot[vir10,ultra thick,smooth] table[x = month,y = avg_eff_rs]\table;\addlegendentry{Avg. effective RS$\quad$}
+    \addlegendimage{densely dashed,vir5, ultra thick, smooth}%\addlegendimage{/pgfplots/refstyle=plt:rel_min_rs}
+    \addlegendentry{\% of inputs /w min. RS}
+\end{axis}
+\begin{axis}[
+    ,legend cell align={left}
+    ,width=\textwidth
+    ,height=200pt
+    , axis y line*=right
+    , ylabel={\% of inputs with min. RS}, ymin = 0, ymax = 100
+    , xtick = \empty
+    , ymax = 110
+    , y filter/.code={\pgfmathparse{#1*100}\pgfmathresult}
+    , date coordinates in=x
+    , ytick style={draw=none}
+    , xmin = 2014-03-15, xmaxCutoff
+    ]
+    \addplot[vir5,densely dashed,ultra thick,smooth] table[x = month,y = rel_min_rs]\table;\label{plt:rel_min_rs}
+    \end{axis}
+\end{tikzpicture}

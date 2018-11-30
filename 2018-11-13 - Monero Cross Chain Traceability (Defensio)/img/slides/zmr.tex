@@ -1,0 +1,73 @@
+% !TeX root = ../../CI-Slides.tex
+\begin{tikzpicture}[scale=1.0, -{Latex[length=3mm, width=1.5mm]}
+    ,    remEdge/.style={thick, dashed, virNodeDark=1.0} 
+    ,    sureEdge/.style={thick, virNodeDark=0.7} 
+    ,    spentEdge/.style={thick, dashed, virNodeDark=0.7}] 
+\coordinate (C1) at (2,2);
+
+\begin{scope}[xshift=-5.0cm]
+    \node[virNode=0.45] (X1) at (-1,0.9){O1}; 
+    \node[virNode=0.60] (X2) at (-1,0){O2}; 
+    \node[virNode=0.75] (X3) at (-1,-0.9){O3}; 
+    \node[virNode=0.90] (X4) at (-1,-0.9*2){O4}; 
+    \node[virNode=0.0,text=white] (Y1) at (1,0.9){R1};
+    \node[virNode=0.05,text=white] (Y2) at (1,0){R2};
+    \node[virNode=0.1,text=white] (Y3) at (1,-0.9){R3};
+    \node[virNode=0.15,text=white] (Y4) at (1,-0.9*2){R4};
+   
+    \path[thick, nodeBlack](X1) edge[] (Y1);
+    \path[thick, nodeBlack](X1) edge[] (Y2);
+    \path[thick, nodeBlack](X2) edge[] (Y2);
+    \path[thick, nodeBlack](X3) edge[] (Y2);
+    \path[thick, nodeBlack](X3) edge[] (Y3);
+    \path[thick, nodeBlack](X3) edge[] (Y4);
+    \path[thick, nodeBlack](X4) edge[] (Y3);
+    \path[thick, nodeBlack](X4) edge[] (Y4);
+\end{scope}
+\uncover<2->{
+\begin{scope}[xshift=0.0cm]
+    \node[virNode=0.45] (X1) at (-1,0.9){O1}; 
+    \node[virNode=0.60] (X2) at (-1,0){O2}; 
+    \node[virNode=0.75] (X3) at (-1,-0.9){O3}; 
+    \node[virNode=0.90] (X4) at (-1,-0.9*2){O4}; 
+    \node[virNode=0.0,text=white] (Y1) at (1,0.9){R1};
+    \node[virNode=0.05,text=white] (Y2) at (1,0){R2};
+    \node[virNode=0.1,text=white] (Y3) at (1,-0.9){R3};
+    \node[virNode=0.15,text=white] (Y4) at (1,-0.9*2){R4};
+    
+    \path[sureEdge](X1) edge[] (Y1);
+\uncover<4->{
+    \path[remEdge](X1) edge[] (Y2);
+    \path[remEdge](X3) edge[] (Y2);
+}
+\uncover<5->{
+    \path[sureEdge](X2) edge[] (Y2);
+}
+\uncover<3->{
+    \path[spentEdge](X3) edge[] (Y3);
+    \path[spentEdge](X3) edge[] (Y4);
+    \path[spentEdge](X4) edge[] (Y3);
+    \path[spentEdge](X4) edge[] (Y4);
+}
+\end{scope}
+}
+\uncover<5->{
+\begin{scope}[xshift=5.0cm]
+    \node[virNode=0.45] (X1) at (-1,0.9){O1}; 
+    \node[virNode=0.60] (X2) at (-1,0){O2}; 
+    \node[virNode=0.75] (X3) at (-1,-0.9){O3}; 
+    \node[virNode=0.90] (X4) at (-1,-0.9*2){O4}; 
+    \node[virNode=0.0,text=white] (Y1) at (1,0.9){R1};
+    \node[virNode=0.05,text=white] (Y2) at (1,0){R2};
+    \node[virNode=0.1,text=white] (Y3) at (1,-0.9){R3};
+    \node[virNode=0.15,text=white] (Y4) at (1,-0.9*2){R4};
+
+    \path[sureEdge](X1) edge[] (Y1);
+    \path[sureEdge](X2) edge[] (Y2);
+    \path[spentEdge](X3) edge[] (Y3);
+    \path[spentEdge](X3) edge[] (Y4);
+    \path[spentEdge](X4) edge[] (Y3);
+    \path[spentEdge](X4) edge[] (Y4);
+\end{scope}
+}
+\end{tikzpicture} 

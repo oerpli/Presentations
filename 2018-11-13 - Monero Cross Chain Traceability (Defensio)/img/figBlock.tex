@@ -1,0 +1,80 @@
+% !TeX root = ../CI-Thesis.tex
+\begin{tikzpicture}[
+	,	scale=1.0
+	,	node distance=4mm,
+	,	font=\ttfamily,
+	,	BlockTitle/.style={font=\fontsize{12}{12}\color{black!80}\ttfamily}
+	,	TXHeader/.style={below=of T.west,anchor=north west, yshift = -3.5mm}
+] 
+\def\dist{5}
+
+\node[BlockTitle] (Bt) at ($(\dist*0,0)$) {Block 0 };
+\node[below=of Bt.west,anchor=north west] (Hash0) {Hash: \href{https://blockchain.info/de/block/000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f}{000019d668}};
+\node[below=of Hash0.west,anchor=north west] (Prev0) {Prev: 0000000000};
+\node[below=of Prev0.west,anchor=north west] (T) { Nonce: 208323689};
+%\node[TX, below=of T.west,anchor=north west,opacity=0] (T) { TX1: \ 0af121280a };
+\node[below=of T.west,anchor=north west] (T) { Time: 2009-01-03};
+\node[below=of T.west,anchor=north west] (T) { Merkle R.: 4a5e3};
+
+
+\node[TXHeader] (TXt) {TX Merkle Tree};
+
+\node[TX,txColorLight, below=of TXt.west,anchor=north west] (TXs) { TX0: \ \href{https://blockchain.info/de/tx/4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b}{4a5e321e4b}};
+
+\begin{scope}[on background layer]
+	\node[Block,fit={(Bt) (T)}] (B1) {};
+	\node[BlockD,fit={(Prev0) (T)}] (B1h) {};
+	\node[BlockD,draw=black, fill=none, inner sep = 1pt, very thick, dotted, fit={(Prev0) (T)}] (B1H) {};
+	\node[TX,fit={(TXt)(TXs)}] (TXb2) {};
+	\node[TX, draw=black, fill=none, thick, inner sep = 1pt, dashed, fit={(TXb2)}] (MRH) {};
+\end{scope}
+\path[thick, dashed, black,-latex]($(T.east)-(0.1,0)$) edge[out = 0, in = 0] (MRH.east);
+
+\node[BlockTitle] (Bt) at ($(\dist*1,0)$) {Block 1 };
+\node[below=of Bt.west,anchor=north west] (Hash1) {Hash: \href{https://blockchain.info/de/block/00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048}{0000839a8e}};
+\node[below=of Hash1.west,anchor=north west] (Prev1) {Prev: 000019d668};
+\node[below=of Prev1.west,anchor=north west] (T) { Nonce: 257339468};
+%\node[TX, below=of T.west,anchor=north west] (T) { TX1: \ 0ab112023a };
+\node[below=of T.west,anchor=north west] (T) { Time: 2009-01-09 };
+\node[below=of T.west,anchor=north west] (T) { Merkle R.: 0e3e2};
+
+
+\node[TXHeader] (TXt) {TX Merkle Tree};
+\node[TX,txColorLight, below=of TXt.west,anchor=north west] (TXs) { TX0: \ \href{https://blockchain.info/de/tx/0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098}{0e3e2357e8}};
+
+\begin{scope}[on background layer]
+	\node[Block,fit={(Bt) (T)}] (B1) {};
+	\node[BlockD,fit={(Prev1) (T)}] (B1h) {};
+	\path[thick, dashed, black,-latex, dotted]($(Prev1.west)+(0.1,0)$) edge[out=180, in = 0] (B1H.east);
+	\node[BlockD,draw=black, fill=none, inner sep = 1pt, very thick, dotted, fit={(Prev1) (T)}] (B1H) {};
+	\node[TX,fit={(TXt)(TXs)}] (TXb2) {};
+	\node[TX, draw=black, fill=none, thick, inner sep = 1pt, dashed, fit={(TXb2)}] (MRH) {};
+\end{scope}
+\path[thick, dashed, black,-latex]($(T.east)-(0.1,0)$) edge[out = 0, in = 0] (MRH.east);
+
+% \draw[ultra thick,-latex] (Prev1.west)--(Hash0.east);
+
+\node[BlockTitle] (Bt) at ($(\dist*2,0)$) {Block 2 };
+\node[below=of Bt.west,anchor=north west] (Hash2) {Hash: \href{https://blockchain.info/de/block/00000000d1145790a8694403d4063f323d499e655c83426834d4ce2f8dd4a2ee}{0000d11457}};
+\node[below=of Hash2.west,anchor=north west] (Prev2) {Prev: 0000839a8e};
+\node[below=of Prev2.west,anchor=north west] (T) { Nonce: 188941879};
+\node[below=of T.west,anchor=north west] (T) { Time:  2009-01-12 };
+\node[below=of T.west,anchor=north west] (T) { Merkle R.: f4f8a};
+
+
+\node[TXHeader] (TXt) {TX Merkle Tree};
+\node[TX,txColorLight, below=of TXt.west,anchor=north west] (TXs) { TX0: \ \href{https://blockchain.info/de/tx/b1fea52486ce0c62bb442b530a3f0132b826c74e473d1f2c220bfa78111c5082}{b1fea52486}};
+\node[TX,txColorLight, below=of TXs.west,anchor=north west] (TXs) { TX1: \ \href{https://blockchain.info/de/tx/f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16}{f4184fc596}};
+
+\begin{scope}[on background layer]
+	\node[Block,fit={(Bt) (T)}] (B1) {};
+	\node[BlockD,fit={(Prev2) (T)}] (B1h) {};
+	\path[thick, dashed, black,-latex, dotted]($(Prev2.west)+(0.1,0)$) edge[out=180, in = 0] (B1H.east);
+	\node[TX,fit={(TXt)(TXs)}] (TXb2) {};
+	\node[TX, draw=black, fill=none, thick, inner sep = 1pt, dashed, fit={(TXb2)}] (MRH) {};
+\end{scope}
+\path[thick, dashed, black,-latex]($(T.east)-(0.1,0)$) edge[out = 0, in = 0] (MRH.east);
+
+% \draw[ultra thick,-latex] (Prev2.west)--(Hash1.east);
+
+\end{tikzpicture} 

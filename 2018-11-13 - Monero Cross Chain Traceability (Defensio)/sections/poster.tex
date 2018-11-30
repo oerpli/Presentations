@@ -1,0 +1,157 @@
+% !TeX root = ../CI-Poster.tex
+\begin{columns}[t]\begin{column}{.47\textwidth}
+% ---------------------------------------------------------%
+\begin{block}{Motivation}
+    \vspace*{-8pt}
+    \begin{itemize}
+        \item Several methods to analyze Bitcoin transactions history
+        \begin{itemize}
+            \item
+            Multi-Input heuristic clusters addresses (A1-A3) of inputs occuring in single transaction (TX) as they likely belong to the same user
+            \vspace*{0.5cm}
+            \begin{center}
+                \input{./img/poster/multiInput.tex}
+            \end{center}
+            \item
+            Address-graph (left) labelled with address-clusters from multi-input heuristic (center) can be simplified to entity-graph (right)
+            \vspace*{0.5cm}
+            \begin{center}
+                \input{./img/poster/addressClustering.tex}
+            \end{center}
+        \end{itemize}
+        \item Increased chance of users being identified via TX-history
+        \item $\Rightarrow$ privacy-centric coins, e.g. Monero, based on CryptoNote \cite{van_saberhagen_cryptonote_2013}
+        \item Features of Monero, privacy-coin with highest market-cap:
+        % Monero's aim is  to address privacy concerns of other cryptocurrencies with the following methods:
+        \begin{itemize}
+            \item \textbf{Unlinkability:} \emph{Stealth addresses} hide recipients of transactions
+            \item \textbf{Untraceability:} Each TX input is a ring instead of a TXO (TX output). A ring is a set of TXOs (with the same denomination), one of which is the real input and the others are decoys (\emph{mixins}). These \emph{ring signatures} obfuscates the path of a given coin.
+            \item \textbf{Fungibility:} Values of TXOs are hidden with RingCT (confidential TXs) since 2017, making denomination constraint of rings unnecessary.
+        \end{itemize}
+        \item Analysis methods from other currencies do not work for Monero
+    \end{itemize}
+    
+
+%    While in the first years of its existence Bitcoin has been used extensively as a private method for transferring money, researchers found several analysis methods for identifying actors participating in the network which put its users at risk of being identified.
+ %   Motivated by this, alternative cryptocurrencies with a focus on privacy have been developed.
+  %  Monero (based on the CryptoNote protocol) is the privacy-coin with the highest market-capitalization.
+\end{block}
+\begin{block}{Traceability Analysis}
+    % \begin{itemize}
+    %     \item \textbf{Stealth addresses:} It is easy to see if two Bitcoin transactions are issued to the same address, as the recipient-field is public. Monero transactions on the other hand only disclose a one-time key, which is generated from the recipient's address and a random value.
+    %     Without access to the private view key of the recipient it is therefore usually not possible to identify transactions sent to a given address. This is referred to as \emph{unlinkability}
+    %     \item \textbf{Ring Signatures:} The Bitcoin blockchain contains transactions which consist of inputs (references to existing outputs, which are spent in the process) and outputs (which can then be spent in subsequent transactions). A Monero transaction also consists of inputs and outputs, but the inputs (rings) are references to sets of outputs (ring members), where only one output is really spent (real input), whereas the others are only there as decoys (mixins). As this obscures the path of a given coin, it is (in theory) either very hard or impossible to trace a value back to its origin. This is referred to as \emph{untraceability}
+    %     \item \textbf{Confidential Transactions:} As the value of each transaction output is public on the Bitcoin blockchain, it is often possible to correctly guess the change address (where excess funds from the inputs is sent back to the issuer of the transaction) based on the values. Monero hides the value of non-mining transactions, alleviating this concern.
+% \end{itemize}
+\begin{itemize}
+    \item Two independent 2017 publications~\cite{kumar_traceability_2017,moser_empirical_2018} demonstrated that a majority of transactions are traceable.
+    They used the following deductions techniques and heuristics:%
+    \begin{itemize}
+        \item Zero Mixin \& Intersection Removal (ZMR \& IR): Ring R1 has only one referenced TXO (O1), which is therefore the real input (\capEdgePoster{line width=1.5mm, virNodeDark=0.7}) in that ring and all occurrences in other rings (R2) have to be decoys (\capEdgePoster{line width=1.5mm, dashed, virNodeDark=1.0}) and can thus be removed.
+        Intersection removal is a generalization of this technique that marks TXOs occoring in $n$ rings (R3,R4)  with $n$ identical members (O3,O4) as spent (\capEdgePoster{line width=1.5mm, dashed, virNodeDark=0.7}).
+        \vspace*{0.5cm}
+        \begin{center}
+            \input{./img/poster/zmr.tex}
+        \end{center}
+        \item Guess Newest Heuristic (GNH): Exploits naive decoy sampling. As time distribution of decoys and real outputs differed, most recent TXO was real input in most cases.
+        \item Output Merging Heuristic (OMH): TX4 merges multiple TXOs (O2,O3) from TX2 in distinct rings (R1,R2). OMH assumes that those are the real inputs.
+        \vspace*{0.5cm}
+        \begin{center}
+            \input{./img/poster/omh.tex}
+        \end{center}
+    \end{itemize}
+    \item Monero developers reacted by implementing countermeasures:
+    \begin{itemize}
+        \item Higher mandatory minimum ringsize against ZMR (from 3 to 7)
+        \item Improved decoy sampling against GNH (sampling multiple $\leq$1.8 day old inputs and soon from a $\gamma$-distribution)
+    \end{itemize}
+    \item This work contributes to the state of the art in two ways:
+    \begin{itemize}
+        \item We propose a new tracing method, which exploits information leaked on currency-forks. We measure the privacy-impact from two recent forks (Monero Original \& MoneroV)
+        \item We evaluate the accuracy of GNH \& OMH based on results from our traceability analysis (using ZMR, IR and our new method).
+    \end{itemize}
+\end{itemize}
+    % In this work we propose a new method to trace Monero transactions, which exploits information leaked on currency-forks.
+    % We then evaluate the accuracy of the heuristics (GNH \& OMH) based on the transactions, where the ground-truth has been established with ZMR, IR and our new method.
+\end{block}
+% --------------------------------------------------------% 
+\end{column}\begin{column}{.47\textwidth}
+\begin{block}{Forks \& Cross Chain Analysis (CCA)}
+    \begin{itemize}
+        \item Cryptocurrencies forks result in two coins with a common history
+        \vspace*{0.45cm}
+        \begin{center}
+            \input{./img/poster/hardfork.tex}
+        \end{center}
+        \vspace*{-0.2cm}
+        \item Unspent pre-fork coins can be spent on both branches
+        \item A \emph{key image} (uniquely determined by real input) used to prevent double spending
+        \item If multiple rings (one per branch) have the same KeyImg, the same pre-fork TXO is spent in them
+        \item Real input is in intersection of the rings
+        \item TXOs in the symmetric difference must be decoys 
+%     \end{itemize}
+% \end{block}
+% %---------------------------------------------------------%
+% \begin{block}{Illustration of applied methods}
+%     \begin{itemize}
+        \item Monero blockchain (\tikz[anchor=base,baseline=-.125cm]{\node[font=\sffamily,thick, shape border rotate = 180,single arrow,XMVColor,scale=0.5] (l) at (0,0) {XMR};}) two blocks before and after a fork (\tikz[anchor=base,baseline=-.125cm]{\node[font=\sffamily,thick, shape border rotate = 180,single arrow,XMOColor,scale=0.5] (l) at (0,0) {XMO};})
+        \item One ring per block, numbers refer to KeyImg, letters are TXOs
+        \begin{center}
+            \input{./img/poster/heuristicExample.tex}
+        \end{center}
+    \end{itemize}
+    
+    \begin{enumerate}
+        \item IR can be applied to ring 0 and 1, $b,c$ therefore decoys in ring 2.
+        \item ZMR sets $a$ as \textcolor{vir8}{\textbf{real input}} in ring 2 and decoy in both rings 3.
+        \item CCA sets $d,g$ as decoys because  $\notin\{a,d,e,f\}\!\cap\!\{a,e,f,g\}$
+        \item CCA sets $x$ as real input because $|\{v,w,x\}\!\cap\!\{x,y,z\}| = 1$
+    \end{enumerate}
+% An illustration of the Monero blockchain 
+% (\tikz[anchor=base,baseline=-.125cm]{\node[font=\sffamily,thick, shape border rotate = 180,single arrow,XMVColor,scale=0.5] (l) at (0,0) {XMR};})%
+% , two blocks before and the first two blocks after a fork %
+% (\tikz[anchor=base,baseline=-.125cm]{\node[font=\sffamily,thick, shape border rotate = 180,single arrow,XMOColor,scale=0.5] (l) at (0,0) {XMO};})%
+% . Each block contains one ring (format: "$\langle$KeyImg (0-9)$\rangle$\{$\langle$ring members (a-z)$\rangle$\}"). The first two rings (0,1) have the same two members, i.e. intersection removal can be applied to mark these inputs ($b,c$) as mixin (\textcolor{black}{black}) in ring 2, leaving only input $a$, which is therefore the real (\textcolor{vir8}{\textbf{green}}) input. From the two rings with KeyImg 3, input $a$ can be therefore removed as it is spent. Additionally, $d$ and $g$ can also be ruled out as they are not part of the intersection $\{a,d,e,f\}\!\cap\!\{a,e,f,g\}$. The intersection of the two rings with KeyImg 4 consists of only one element, $x$, which is therefore the real input.
+\end{block}
+
+\begin{block}{Results}\vspace*{-10pt}
+    \newcommand{\qrMacro}[1]{\node[anchor=north east,fill=white, inner sep=2pt, xshift=-4pt,yshift=-4pt] at (rel axis cs:1.0,1.0) {\qrcode[height=22mm]{#1}};}
+    \begin{itemize}
+        \item Number of nontrivial rings (NTR, $>1$ RM)) and traced NTRs.
+        \begin{itemize}
+            \item Accuracy low since 2017/RingCT. Small peak in April 2018 due to CCA.
+        \end{itemize}
+    \end{itemize}
+    \begin{center}
+        \input{./img/poster/linked.tex}%should be "traced" actually
+    \end{center}
+    \begin{itemize}
+        \item Status of RM identified as `real' with GNH and OMH.
+        \begin{itemize}
+            \item Improved decoy sampling routines resulted in low accuracy.
+        \end{itemize}
+    \end{itemize}
+    \begin{center}
+        \input{./img/poster/guess_newest.tex}
+    \end{center}
+    \begin{itemize}
+        \item[]\begin{itemize} % invisible 1st indent itemize
+            \item Aggregation by output-creation (out) or spend time (in).
+            \item Lower \# of applications due to less outputs/inputs since RingCT.
+        \end{itemize}
+    \end{itemize}
+    \begin{center}
+        \input{./img/poster/merge_stats.tex}
+    \end{center}
+    \begin{itemize}
+        \item Results suggest that amount of traceable rings with current transaction protocol is low enough to not jeopardize privacy of Monero's users.
+         \item Forks with more traction than XMO/XMV could have higher impact. 
+    \end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+% \begin{block}{References}
+    \vspace*{-10pt}
+    \bibliographystyle{plain}
+    \bibliography{cryptoPoster}
+% \end{block}

@@ -1,0 +1,271 @@
+% !TeX root = ../CI-Thesis.tex
+
+%% ! Helpers & Imports
+\usepackage{pgfplots,pgfplotstable}
+\usetikzlibrary{shapes,decorations,calc,decorations.markings, arrows.meta}
+\usetikzlibrary{shapes.multipart, shapes.arrows}
+\usetikzlibrary{patterns}
+\usetikzlibrary{positioning,fit}
+\usepgfplotslibrary{colormaps}
+\usetikzlibrary{backgrounds}
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=external]
+\pgfplotsset{colormap name=viridis}
+\pgfplotsset{compat=1.16}
+
+
+% from https://tex.stackexchange.com/questions/120336/adding-several-labels-year-month-to-a-graph-in-pgfplots
+\usepgfplotslibrary{dateplot}
+\makeatletter
+\long\def\ifnodedefined#1#2#3{%
+    \@ifundefined{pgf@sh@ns@#1}{#3}{#2}%
+}
+\makeatother
+
+
+
+\DeclareRobustCommand{\capNode}[2][\empty]{%
+\tikz[anchor=base,baseline=-.125cm]{\node[#2] (l) at (0,0) {#1};}\xspace}
+
+\DeclareRobustCommand{\capEdge}[1]{%
+\tikz[scale=0.8,anchor=base,baseline=-.125cm]{\draw[#1, -{Latex[length=1.5mm, width=1mm]}] (0,-0.25)--(0.5,0.25);}\xspace}
+
+\DeclareRobustCommand{\capEdgePoster}[1]{%
+\tikz[scale=2.25,anchor=base,baseline=0.125cm]{\draw[-{Latex[length=6mm, width=3mm]},#1] (0,0)--(0.5,0.5);}\xspace}
+
+% Figure with source Attribution
+\newcommand\sourcedFigure[2]{
+\begin{tikzpicture}
+	\node[] (fig) {#1};
+	\node [anchor=south east,color=darkgray,inner sep=0,xshift=-15pt,yshift=0pt]at (fig.north east) {\footnotesize Source: #2};
+\end{tikzpicture}}
+% Figure with query Attribution
+\newcommand\queryFigure[3]{
+\begin{tikzpicture}
+	\node[] (fig) {#1};
+	\node [anchor=south east,color=darkgray,inner sep=0,xshift=-15pt,yshift=0pt]at (fig.north east) {\footnotesize SQL: \url{#2}, CSV: \url{#3}};
+\end{tikzpicture}}
+
+% Global Color definitions
+  
+\definecolor{vir0}{rgb}{0.267004, 0.004874, 0.329415}
+\definecolor{vir1}{rgb}{0.282623, 0.140926, 0.457517}
+\definecolor{vir2}{rgb}{0.253935, 0.265254, 0.529983}
+\definecolor{vir3}{rgb}{0.206756, 0.371758, 0.553117}
+\definecolor{vir4}{rgb}{0.163625, 0.471133, 0.558148}
+\definecolor{vir5}{rgb}{0.127568, 0.566949, 0.550556}
+\definecolor{vir6}{rgb}{0.134692, 0.658636, 0.517649}
+\definecolor{vir7}{rgb}{0.266941, 0.748751, 0.440573}
+\definecolor{vir8}{rgb}{0.477504, 0.821444, 0.318195}
+\definecolor{vir9}{rgb}{0.741388, 0.873449, 0.149561}
+\definecolor{vir10}{rgb}{0.993248, 0.906157, 0.143936}
+
+\pgfplotsset{
+	xmaxCutoff/.style={xmax = 2018-08-15},
+	fancyDateTicks/.style={
+		, date coordinates in=x
+		, xmin = 2014-03-15
+		, xmaxCutoff % , xmax = 2018-08-15
+		, xtick=data
+		, extra x ticks={2014-08-01,2015-06-15,2016-06-15,2017-06-15,2018-03-15} % where year ticks should be placed
+		, extra x tick style={
+			, yshift=-3ex
+			, tick label style={rotate=-90}
+			, xticklabel=\year
+			, xticklabel style={name={}}
+			, major tick length=0pt
+			}
+			, xticklabel style={
+				, rotate = 90
+				, font=\scriptsize
+			, anchor=near xticklabel
+			, name=\ifnodedefined{start\year} % Have we already started this year?
+			{end\year}  % Then this could be the last month
+			{start\year} % Otherwise, start the year
+			, append after command=
+			\pgfextra{\pgfmathtruncatemacro\lastyear{\year-1}}
+			\ifnodedefined{end\lastyear}
+			{{\ifnum\month=1 (start\lastyear.165) edge (end\lastyear.195) \pgfextra{\xdef\finalyear{\year}}\fi}}{}
+			}
+			, after end axis/.code={\draw (start\finalyear.165) -- (end\finalyear.195);}
+			, xticklabel=\month
+			, date ZERO=2014-04-01,% <- improves precision!
+	},
+	fancyDateTicksSlides/.style={
+		, date coordinates in=x
+		, xmin = 2014-03-15
+		, xmaxCutoff % , xmax = 2018-08-15
+		, xtick=data
+		, extra x ticks={2014-08-01,2015-06-15,2016-06-15,2017-06-15,2018-04-15} % where year ticks should be placed
+		, extra x tick style={
+			% , yshift=-3ex
+			, tick label style={rotate=-90}
+			, xticklabel=\year
+			, xticklabel style={name={}}
+			, major tick length=0pt
+			}
+			, xticklabel style={
+				, rotate = 90
+				, font=\scriptsize
+				% , scale=0.5
+				, anchor=near xticklabel
+				, name=\ifnodedefined{start\year}{end\year}{start\year}
+				% , append after command=\pgfextra{\pgfmathtruncatemacro\lastyear{\year-1}}
+			% \ifnodedefined{end\lastyear}
+			% {{\ifnum\month=1 (start\lastyear.165) edge (end\lastyear.195) \pgfextra{\xdef\finalyear{\year}}\fi}}{}
+			}
+			% , after end axis/.code={\draw (start\finalyear.165) -- (end\finalyear.195);}
+			, xticklabel=\empty
+			, date ZERO=2014-04-01,% <- improves precision!
+	}
+}
+
+\tikzset{
+	niceNums/.style = {
+		,	/pgf/number format/fixed
+		,	/pgf/number format/1000 sep=\thinspace
+	},
+	twoColorDashed/.style 2 args={
+		draw
+		,very thick
+		,smooth
+		,tension=0.2
+		,#2
+	,postaction={draw
+		,ultra thick
+		,densely dashed
+		,#1
+	}},
+	virNode/.style={
+		% pgfplots/colormap name=viridis,
+		color of colormap={#1 * 1000-1}, % offset * 2 + scale <= 2000
+		draw=.!60!black,
+		fill=.!70!white,
+		text = black
+	},
+	virNodeDark/.style={
+		% pgfplots/colormap name=viridis,
+		color of colormap={#1 * 1000-1}, % offset * 2 + scale <= 2000
+		draw=.!70!black,
+		fill=.!90!white,
+		text = black
+	},
+	nodeWhite/.style={
+		draw=white!40!black,
+		fill=black!30!white,
+		text = black
+	},
+	nodeBlack/.style={
+		draw=black!40!black,
+		fill=black!50!white,
+		text = white
+	},
+	waterFall/.style={
+		% pgfplots/colormap name=viridis,
+		color of colormap={#1 * 99 - 50}, 
+		draw=.!60!black,
+		fill=.!70!white,
+		text = black
+	},	
+	txColor/.style={
+		color of colormap={400},
+		draw=.!70!black,
+		fill=.!90!white,
+		text = black
+	},
+	txColorLight/.style={
+		color of colormap={400},
+		draw=.!70!black,
+		fill=.!90!black,
+		text = white
+	},
+	txSpentColor/.style={
+		color of colormap={600},
+		draw=.!70!black,
+		fill=.!80!white,
+		text = black
+	},
+	XMRColor/.style={
+		color of colormap={850},
+		draw=.!70!black,
+		fill=.!80!black,
+		text = black
+	},
+	XMOColor/.style={
+		color of colormap={400},
+		draw=.!80!black,
+		fill=.!90!white,
+		text = white
+	},
+	XMVColor/.style={
+		color of colormap={100},
+		draw=.!80!black,
+		fill=.!80!white,
+		text = white
+	},
+	blockColor/.style={
+		color of colormap={850},
+		draw=.!70!black,
+		fill=.!80!black,
+		text = black
+	},
+	blockDarkColor/.style={
+		color of colormap={850},
+		draw=.!70!black,
+		fill=.!100!white,
+		text = black
+	},
+}
+
+
+% Consistent shapes for same structures
+\tikzset{
+	TX/.style={
+		,	rounded corners = 0.25mm
+		,	thick
+		,	txColor
+	},
+	TXs/.style={
+		,	rounded corners = 0.25mm
+		,	thick
+		,	txSpentColor
+	},
+	Block/.style={
+		,	very thick
+		,	rounded corners = 0.5mm
+		,	blockColor
+	},
+	BlockD/.style={
+		,	rounded corners = 0.5mm
+		,	blockDarkColor
+		,	inner sep = 0.75mm
+	},
+	outIndex/.style={
+		,	rounded corners = 0.3mm
+		,	blockColor
+		,	inner sep = 0.3mm
+		,	draw=none
+	}
+} 
+
+% Plot cycle list
+%! Unused & invalid values
+\pgfplotscreateplotcyclelist{connCountList}{
+	{bankCount=6},
+	{bankCount=5},
+	{bankCount=4},
+	{bankCount=3},
+	{bankCount=2},
+	{bankCount=1},
+	{bankCount=0},
+}
+
+
+% put figures on top of pages  
+\makeatletter
+\setlength{\@fptop}{8pt}
+\makeatother
+
+
+% Reference plotlines in text
+\newcommand{\plotref}[1]{{[\,\ref{#1}\,]}\xspace}

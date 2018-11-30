@@ -1,0 +1,48 @@
+% !TeX root = ../../CI-Slides.tex
+\begin{tikzpicture}[scale=1.3, -{Latex[length=3mm, width=1.5mm]}, deposit/.style={txColor, dashed}] 
+\coordinate (C1) at (2,2);
+
+\begin{scope}[xshift=-4cm]
+    \node[nodeWhite] (X1) at (-1,0.8){1}; 
+    \node[nodeWhite] (X2) at (-1,0){2}; 
+    \node[nodeWhite] (X3) at (-1,-0.8){3}; 
+    \node[nodeWhite] (Y1) at (1,0.8){4};
+    \node[nodeWhite] (Y2) at (1,0){5};
+    \node[nodeWhite] (Y3) at (1,-0.8){6};
+    
+    \path[thick, nodeBlack](X1) edge[] (Y1);
+    \path[thick, nodeBlack](X2) edge[] (Y1);
+    \path[thick, nodeBlack](X1) edge[] (Y2);
+    \path[thick, nodeBlack](X2) edge[] (Y2);
+    \path[thick, nodeBlack](X2) edge[] (Y3);
+    \path[thick, nodeBlack](X3) edge[] (Y2);
+    \path[thick, nodeBlack](X3) edge[] (Y3);
+\end{scope}
+
+\uncover<2->{\begin{scope}[]
+    \node[virNode=0.4] (X1) at (-1,0.8){A}; 
+    \node[virNode=0.4] (X2) at (-1,0){A}; 
+    \node[virNode=0.4] (X3) at (-1,-0.8){A}; 
+    \node[virNode=0.4] (Y1) at (1,0.8){A};
+    \node[virNode=0.6] (Y2) at (1,0){B};
+    \node[virNode=0.8] (Y3) at (1,-0.8){C};
+   
+    \path[thick, nodeBlack](X1) edge[] (Y2);
+    \path[thick, nodeBlack](X2) edge[] (Y2);
+    \path[thick, nodeBlack](X2) edge[] (Y3);
+    \path[thick, nodeBlack](X3) edge[] (Y2);
+    \path[thick, nodeBlack](X3) edge[] (Y3);
+    \path[thick, dashed, virNodeDark=1.0](X1) edge[] (Y1);
+    \path[thick, dashed, virNodeDark=1.0](X2) edge[] (Y1);
+\end{scope}}
+\uncover<3->{\begin{scope}[xshift=4cm]
+    \node[virNode=0.4] (X2) at (-1,0){A}; 
+    
+    \node[virNode=0.6] (Y2) at (1,0){B};
+    \node[virNode=0.8] (Y3) at (1,-0.8){C};
+    
+    \path[thick, nodeBlack](X2) edge[] (Y2);
+    \path[thick, nodeBlack](X2) edge[] (Y3);
+\end{scope}}
+
+\end{tikzpicture} 

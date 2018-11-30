@@ -1,0 +1,22 @@
+% !TeX root = ../../CI-Poster.tex
+\begin{tikzpicture}[
+    , every node/.style={}
+    , arr/.style={font=\sffamily, ultra thick, shape border rotate = 180,XMVColor, single arrow, minimum width = 40pt, minimum height = 40pt, anchor=tip}
+    ,  real/.style={}
+    ,  mixin/.style={strike out}
+    ]
+    \newcommand{\mi}[1]{\textcolor{black}{#1}}
+    \newcommand{\ri}[1]{\textcolor{vir8}{\textbf{#1}}}
+    \begin{scope}
+        \node[arr] (last) at (-2,0) {0:\{b c\}};
+        \node[arr] (last) at (last.east) {1:\{b c\}};
+        \node[arr] (f1) at (last.east) {2:\{\ri{a} \mi{b c}\textcolor{white}{\}}};
+        % Fork 1 
+        \node[arr, XMOColor] (last) at (f1.east){3:\{\mi{a d} \textcolor{white}{ e f\}}};
+        \node[arr, XMOColor] (last) at (last.east) {4:\{\mi{v w} \ri{x}\textcolor{white}\}};
+        % Fork 2
+        \node[arr] (last) at ($(last.tip)-(0,4)$) {4:\{\ri{x} \mi{y} \mi{z }\textcolor{white}{\}}};
+        \node[arr,anchor=east] (last) at (last.tip) {3:\{\mi{a} \textcolor{white}{ e f \mi{g}\}}};
+        \node[arr,anchor=east, rotate = -45, inner sep=19pt] (last) at ($(last.tip)-(0.3,0)$) {\ldots};
+    \end{scope}
+\end{tikzpicture}

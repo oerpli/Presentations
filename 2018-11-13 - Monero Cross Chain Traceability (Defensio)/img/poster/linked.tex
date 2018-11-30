@@ -1,0 +1,67 @@
+% !TeX root = ../../CI-Poster.tex
+\pgfplotstableread[col sep=tab,trim cells]{./data/monthly_stats.csv}\table
+% SQL: https://git.io/f45pc CSV: https://git.io/f45pG
+\begin{tikzpicture}
+    \def\barWidth{14pt}
+    \def\barShift{1.35pt}
+    \begin{axis}[
+        %, title={Accuracy of Guess Newest heuristic}
+        , width=0.85\textwidth
+        , height=220pt
+        , axis y line* = left
+        % enlargelimits=0.15,
+        % legend style={at={(0.5,-0.15)}, anchor=north,legend columns=-1},
+        , ylabel={\#NTR}
+        , ylabel style={font=\scriptsize}
+        , yticklabel style={font=\scriptsize}
+        , bar width=2mm
+        , ymin = 0
+        , ymax = 625000
+        , ytick={0,200000,400000,600000}
+        , ymajorgrids, ytick style={draw=none}
+        , legend cell align={left}
+        , legend pos ={outer north east}
+        , legend style={font=\small, anchor = south east,yshift=3pt,draw=none, legend columns=-1, xshift=-0.5cm}
+        , fancyDateTicks
+        ]
+    %Bars
+    \addplot[forget plot, ybar, bar width = \barWidth, fill=vir8, draw = none] table[x = month,y = nt_in]\table;
+    \addlegendimage{ybar, area legend, fill=vir8, draw = none}
+    \addlegendentry{\#Nontrivial rings (NTR)\quad}
+    \addlegendimage{ybar, area legend, fill=vir8!50!black, draw = none}
+    \addlegendentry{\#NTR traced\quad}
+    \addlegendimage{twoColorDashed={vir10, line width=2mm}{vir4, line width=2mm}}
+    \addlegendentry{\%NTR traced ($\rightarrow$)}
+    \addplot[ybar, area legend, bar width = 14pt, fill = black, opacity = 0.5, draw = none] table[x = month,y = linked_nt_abs]\table;
+    % \addlegendentry{NTR traced}
+        
+        
+        %Shades
+        \addplot[ybar, area legend, bar width = \barWidth, fill = black, opacity = 0.45, draw = none] table[x = month,y = linked_nt_abs]\table;
+        
+        %\addlegendentry{\#Inputs Linked}
+        %\addlegendentry{\#NT Inputs Linked}
+    % QR Code
+\end{axis}
+\begin{axis}[
+    ,legend cell align={left}
+    , width=0.85\textwidth
+    , height=220pt
+    , axis y line*=right
+    , ylabel={\% NTR traced}
+    , ylabel style={font=\scriptsize}
+    , yticklabel style={font=\scriptsize}
+    , ymin = 0, ymax = 93.75
+    , ytick={0,30,60,90}
+    , xtick = \empty
+    , y filter/.code={\pgfmathparse{#1*100}\pgfmathresult}
+    , ytick style={draw=none}
+    , date coordinates in=x
+    , xmin = 2014-03-15, xmaxCutoff
+    ]
+    % \addplot[vir10,opacity=0.8,thick,smooth] table[x = month,y = linked_nt]\table;
+    \addplot[twoColorDashed={vir10, line width=1.5mm}{vir4, line width=1.5mm}] table[x = month,y = linked_nt]\table;\label{plt:linked_nt}
+\qrMacro{http://git.io/f45pG}
+    % \node[anchor=north east,fill=white, inner sep=4pt] at (rel axis cs:1.01,1.05) {\qrcode[height=2cm]{http://git.io/f45pG}};
+\end{axis}
+\end{tikzpicture}

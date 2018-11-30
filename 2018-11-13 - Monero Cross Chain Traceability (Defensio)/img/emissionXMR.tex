@@ -1,0 +1,54 @@
+% !TeX root = ../Plots.tex
+\begin{tikzpicture}[]
+\pgfplotstableread{./data/emission/emissionXMR.csv}\Emission
+\begin{axis}[
+	, height=130pt
+	, width = 0.8\textwidth
+	, hide x axis
+	, axis y line*=right
+	, ylabel={Total amount}
+	, scaled y ticks = false
+	, scaled x ticks = false
+	% , tick label style={/pgf/number format/fixed}
+	, yticklabel style={niceNums
+		% ,	/pgf/number format/fixed
+		% ,	/pgf/number format/1000 sep = \thinspace
+		% ,	/pgf/number format/precision=1 %
+		% ,	/pgf/number format/sci generic={mantissa sep=\times,exponent={10^{#1}}}
+		% ,	/pgf/number format/zerofill
+		% ,	/pgf/number format/dec sep={}
+		% ,	/pgf/number format/precision=2
+		}
+	, ytick={21000000,15000000, 10000000,5000000,0}
+	% , yticklabels={2.1,1.5, 1.0,0.5,0}
+	, xmin=1, ymin = 0.000000005, ymax = 22000000, xmax=4950000
+]
+
+\addplot[fill opacity=0.2,txColor,ultra thick
+	,	each nth point=2
+	,	filter discard warning=false
+	,	unbounded coords=discard
+	] table [x = block, y=endAmount]{\Emission};\label{plt:totalXMR}
+\end{axis}
+\begin{axis}[
+	, height=130pt
+	, width = 0.8\textwidth
+	, axis y line*=left
+	, xlabel={Block height}
+	, ylabel={Emission}
+	, ytick={18,10,5,0.6}
+	% , yticklabels={50,25,12.5,6.25,\ldots}
+	%, ymode=log
+	%, log basis y={2}
+	, xmin=1, ymin = 0.000000005, ymax = 18, xmax=4950000
+	% , x label style={at={(axis cs:6,-9)} ,anchor=north, rotate = -9},
+	% , legend style={nodes={scale=0.65, transform shape}}
+	, legend style={at={(0.97,0.5)},anchor=east}
+	, legend cell align={left}
+]
+\addplot[fill opacity=0.1,blockColor,ultra thick] table [x = block, y=emission]{\Emission};\label{plt:emissionXMR}
+\addlegendentry{Emission/Block}
+
+\addlegendimage{/pgfplots/refstyle=plt:totalXMR}\addlegendentry{Total supply}
+\end{axis}
+\end{tikzpicture}

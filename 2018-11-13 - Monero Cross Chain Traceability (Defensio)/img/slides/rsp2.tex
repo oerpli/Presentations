@@ -1,0 +1,37 @@
+% !TeX root = ../../CI-Slides.tex
+% ringSizeProgression
+\begin{tikzpicture}[scale=1]
+	\def\XDOMMAX{13}
+	\def\XDOMMIN{-2}
+	\begin{axis}[
+		, xlabel={Effective ringsize}
+		, xticklabels={1,...,9,$>$9}
+		% , ylabel={Months}
+		, zlabel={Density}
+		, x label style={anchor=center, rotate = -9},
+		, xmin=0.75
+		, xmax=10.5
+		, xtick={1,...,10},
+		, zmin=0
+		, zmax=1
+		, date coordinates in=y
+		, ytick={2014-04-01,2015-01-01,2016-01-01,2017-01-01,2018-01-01}
+		, ymajorgrids
+		, yticklabel style = {xshift=.1cm, yshift=.27cm, font=\scriptsize, rotate=-9}
+		, yticklabel ={\year-\month}
+		, date ZERO=2014-04-01,% <- improves precision!
+		, ymin = 2014-04-01
+		, ymax = 2018-09-01
+		, legend style={nodes={scale=0.65, transform shape}}
+		, legend cell align={left}
+	]
+	
+	\addplot3 [twoColorDashed={vir8,very thick}{black, thick}] table [x = avg, y = month, z expr = 0]{\ringsizes};\label{plt:avg_rs_3d}
+	\addlegendentry{Average ringsize}
+	\addplot3 [twoColorDashed={vir10,very thick}{black,thick}] table [x = effavg, y = month, z expr = 0]{\ringsizes};\label{plt:avg_ers_3d}
+	\addlegendentry{Effective avg ringsize}
+	\pgfplotsinvokeforeach{1,...,10}{
+		\addplot3 [fill opacity=0.65,waterFall=#1,mark=none] table [x expr = #1, y=month, z=effring#1]{\ringsizes};
+	}
+	\end{axis}
+\end{tikzpicture}
