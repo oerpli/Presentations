@@ -13,8 +13,9 @@ Presentations I consider more interesting are bold (ymmv).
 * `CS` `2016-04-13` [**Geometric Independent Set**](https://github.com/oerpli/Presentations/tree/master/2016-04-13%20-%20Geometric%20Independent%20Set) (PTAS algorithm for some GIS problems, [**Report**](https://github.com/oerpli/Presentations/tree/master/2016-04-13%20-%20Geometric%20Independent%20Set/Report))
 * `CS` `2016-06-13` [Formula Evaluation](https://github.com/oerpli/Presentations/tree/master/2016-06-13%20-%20Formula%20Evaluation) (Logic as game & μ-Calculus)
 * `CS` `2016-06-27` [**Complexity and Philosophy**](https://github.com/oerpli/Presentations/tree/master/2016-06-27%20-%20Complexity%20and%20Philosophy) (some highlights from [S. Aaronsons essay](http://www.scottaaronson.com/papers/philos.pdf))
-* `Ph` `2017-11-27` [**Systemic Risk**](https://github.com/oerpli/Presentations/tree/master/2017-11-27%20-%20Systemic%20Risk%20(Defensio)) (Defensio of my master's thesis in physics)
+* `Ph` `2017-11-27` [**Systemic Risk**](https://github.com/oerpli/Presentations/tree/master/2017-11-27%20-%20Systemic%20Risk%20(Defensio)) (Thesis defense for my master's Physics)
 * `CS` `2018-01-25` [**Polykernel for Block Graph Deletion**](https://github.com/oerpli/Presentations/tree/master/2018-01-25%20-%20Polykernel%20for%20Block%20Graph%20Deletion) ([Kernelization](https://en.wikipedia.org/wiki/Kernelization) of Block graph deletion problem, some proofs omitted)
+* `CS` `2018-01-25` [**Monero Cross Chain Traceability**](https://github.com/oerpli/Presentations/tree/master/2018-11-13%20-%20Monero%20Cross%20Chain%20Traceability%20(Defensio)) (Thesis defense for my master's in CS)
 
 
 ## Getting started
