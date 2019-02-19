@@ -1,0 +1,26 @@
+% !TeX root = ../Plots.tex
+\begin{tikzpicture}[
+        , every node/.style={font=\sffamily,XMRColor, ultra thick, shape border rotate = 180}
+        , box/.style={minimum height = 30pt, minimum width = 30pt}
+        , arr/.style={single arrow, minimum width = 30pt, minimum height = 40pt, anchor=tip}
+        ]
+    \node[box] (last) at (-2,0){0};% top color=vir6, bottom color=vir8,
+    \node[arr] (last) at (last.east) {1};%\node[arr] (last) at (last.east) {2};
+    \node[arr] (last) at (last.east) {\ldots};
+    \node[arr] (f1) at (last.east) {$n$};
+    % Fork 1 
+    \node[arr,rotate=27] (last) at (f1.before tail){$n+1$};
+%        \node[arr,xshift = 0.5mm] (last) at (last.east) {$n+2$};
+        % \node[arr] (last) at (last.east) {1\,591\,336};
+    % Fork 2
+    \node[arr, XMVColor, rotate = -27] (last) at (f1.after tail){$n+1$};
+        %\node[arr,xshift = 0.5mm] (last) at (last.east) {\ldots};
+        \node[arr,XMVColor,xshift = 0.5mm] (f2) at (last.east) {$n+2$};
+        \node[arr,rotate=45] (last) at ($(f2.before tail)+(-0.5,0.05)$){$n+3$};
+
+
+    % 2nd Fork 2
+    \node[arr,XMVColor] (last) at (f2.east) {$n+3$};
+    \node[arr,XMVColor] (last) at (last.east) {$n+4$};
+    \node[arr,XMVColor] (last) at (last.east) {\ldots};
+\end{tikzpicture}

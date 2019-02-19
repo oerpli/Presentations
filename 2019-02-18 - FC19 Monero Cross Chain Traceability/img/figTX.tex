@@ -1,0 +1,50 @@
+% !TeX root = ../CI-Thesis.tex
+\begin{tikzpicture}[
+	,	scale=1.0
+	,	node distance=4mm,
+	,	font=\ttfamily\bfseries,
+	,	BlockTitle/.style={font=\fontsize{12}{12}\color{black!80}\ttfamily\bfseries}
+	,	TxTitle/.style={font=\fontsize{12}{12}\color{white}\ttfamily\bfseries}
+	,	-latex
+] 
+\def\dist{6}
+
+% https://webbtc.com/tx/a1075db55d416d3ca199f55b6084e2115b9345e16c5cf302fc80e9d5fbf5d48d.json
+
+\node[TxTitle] (BT) at ($(\dist*0,0)$) {TX Hash:\ \href{https://blockchain.info/de/tx/be83f7760b5f1a91ebe8666e719cd0b7e8c66d1ceb9d151c401f41934b1cebe9}{be83f7760b5f1a91}};
+\node[below=of BT.west,anchor=north west] (Hash0) {Version no:\quad1};
+\node[below=of Hash0.west,anchor=north west] (Hash0) {\#Inputs:\qquad\ 2};
+\node[below=of Hash0.west,anchor=north west] (numOut) {\#Outputs:\quad\ \ 2};
+
+\node[below=of numOut.west,anchor=north west] (H1) {TX Hash/Index:\ \href{https://blockchain.info/de/tx/ba7521ec534fb14f8da39dc3460281e8db98aa4d016226f252b301616f0721e1}{ba7521ec}/2};
+\node[below=of H1.west,anchor=north west] (Sig1) {Signature: 3045022100c\ldots};
+
+\node[below=of Sig1.west,anchor=north west, yshift=-2mm] (H2) {TX Hash/Index:\ \href{https://blockchain.info/de/tx/888e046478c9b004c4f45e24851052989ebdf666b61369524a9ca69a1bc5aa91}{888e0464}/1};
+\node[below=of H2.west,anchor=north west] (Sig2) {Signature: 30440220244\ldots};
+
+
+\node[right=of BT.south east,anchor=north west,yshift=-0.6mm, xshift=3mm] (Outs) {Outputs:};
+\node[below=of Outs.west,anchor=north west] (i1) {0:};
+\node[right=of i1.north east,anchor=north west] (O1) {\ \ \ \ \ Value: 1.99713455};
+\node[below=of i1.west,anchor=north west] (O1) {Recipient addr: \href{https://blockchain.info/address/126uLE1GDFxjjV5enHZzSGHJHiupH67FmA}{126uLE1GDFxj}};
+\node[below=of O1.west,anchor=north west] (O1) {scriptPubKey: \ldots{}OP\_CHECKSIG};
+\node[below=of O1.west,anchor=north west, yshift=-2mm] (i2) {1:};
+\node[right=of i2.north east,anchor=north west] (O2) {\ \ \ \ \ Value: 6.00255800};
+\node[below=of i2.west,anchor=north west] (O2) {Recipient addr:  \href{https://blockchain.info/address/16jaR3vF4TH3ZdHJeRfVW8a5VYH2NbvbSB}{16jaR3vF4TH3}};
+\node[below=of O2.west,anchor=north west] (O2) {scriptPubKey: \ldots{}OP\_CHECKSIG};
+
+\node[opacity=0, right=of O2.east, xshift=-6mm, yshift=-2mm](Stretch){ };
+\begin{scope}[on background layer]
+	\node[TX,fit={(BT) (Sig2) (Stretch)}] (B1) {};
+	\node[BlockD,fit={(H1) (Sig1)}] (B1h) {};
+	\node[BlockD,fit={(H2) (Sig2)}] (B1h) {};
+	\node[Block,fit={(Outs) (O2)}] (B1h) {};
+
+	\node[BlockD,fit={(i1) (O1)}] (B1h) {};
+	\node[BlockD,fit={(i2) (O2)}] (B1h) {};
+
+	\node[outIndex, fit={(i1)}, xshift=-0.55mm, yshift=0.55mm] (B1h) {};
+	\node[outIndex, fit={(i2)}, xshift=-0.55mm, yshift=0.55mm] (B1h) {};
+\end{scope}
+
+\end{tikzpicture} 

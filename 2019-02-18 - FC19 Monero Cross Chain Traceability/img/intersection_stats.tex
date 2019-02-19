@@ -1,0 +1,24 @@
+% !TeX root = ../CI-Thesis.tex
+\pgfplotstableread[col sep=tab,trim cells]{./data/count_intersections.csv}\table
+\begin{tikzpicture}
+\begin{axis}[
+    %, title={Accuracy of Guess Newest heuristic}
+    , width=\textwidth
+    , height=200pt
+    % enlargelimits=0.15,
+    % legend style={at={(0.5,-0.15)}, anchor=north,legend columns=-1},
+    , ylabel={\# Intersection Sets}
+    , bar width=2mm
+    ,legend cell align={left}
+    , ymin = 0
+    , ymax = 1500
+    , ymajorgrids
+    , ytick style={draw=none}
+    , fancyDateTicks
+    ]
+    \addplot[ybar stacked, virNodeDark=0.8, semithick,area legend] table [x = month , y = trivial] \table;\label{plt:is_trivial}
+	\addlegendentry{trivial}
+    \addplot[ybar stacked, virNodeDark=1.0, semithick,area legend] table[x = month , y = nontrivial]\table;\label{plt:is_nontrivial}
+	\addlegendentry{nontrivial}
+	\end{axis}
+\end{tikzpicture}

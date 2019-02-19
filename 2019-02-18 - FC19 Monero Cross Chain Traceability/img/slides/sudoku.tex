@@ -1,0 +1,61 @@
+% !TeX root = ../../CI-Thesis.tex
+\begin{tikzpicture}[scale=.5]
+	\newcounter{row}
+	\newcounter{col}
+	\newcommand\setrow[9]{
+	  \setcounter{col}{1}
+	  \foreach \n in {#1, #2, #3, #4, #5, #6, #7, #8, #9} {
+		\edef\x{\value{col} - 0.5}
+		\edef\y{9.5 - \value{row}}
+		\node[anchor=center] at (\x, \y) {\n};
+		\stepcounter{col}
+	  }
+	  \stepcounter{row}}
+\begin{scope}
+	\draw (0, 0) grid (9, 9);
+	\draw[very thick, scale=3] (0, 0) grid (3, 3);
+
+	\setcounter{row}{1}
+	\setrow {1}{2}{3}  {4}{5}{6}  { }{ }{ }
+	\setrow {4}{5}{6}  { }{ }{ }  {1}{2}{3}
+	\setrow { }{ }{ }  { }{ }{ }  { }{ }{ }
+
+	\setrow { }{ }{ }  {7}{8}{ }  { }{ }{ }
+	\setrow { }{ }{ }  { }{ }{ }  {7}{8}{ }
+	\setrow { }{ }{ }  { }{ }{ }  { }{ }{ }
+
+	\setrow { }{ }{ }  {}{7}{8}  { }{ }{ }
+	\setrow { }{ }{ }  { }{ }{ }  { }{7}{8}
+	\setrow { }{ }{ }  { }{ }{ }  { }{ }{ }
+
+	\node[anchor=center] at (4.5, -0.6) {Strange example Sudoku};
+\end{scope}
+  
+\begin{scope}[xshift=12cm, font=\sffamily]
+	\draw[black] (0, 0) grid (9, 9);
+	\draw[black][very thick, scale=3] (0, 0) grid (3, 3);
+
+	\setcounter{row}{1}
+	\setrow {1}{2}{3}  {4}{5}{6}  { }{ }{ }
+	\setrow {4}{5}{6}  { }{ }{ }  {1}{2}{3}
+	\setrow { }{ }{ }  { }{ }{ }  { }{ }{ }
+
+	\setrow { }{ }{ }  {7}{8}{ }  { }{ }{ }
+	\setrow { }{ }{ }  { }{ }{ }  {7}{8}{ }
+	\setrow { }{ }{ }  { }{ }{ }  { }{ }{ }
+
+	\setrow { }{ }{ }  {}{7}{8}  { }{ }{ }
+	\setrow { }{ }{ }  { }{ }{ }  { }{7}{8}
+	\setrow { }{ }{ }  { }{ }{ }  { }{ }{ }
+	\node[anchor=center] at (4.5, -0.6) {Valid partial solution};
+\begin{scope}[vir5, font=\sffamily\bfseries]
+	\setcounter{row}{1}
+	\setrow { }{ }{ }  { }{ }{ }  {8}{ }{7}
+	\setrow { }{ }{ }  {8}{ }{7}  { }{ }{ }
+\end{scope}\begin{scope}[vir8, font=\sffamily\bfseries]
+	\setcounter{row}{1}
+	\setrow { }{ }{ }  { }{ }{ }  { }{9}{ }
+	\setrow { }{ }{ }  { }{9}{ }  { }{ }{ }
+\end{scope}
+\end{scope}
+\end{tikzpicture}

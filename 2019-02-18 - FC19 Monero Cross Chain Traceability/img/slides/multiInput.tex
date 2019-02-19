@@ -1,0 +1,60 @@
+% !TeX root = ../../CI-Slides.tex
+\begin{tikzpicture}[scale=1.3, -{Latex[length=3mm, width=1.5mm]}, deposit/.style={txColor, dashed}] 
+\coordinate (C1) at (2,2);
+
+\begin{scope}[xshift=-4.cm]
+    \node[virNode=0.5] (X1) at (-1,0.8){A1}; 
+    \node[virNode=0.7] (X2) at (-1,0){A2}; 
+    \node[virNode=0.9] (X3) at (-1,-0.8){A3}; 
+    \node[virNode=0.0,text=white] (Y1) at (1,0.8){TX1};
+    \node[virNode=0.05,text=white] (Y2) at (1,0){TX2};
+    \node[virNode=0.1,text=white] (Y3) at (1,-0.8){TX3};
+   
+    \path[thick, nodeBlack](X1) edge[] (Y1);
+    \path[thick, nodeBlack](X2) edge[] (Y2);
+    \path[thick, nodeBlack](X2) edge[] (Y1);
+    \path[thick, nodeBlack](X3) edge[] (Y2);
+    \path[thick, nodeBlack](X3) edge[] (Y3);
+\end{scope}
+\uncover<2->{
+\begin{scope}[xshift=0.0cm]
+    \node[virNode=0.5] (X1) at (-1,0.8){A1}; 
+    \node[virNode=0.7] (X2) at (-1,0){A2}; 
+    \node[virNode=0.9] (X3) at (-1,-0.8){A3}; 
+    \node[virNode=0.0,text=white] (Y1) at (1,0.8){TX1};
+    \node[virNode=0.05,text=white] (Y2) at (1,0){TX2};
+    \node[virNode=0.1,text=white] (Y3) at (1,-0.8){TX3};
+   
+    \path[thick, nodeBlack](X1) edge[] (Y1);
+    \path[thick, nodeBlack](X2) edge[] (Y2);
+    \path[thick, nodeBlack](X2) edge[] (Y1);
+    \path[thick, nodeBlack](X3) edge[] (Y2);
+    \path[thick, nodeBlack](X3) edge[] (Y3);
+    \begin{scope}[on background layer]
+        \uncover<2->{
+            \node[virNode=1.00,opacity=1.0,inner sep=4pt,fit={(X1) (X2)}, rounded corners=2pt ] (E1) {};
+        }
+        \uncover<3->{
+            \node[virNode=0.95,opacity=1.0,inner sep=2pt,fit={(X2) (X3)}, rounded corners=2pt] (E2) {};
+        }
+    \end{scope}
+\end{scope}}
+\uncover<4->{
+\begin{scope}[xshift=4.cm]
+    \node[virNode=0.5] (X1) at (-1,0.8){A1}; 
+    \node[virNode=0.7] (X2) at (-1,0){A2}; 
+    \node[virNode=0.9] (X3) at (-1,-0.8){A3}; 
+    \node[virNode=0.0,text=white] (Y1) at (1,0.8){TX1};
+    \node[virNode=0.05,text=white] (Y2) at (1,0){TX2};
+    \node[virNode=0.1,text=white] (Y3) at (1,-0.8){TX3};
+    \begin{scope}[on background layer]
+        \uncover<4->{
+        \path[thick, nodeBlack](X1) edge[] (Y1);
+        \path[thick, nodeBlack](X2) edge[] (Y2);
+        \path[thick, nodeBlack](X3) edge[] (Y3);
+        \node[virNode=1,fit={(X1) (X3)}, rounded corners=2pt] (E1) {};
+        }
+    \end{scope}
+\end{scope}}
+
+\end{tikzpicture} 

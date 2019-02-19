@@ -1,0 +1,52 @@
+% !TeX root=../CI-Thesis.tex
+\pgfplotstableread[col sep=tab,trim cells]{./data/guess_newest.csv}\table
+\begin{tikzpicture}[]
+\begin{axis}[
+    %, title={Accuracy of Guess Newest heuristic}
+    ,width=\textwidth
+    , height=200pt
+    , axis y line* = left
+    % enlargelimits=0.15,
+    % legend style={at={(0.5,-0.15)}, anchor=north,legend columns=-1},
+    , ylabel={\#Outputs with given status}
+    , bar width=2mm
+    , ymin=0
+    % ,xtick=data
+    % , x tick label style={rotate=90,anchor=east}
+    , 
+    , ytick={0,120000,240000,360000,480000,600000}
+    , ymax = 660000
+    , legend cell align={left}
+    , legend pos ={outer north east}
+    , legend style={anchor = south east,yshift=3pt,draw=none, legend columns=-1}
+    , ymajorgrids, ytick style={draw=none}
+    ,fancyDateTicks
+]
+    \addplot[ybar stacked, virNodeDark=1.0, area legend] table[x=month,y=wrong]\table;
+    \addplot[ybar stacked, virNodeDark=0.0, area legend] table[x=month,y=unknown]\table;
+    \addplot[ybar stacked, virNodeDark=0.8, area legend] table [x=month,y=correct] \table;
+    
+    \addlegendimage{twoColorDashed={vir7}{vir10}}
+       
+    \addlegendentry{Mixin$\quad$}
+    \addlegendentry{Unknown$\quad$}
+    \addlegendentry{Real$\quad$}
+    \addlegendentry{Accuracy}
+
+\end{axis}
+\begin{axis}[
+    ,width=\textwidth
+    ,height=200pt
+    , axis y line*=right
+    , y filter/.code={\pgfmathparse{#1*100}\pgfmathresult}
+    , ylabel={Accuracy \%}, ymin=0, ymax=110
+    , ylabel style={yshift=5pt}
+    , xtick=\empty
+    , date coordinates in=x
+    , ytick style={draw=none}
+    , xmin=2014-03-15, xmax = 2018-08-15 % xmaxCutoff
+	,]
+    % \addplot[] table[x=month,y=accuracy]\table;
+    \addplot[twoColorDashed={vir7}{vir10}] table[x=month,y=accuracy]\table;
+\end{axis}
+\end{tikzpicture}

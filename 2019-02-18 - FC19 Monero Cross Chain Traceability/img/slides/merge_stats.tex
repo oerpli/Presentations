@@ -1,0 +1,61 @@
+% !TeX root = ../../CI-Slides.tex
+\def\barShift{0pt}
+\pgfplotstableread[col sep=tab,trim cells]{./data/merge_stats.csv}\table
+\begin{tikzpicture}[
+	every axis/.style={
+	% , scaled y ticks = false
+	, yticklabel style={niceNums}
+    , ymin = 0, ymax = 105000
+    , ytick={0,25000,50000,75000,100000}
+	, width=.90\textwidth
+	, height=150pt
+	, barPlots/.style={
+		, bar width=3pt
+		, ybar stacked
+		, draw=none}
+	, fancyDateTicksSlides
+	}
+	]
+\begin{axis}[bar shift=-\barShift
+    , axis y line* = left
+    , ylabel={\#Ringmembers w. status}
+    % , ytick={0,500000,1000000,1500000,2000000,2500000}
+	, ymajorgrids, ytick style={draw=none}
+	, legend cell align={right}
+	, legend pos = {outer north east}
+    , legend style={anchor = south east,yshift=0pt,xshift=0pt,draw=none, legend columns=2}
+]
+    %Inlegend Images & entries
+    \addlegendimage{/pgfplots/refstyle=plt:omh_wi}
+    \addlegendimage{/pgfplots/refstyle=plt:omh_ui}
+    \addlegendimage{/pgfplots/refstyle=plt:omh_ci}
+    \addlegendimage{/pgfplots/refstyle=plt:omh_acc_i}
+    \addlegendentry{Mixin (In)}
+    \addlegendentry{Unknown (In)}
+    \addlegendentry{Real (In)}
+    \addlegendentry{Accuracy (In)}
+\end{axis}
+\begin{axis}[bar shift=\barShift, hide axis]
+    \addplot[barPlots, fill=vir10] table[x = month,y = wrong_in]\table;%
+    \label{plt:omh_wi}
+    \addplot[barPlots, fill=vir2] table[x = month,y = unknown_in]\table;%
+    \label{plt:omh_ui}
+    \addplot[barPlots, fill=vir8] table[x = month,y = correct_in]\table;%
+    \label{plt:omh_ci}
+\end{axis}
+\begin{axis}[
+    , axis y line*=right
+    , y filter/.code={\pgfmathparse{#1*100}\pgfmathresult}
+    , ylabel={Accuracy \%}, ymin=0, ymax=105
+    , ylabel style={yshift=5pt}
+    , ytick={0,25,50,75,100}
+    , xtick=\empty
+    , date coordinates in=x
+    , ytick style={draw=none}
+    , xmin=2014-03-15, xmax = 2018-08-15 % xmaxCutoff
+	,]
+    % \addplot[] table[x=month,y=accuracy]\table;
+    % \addplot[twoColorDashed={vir6,dashed}{orange} ] table[x=month,y= accuracy_out]\table;\label{plt:omh_acc_o}
+    \addplot[twoColorDashed={vir8}{vir10}] table[x=month,y= accuracy_in ]\table;\label{plt:omh_acc_i}
+\end{axis}
+\end{tikzpicture}

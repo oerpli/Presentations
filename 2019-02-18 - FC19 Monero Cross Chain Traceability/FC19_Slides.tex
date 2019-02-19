@@ -1,0 +1,104 @@
+% Copyright (C) 2014-2017 by Thomas Auzinger <thomas@auzinger.name>
+
+\documentclass[12pt]{beamer}
+\usepackage{lmodern}
+\usepackage{lmodern} % Use an extension of the original Computer Modern font to minimize the use of bitmapped letters.
+\usepackage{etoolbox} % true false
+\usepackage[utf8]{inputenc} % Determines encoding of the input. All input files have to use UTF8 encoding.
+\usepackage[T1]{fontenc}    % Determines font encoding of the output. Font packages have to be included before this line.
+\usepackage{graphicx}
+\usepackage{xspace}
+
+\usepackage{qrcode}
+
+% Extended LaTeX functionality is enables by including packages with \usepackage{...}.
+\usepackage{amsmath}    % Extended typesetting of mathematical expression.
+\usepackage{amssymb}    % Provides a multitude of mathematical symbols.
+\usepackage{mathtools}  % Further extensions of mathematical typesetting.
+\usepackage{microtype}  % Small-scale typographic enhancements.
+% \usepackage[inline]{enumitem} % User control over the layout of lists (itemize, enumerate, description).
+\usepackage{multirow}   % Allows table elements to span several rows.
+\usepackage{booktabs}   % Improves the typesettings of tables.
+\usepackage{subcaption} % Allows the use of subfigures and enables their referencing.
+% \usepackage[ruled,linesnumbered]{algorithm2e} % Enables the writing of pseudo code.
+% \usepackage[usenames,dvipsnames,table]{xcolor} % Allows the de\textbf{}finition and use of colors. This package has to be included before tikz.
+% \usepackage{nag}       % Issues warnings when best practices in writing LaTeX documents are violated.
+\usepackage[disable]{todonotes} % Provides tooltip-like todo notes.
+\usepackage{hyperref}  % Enables cross linking in the electronic document version. This package has to be included second to last.
+\usepackage[acronym,toc]{glossaries} % Enables the generation of glossaries and lists fo acronyms. This package has to be included last.
+\usepackage{cleveref} % add page number to references (without plain)
+\usepackage{nicefrac}
+\usepackage[english]{babel}
+\usepackage{pgfplotstable}
+
+
+
+
+
+
+% Define convenience functions to use the author name and the thesis title in the PDF document properties.
+\newcommand{\authorname}{\textbf{Abraham Hinteregger} \& Bernhard Haslhofer} % The author name without titles.
+\newcommand{\thesistitle}{An Empirical Analysis of Monero Cross-Chain Traceability}
+\setbeamertemplate{navigation symbols}{}
+\usetheme{Malmoe}
+\usecolortheme[]{beaver}
+\useinnertheme{rectangles}
+\setbeamertemplate{footline}[frame number]
+
+% \beamersetuncovermixins{}{}
+
+
+% Set PDF document properties
+\hypersetup{
+    pdfpagelayout   = TwoPageRight,           % How the document is shown in PDF viewers (optional).
+    % linkbordercolor = {Melon},                % The color of the borders of boxes around crosslinks (optional).
+    pdfauthor       = {\authorname},          % The author's name in the document properties (optional).
+    pdftitle        = {\thesistitle},         % The document's title in the document properties (optional).
+    pdfsubject      = {Master's Thesis Slides \authorname},              % The document's subject in the document properties (optional).
+    pdfkeywords     = {cryptocurrency, linkability, traceability, heuristics, empirical} % The document's keywords in the document properties (optional).
+}
+
+% \setcounter{tocdepth}{2}% Allow only \chapter in ToC
+\author{Abraham Hinteregger\inst{1,2} \and Bernhard Haslhofer\inst{1}}
+% \setadvisor{Ao.Univ.Prof. Dipl.-Ing. Dr.techn.}{Günther Raidl}{}{male}
+% \setfirstassistant{Dr.}{Bernhard Haslhofer}{}{male}
+
+\title{\thesistitle}
+% \subtitle{Empirical Analysis of Privacy Implications from Currency Hard-Forks}%
+\institute{\inst{1} Austrian Institute of Technology \and \inst{2} Vienna University of Technology}
+
+
+% Math macros
+\newcommand{\figref}[1]{\figurename~\ref{#1}}
+\newcommand{\TODO}[1][TODO]{\textcolor{red}{TODO}\todo{{#1}}}
+\newcommand{\bigo}[1]{\ensuremath{\mathcal{O}(#1) }}
+%\newtheorem{proof}{Proof}
+
+% Name of section in reference
+\newcommand{\nref}[1]{\ref{#1} \guillemotright \nameref{#1}}
+
+% Definition imports
+\input{./img/figureDefinitions.tex}
+\input{./data/numberMacros.tex}
+
+
+% \usepgfplotslibrary{external}
+% \tikzexternalize%[prefix=precompiled/]
+\makeatletter
+\let\@@magyar@captionfix\relax
+\makeatother
+
+\newcommand{\backupbegin}{
+   \newcounter{finalframe}
+   \setcounter{finalframe}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \setcounter{framenumber}{\value{finalframe}}
+}
+
+\begin{document}
+\selectlanguage{english}
+% \date{November 13$^\text{th}$, 2018}
+\maketitle
+\input{./sections/Slides.tex}
+\end{document}

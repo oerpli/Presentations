@@ -1,0 +1,70 @@
+% !TeX root = ../CI-Thesis.tex
+\begin{tikzpicture}[
+	every axis/.style={
+	% , yticklabel style={niceNums}
+	, ymin = 0, ymax = 1
+	, xmin = 1.5, xmax = 10.5
+	, width=1.00\textwidth
+	, height=200pt
+	% , y filter/.code={\pgfmathparse{#1*100}\pgfmathresult}
+	, barPlots/.style={
+		, bar width=14pt
+		, ybar stacked
+		, draw=none}
+	}]
+\pgfplotstableread[col sep=tab,trim cells]{./data/merge_ringstats.csv}\table
+\begin{axis}[ bar shift = -8pt
+		,	xlabel={Ringsize}
+		,	ylabel={Share (\%)}
+		,	ytick={0,0.25,0.5,0.75,1}
+		,	yticklabels={0, 25, 50, 75, 100}
+		,	every node near coord/.append style={rotate=0, anchor=south,font=\footnotesize}
+		,	xticklabel style={text height=1.5ex} 
+		,	xtick pos = left % actually bottom
+		,	ymajorgrids, ytick style={draw=none},
+		,	major grid style={thin,dashed,black!20}
+		,	scaled y ticks = false
+		,	ylabel style={}
+		,	ytick style={opacity=0}
+		, legend pos = {north west}
+		, legend cell align={left}
+		, legend style={%anchor = south east
+			,draw=none
+			, fill opacity = 0.7
+			, legend columns=2}
+	]
+\addplot[forget plot, barPlots, fill=vir10] table[trim cells,x = ringsize, y = mixin_rel] from \table;\label{plt:omh_ring_mc}
+\addplot[forget plot, barPlots, fill=vir0] table[trim cells,x = ringsize, y = unknown_rel] from \table;\label{plt:omh_ring_uc}
+\addplot[forget plot, barPlots, fill=vir9] table[trim cells,x = ringsize, y = real_rel] from \table;\label{plt:omh_ring_rc}
+
+\addlegendimage{/pgfplots/refstyle=plt:omh_ring_rc}
+\addlegendimage{/pgfplots/refstyle=plt:omh_ring_rn}
+\addlegendimage{/pgfplots/refstyle=plt:omh_ring_uc}
+\addlegendimage{/pgfplots/refstyle=plt:omh_ring_un}
+\addlegendimage{/pgfplots/refstyle=plt:omh_ring_mc}
+\addlegendimage{/pgfplots/refstyle=plt:omh_ring_mn}
+\addlegendentry{Correct}
+\addlegendentry{2018 only}
+\addlegendentry{Unknown}
+\addlegendentry{2018 only}
+\addlegendentry{Wrong}
+\addlegendentry{2018 only}
+
+\end{axis}
+\begin{axis}[hide axis, bar shift=8pt]
+\addplot[barPlots, fill=orange] table[trim cells,x = ringsize, y = mixin_rel_new] from \table;
+\label{plt:omh_ring_mn}
+
+\addplot[barPlots, fill=vir1] table[trim cells,x = ringsize, y = unknown_rel_new] from \table;
+\label{plt:omh_ring_un}
+
+\addplot[barPlots, fill=vir8] table[trim cells,x = ringsize, y = real_rel_new] from \table;
+\label{plt:omh_ring_rn}
+
+\end{axis}
+% \begin{axis}[hide axis, bar shift=-13pt]
+% 	\addplot[barPlots, fill=vir10] table[trim cells,x = ringsize, y = mixin_rel_old] from \table;
+% 	\addplot[barPlots, fill=vir2] table[trim cells,x = ringsize, y = unknown_rel_old] from \table;
+% 	\addplot[barPlots, fill=vir6] table[trim cells,x = ringsize, y = real_rel_old] from \table;
+% \end{axis}
+\end{tikzpicture}
